@@ -7,7 +7,6 @@ import java.util.Properties;
  */
 public class Settings {
     private static Settings ourInstance = new Settings();
-    private static Properties defaultProp;
     private static Properties appProp;
 
     public static Settings getInstance() {
@@ -15,11 +14,22 @@ public class Settings {
     }
 
     private Settings() {
-        defaultProp = new DefaultSettings().getDefaultProp();
+        // TODO: pozmieniac tak aby default tylko w przypadku nie obecnsci pliku
+        Properties defaultProp = new DefaultSettings().getDefaultProp();
         appProp = new Properties(defaultProp);
     }
 
     public Properties getAppProp(){
         return appProp;
     }
+
+    public void setProperty(String key, String value){
+        appProp.setProperty(key, value);
+    }
+
+    public String getDbType() {
+        return appProp.getProperty("db.type");
+    }
+
+    // metody save oraz load
 }
