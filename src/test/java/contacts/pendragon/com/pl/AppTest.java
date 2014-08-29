@@ -1,6 +1,7 @@
 package contacts.pendragon.com.pl;
 
 
+import contacts.pendragon.com.pl.dbutils.DBConnectionManager;
 import contacts.pendragon.com.pl.dbutils.factory.DBConnection;
 import contacts.pendragon.com.pl.dbutils.repo.PostgreSqlConnection;
 import contacts.pendragon.com.pl.repo.AppDict;
@@ -151,10 +152,11 @@ public class AppTest {
 //        System.out.printf(this.appSettings.getDbType());
 
         DBConnection dbFactory = new DBConnection();
+        DBConnectionManager dbManager = dbFactory.getDBmanager();
         Connection conn;
 
         try {
-            conn = dbFactory.getConnection();
+            conn = dbManager.getDBConnection();
         } catch (SQLException ex) {
             conn = null;
         }
@@ -167,10 +169,11 @@ public class AppTest {
 //        System.out.printf(this.appSettings.getDbType());
 
         DBConnection dbFactory = new DBConnection();
+        DBConnectionManager dbManager = dbFactory.getDBmanager();
         Connection conn;
 
         try {
-            conn = dbFactory.getConnection();
+            conn = dbManager.getDBConnection();
         } catch (SQLException ex) {
             conn = null;
         }

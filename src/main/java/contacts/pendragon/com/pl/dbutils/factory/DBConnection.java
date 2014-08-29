@@ -1,5 +1,6 @@
 package contacts.pendragon.com.pl.dbutils.factory;
 
+import contacts.pendragon.com.pl.dbutils.DBConnectionManager;
 import contacts.pendragon.com.pl.dbutils.repo.PostgreSqlConnection;
 import contacts.pendragon.com.pl.dbutils.repo.SQLiteConnection;
 import contacts.pendragon.com.pl.repo.AppDict;
@@ -14,7 +15,7 @@ import java.sql.SQLException;
  */
 public class DBConnection {
 
-    private Connection conn;
+    private DBConnectionManager dbManager;
     private final String dbType;
 
     public DBConnection() {
@@ -23,17 +24,16 @@ public class DBConnection {
     }
 
     /**
-     * Method returns database connections base on application settings.
+     * Method returns database connection manager base on application settings.
      * Supports PostgreSQL, SQLite
-     * @return database connection
-     * @throws SQLException
+     * @return database connection manager
      */
-    public Connection getConnection() throws SQLException{
+    public DBConnectionManager getDBmanager(){
         if (dbType.equals(AppDict.postgresql)){
-            conn = new PostgreSqlConnection().getDBConnection();
+            dbManager = new PostgreSqlConnection();
         } else if (dbType.equals(AppDict.sqllite)) {
-            conn = new SQLiteConnection().getDBConnection();
+            dbManager = new SQLiteConnection();
         }
-        return conn;
+        return dbManager;
     }
 }
