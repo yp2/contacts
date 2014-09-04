@@ -15,7 +15,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Properties;
+
 import contacts.pendragon.com.pl.repo.Settings;
 
 public class DBTest {
@@ -68,7 +68,7 @@ public class DBTest {
       */
     public void createDB(Connection conn) throws SQLException {
         Statement stat = conn.createStatement();
-        stat.executeUpdate(SQLDict.creatTablePerson);
+        stat.executeUpdate(SQLDict.createTablePerson);
     }
 
     public void dropDB(Connection conn) throws SQLException {
