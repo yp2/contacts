@@ -1,17 +1,10 @@
 package contacts.pendragon.com.pl;
 
 
-import contacts.pendragon.com.pl.dbutils.DBConnectionManager;
-import contacts.pendragon.com.pl.dbutils.factory.DBConnection;
-import contacts.pendragon.com.pl.dbutils.repo.PostgreSqlConnection;
-import contacts.pendragon.com.pl.repo.AppDict;
 import contacts.pendragon.com.pl.repo.DefaultSettings;
 import contacts.pendragon.com.pl.repo.Settings;
 import org.junit.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Properties;
 
 import static org.junit.Assert.*;
@@ -41,33 +34,6 @@ public class AppTest {
 
 
     }
-
-    /**
-     * Method sets app properities for postgresql db; base on test default settings
-     */
-    public void dbSetPostgreSQL() {
-        // set appProp base on test settings
-        // jdbc.drivers is the same
-        // setUp settings for Postgresql
-        appProp.setProperty("db.type", AppDict.postgresql);
-        appProp.setProperty("jdbc.url", this.dbUrl);
-        appProp.setProperty("jdbc.username", this.dbUsername);
-        appProp.setProperty("jdbc.password", this.dbPassword);
-    }
-
-    /**
-     * Method sets app properities for sqllite db; base on test default settings
-     */
-    public void dbSetSQLite() {
-        // set appProp base on test settings
-        // jdbc.drivers is the same
-        // setUp settings for SQLite
-        appProp.setProperty("db.type", AppDict.sqllite);
-        appProp.setProperty("jdbc.url", this.dbSqliteUrl);
-        appProp.setProperty("jdbc.username", "");
-        appProp.setProperty("jdbc.password", "");
-    }
-
 
     @Test
     public void testDefaultSettingsTestOne() {
@@ -102,83 +68,11 @@ public class AppTest {
     }
 
     @Test
-    public void testDBConnPGSql() {
-        Connection conn;
-        if (this.dbDrivers != null)
-            System.setProperty("jdbc.drivers", this.dbDrivers);
-
-        try {
-            conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-        } catch (SQLException exception) {
-            conn = null;
-        }
-        assertNotNull(conn);
+    public void testSettingsProp(){
+        assertEquals("1", appSettings.getProperty("Test"));
     }
 
-    @Test
-    public void testDBConnSQLite() {
-        this.dbSetPostgreSQL();
 
-        Connection conn;
-
-        if (this.dbDrivers != null)
-            System.setProperty("jdbc.drivers", this.dbDrivers);
-
-        try {
-            conn = DriverManager.getConnection(this.dbSqliteUrl);
-        } catch (SQLException ex) {
-            conn = null;
-        }
-        assertNotNull(conn);
-    }
-
-    @Test
-    public void testPostgreSqlConnection() {
-        this.dbSetSQLite();
-
-        Connection conn;
-
-        try {
-            conn = new PostgreSqlConnection().getDBConnection();
-        } catch (SQLException ex) {
-            conn = null;
-        }
-        assertNotNull(conn);
-    }
-
-    @Test
-    public void testDBConnectionFactoryPG(){
-        this.dbSetPostgreSQL();
-//        System.out.printf(this.appSettings.getDbType());
-
-        DBConnection dbFactory = new DBConnection();
-        DBConnectionManager dbManager = dbFactory.getDBmanager();
-        Connection conn;
-
-        try {
-            conn = dbManager.getDBConnection();
-        } catch (SQLException ex) {
-            conn = null;
-        }
-        assertNotNull(conn);
-    }
-
-    @Test
-    public void testDBConnectionFactorySL(){
-        this.dbSetSQLite();
-//        System.out.printf(this.appSettings.getDbType());
-
-        DBConnection dbFactory = new DBConnection();
-        DBConnectionManager dbManager = dbFactory.getDBmanager();
-        Connection conn;
-
-        try {
-            conn = dbManager.getDBConnection();
-        } catch (SQLException ex) {
-            conn = null;
-        }
-        assertNotNull(conn);
-    }
 
 
 }

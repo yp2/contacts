@@ -1,8 +1,8 @@
 package contacts.pendragon.com.pl.dbutils.factory;
 
-import contacts.pendragon.com.pl.dbutils.DBConnectionManager;
-import contacts.pendragon.com.pl.dbutils.repo.PostgreSqlConnection;
-import contacts.pendragon.com.pl.dbutils.repo.SQLiteConnection;
+import contacts.pendragon.com.pl.dbutils.DBManager;
+import contacts.pendragon.com.pl.dbutils.repo.PostgreSql;
+import contacts.pendragon.com.pl.dbutils.repo.SQLite;
 import contacts.pendragon.com.pl.repo.AppDict;
 import contacts.pendragon.com.pl.repo.Settings;
 
@@ -13,12 +13,12 @@ import java.sql.SQLException;
  * Created by daniel on 28.08.14.
  * Factory class for db connections base on app settings
  */
-public class DBConnection {
+public class DBFactory {
 
-    private DBConnectionManager dbManager;
+    private DBManager dbManager;
     private final String dbType;
 
-    public DBConnection() {
+    public DBFactory() {
         Settings appSettings = Settings.getInstance();
         dbType = appSettings.getDbType();
     }
@@ -28,12 +28,16 @@ public class DBConnection {
      * Supports PostgreSQL, SQLite
      * @return database connection manager
      */
-    public DBConnectionManager getDBmanager(){
+    public DBManager getDBmanager(){
         if (dbType.equals(AppDict.postgresql)){
-            dbManager = new PostgreSqlConnection();
+            dbManager = new PostgreSql();
         } else if (dbType.equals(AppDict.sqllite)) {
-            dbManager = new SQLiteConnection();
+            dbManager = new SQLite();
         }
         return dbManager;
+    }
+    public Connection getDBConnection() throws SQLException{
+        DBManager manager = this.getDBmanager();
+        return manager.getDBConnection();
     }
 }

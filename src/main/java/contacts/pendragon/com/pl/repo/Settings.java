@@ -27,6 +27,10 @@ public class Settings {
         appProp.setProperty(key, value);
     }
 
+    public String getProperty(String key){
+        return appProp.getProperty(key);
+    }
+
     public String getDbType() {
         return appProp.getProperty("db.type");
     }

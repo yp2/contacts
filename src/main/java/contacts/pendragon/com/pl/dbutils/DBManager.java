@@ -9,14 +9,14 @@ import java.util.Properties;
 /**
  * Created by daniel on 28.08.14.
  */
-public abstract class DBConnectionManager {
+public abstract class DBManager {
 
     private String drivers;
     protected String url;
     protected String username;
     protected String password;
 
-    public DBConnectionManager(){
+    public DBManager(){
         Properties appProp = Settings.getInstance().getAppProp();
         drivers = appProp.getProperty("jdbc.drivers");
         url = appProp.getProperty("jdbc.url");
