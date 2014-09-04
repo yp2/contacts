@@ -8,6 +8,7 @@ import contacts.pendragon.com.pl.dbutils.DBManager;
 import contacts.pendragon.com.pl.dbutils.factory.DBFactory;
 import contacts.pendragon.com.pl.dbutils.repo.PostgreSql;
 import contacts.pendragon.com.pl.repo.AppDict;
+import contacts.pendragon.com.pl.repo.PgSQLDict;
 import contacts.pendragon.com.pl.repo.SQLDict;
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -64,17 +65,41 @@ public class DBTest {
     }
 
     /**
-     * Method to setUp test DB
-      */
-    public void createDB(Connection conn) throws SQLException {
+     * Method to create postgresql DB
+     * @param conn Connection to DB
+     * @throws SQLException
+     */
+    public void pgCreateDB(Connection conn) throws SQLException {
         Statement stat = conn.createStatement();
-        stat.executeUpdate(SQLDict.createTablePerson);
+        stat.executeUpdate(PgSQLDict.createTablePerson);
+        stat.executeUpdate(PgSQLDict.createTableAddress);
+        stat.executeUpdate(PgSQLDict.createTablePhone);
+        stat.executeUpdate(PgSQLDict.createTabelEmail);
+    }
+
+    /**
+     * Method to drop postgresql DB
+     * @param conn Connection to DB
+     * @throws SQLException
+     */
+    public void pgDropDB(Connection conn) throws SQLException {
+        Statement stat = conn.createStatement();
+        stat.executeUpdate(PgSQLDict.dropTableAddres);
+        stat.executeUpdate(PgSQLDict.dropTablePhone);
+        stat.executeUpdate(PgSQLDict.dropTableEmail);
+        stat.executeUpdate(PgSQLDict.dropTablePerson);
     }
 
     public void dropDB(Connection conn) throws SQLException {
-        String sqlStat = "DROP TABLE PERSON";
         Statement stat = conn.createStatement();
-        stat.executeUpdate(sqlStat);
+        stat.executeUpdate(SQLDict.dropTableAddres);
+        stat.executeUpdate(SQLDict.dropTablePhone);
+        stat.executeUpdate(SQLDict.dropTableEmail);
+        stat.executeUpdate(SQLDict.dropTablePerson);
+        stat.executeUpdate(SQLDict.dropSeqAddres);
+        stat.executeUpdate(SQLDict.dropSeqPhone);
+        stat.executeUpdate(SQLDict.dropSeqEmail);
+        stat.executeUpdate(SQLDict.dropSeqPerson);
     }
 
     @Test
@@ -86,23 +111,23 @@ public class DBTest {
 
         try (Connection conn = factory.getDBConnection())
         {
-            this.createDB(conn);
-            this.dropDB(conn);
+            this.pgCreateDB(conn);
+            this.pgDropDB(conn);
         }
     }
 
-    @Test
-    public void createDBSQLite() throws SQLException{
-        this.dbSetSQLite();
-
-        DBFactory factory = new DBFactory();
-
-        try (Connection conn = factory.getDBConnection())
-        {
-            this.createDB(conn);
-
-        }
-    }
+//    @Test
+//    public void createDBSQLite() throws SQLException{
+//        this.dbSetSQLite();
+//
+//        DBFactory factory = new DBFactory();
+//
+//        try (Connection conn = factory.getDBConnection())
+//        {
+//            this.createDB(conn);
+//
+//        }
+//    }
 
     @Test
     public void testDBConnPGSql() {

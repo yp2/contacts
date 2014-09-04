@@ -15,10 +15,10 @@ public class SQLDict {
 
     public static final String createSeqPerson =
             "CREATE SEQUENCE PERSON_SEQ" +
-            "INCREMENT BY 1" +
-            "NO MAXVALUE" +
-            "MINVALUE 1" +
-            "START WITH 1" +
+            "INCREMENT BY 1 " +
+            "NO MAXVALUE " +
+            "MINVALUE 1 " +
+            "START WITH 1 " +
             "NO CYCLE";
 
     public static final String createTableAddress =
@@ -37,10 +37,10 @@ public class SQLDict {
 
     public static final String createSeqAddress =
             "CREATE SEQUENCE ADDRESS_SEQ " +
-            "INCREMENT BY 1" +
-            "NO MAXVALUE" +
-            "MINVALUE 1" +
-            "START WITH 1" +
+            "INCREMENT BY 1 " +
+            "NO MAXVALUE " +
+            "MINVALUE 1 " +
+            "START WITH 1 " +
             "NO CYCLE";
 
     public static final String createTablePhone =
@@ -54,10 +54,10 @@ public class SQLDict {
 
     public static final String createSeqPhone =
             "CREATE SEQUENCE PHONE_SEQ " +
-            "INCREMENT BY 1" +
-            "NO MAXVALUE" +
-            "MINVALUE 1" +
-            "START WITH 1" +
+            "INCREMENT BY 1 " +
+            "NO MAXVALUE " +
+            "MINVALUE 1 " +
+            "START WITH 1 " +
             "NO CYCLE";
 
     public static final String createTabelEmail =
@@ -71,10 +71,10 @@ public class SQLDict {
 
     public static final String createSeqEmail =
             "CREATE SEQUENCE EMAIL_SEQ " +
-            "INCREMENT BY 1" +
-            "NO MAXVALUE" +
-            "MINVALUE 1" +
-            "START WITH 1" +
+            "INCREMENT BY 1 " +
+            "NO MAXVALUE " +
+            "MINVALUE 1 " +
+            "START WITH 1 " +
             "NO CYCLE";
 
     public static final String  dropTableAddres =
