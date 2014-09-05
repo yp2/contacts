@@ -25,7 +25,6 @@ public class DBFactory {
 
     /**
      * Method returns database connection manager base on application settings.
-     * Supports PostgreSQL, SQLite
      * @return database connection manager
      */
     public DBManager getDBmanager(){
@@ -36,6 +35,12 @@ public class DBFactory {
         }
         return dbManager;
     }
+
+    /**
+     * Method returns connection to DB base on application settings.
+     * @return Connection to DB
+     * @throws SQLException
+     */
     public Connection getDBConnection() throws SQLException{
         DBManager manager = this.getDBmanager();
         return manager.getDBConnection();

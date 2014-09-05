@@ -13,11 +13,6 @@ public class AppTest {
     private Properties defaultProp;
     private Settings appSettings;
     private Properties appProp;
-    private String dbDrivers;
-    private String dbUrl;
-    private String dbUsername;
-    private String dbPassword;
-    private String dbSqliteUrl;
 
     @Before
     public void setUp() {
@@ -26,13 +21,6 @@ public class AppTest {
         appSettings = Settings.getInstance();
         appProp = appSettings.getAppProp();
         appProp.setProperty("setting1", "set1");
-        dbDrivers = appProp.getProperty("test.jdbc.drivers");
-        dbUrl = appProp.getProperty("test.jdbc.url");
-        dbUsername = appProp.getProperty("test.jdbc.username");
-        dbPassword = appProp.getProperty("test.jdbc.password");
-        dbSqliteUrl = appProp.getProperty("test.sqlite.jdbc.url");
-
-
     }
 
     @Test

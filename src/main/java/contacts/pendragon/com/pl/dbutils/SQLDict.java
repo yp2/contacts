@@ -1,10 +1,11 @@
-package contacts.pendragon.com.pl.repo;
+package contacts.pendragon.com.pl.dbutils;
 
 /**
  * Created by daniel on 03.09.14.
  */
-public class SQLDict {
-    public static final String createTablePerson =
+public abstract class SQLDict {
+
+    public String createTablePerson =
             "CREATE TABLE PERSON (" +
             "PERSON_ID NUMERIC(6) NOT NULL," +
             "NAME VARCHAR(255)," +
@@ -13,7 +14,7 @@ public class SQLDict {
             "DESCRIPTION TEXT," +
             "CONSTRAINT PERSON_ID_PK PRIMARY KEY (PERSON_ID))";
 
-    public static final String createSeqPerson =
+    public String createSeqPerson =
             "CREATE SEQUENCE PERSON_SEQ" +
             "INCREMENT BY 1 " +
             "NO MAXVALUE " +
@@ -21,7 +22,7 @@ public class SQLDict {
             "START WITH 1 " +
             "NO CYCLE";
 
-    public static final String createTableAddress =
+    public String createTableAddress =
             "CREATE TABLE ADDRESS (" +
             "ADDRESS_ID NUMERIC(6) NOT NULL," +
             "PERSON_ID NUMERIC(6) NOT NULL," +
@@ -35,7 +36,7 @@ public class SQLDict {
             "CONSTRAINT PERSON_ID_FK FOREIGN KEY (PERSON_ID) " +
             "REFERENCES PERSON(PERSON_ID))";
 
-    public static final String createSeqAddress =
+    public String createSeqAddress =
             "CREATE SEQUENCE ADDRESS_SEQ " +
             "INCREMENT BY 1 " +
             "NO MAXVALUE " +
@@ -43,7 +44,7 @@ public class SQLDict {
             "START WITH 1 " +
             "NO CYCLE";
 
-    public static final String createTablePhone =
+    public String createTablePhone =
             "CREATE TABLE PHONE (" +
             "PHONE_ID NUMERIC(6) NOT NULL," +
             "PERSON_ID NUMERIC(6) NOT NULL," +
@@ -52,7 +53,7 @@ public class SQLDict {
             "CONSTRAINT PERSON_ID_FK FOREIGN KEY (PERSON_ID)" +
             "REFERENCES PERSON(PERSON_ID))";
 
-    public static final String createSeqPhone =
+    public String createSeqPhone =
             "CREATE SEQUENCE PHONE_SEQ " +
             "INCREMENT BY 1 " +
             "NO MAXVALUE " +
@@ -60,7 +61,7 @@ public class SQLDict {
             "START WITH 1 " +
             "NO CYCLE";
 
-    public static final String createTabelEmail =
+    public String createTabelEmail =
             "CREATE TABLE EMAIL (" +
             "EMAIL_ID NUMERIC(6) NOT NULL," +
             "PERSON_ID NUMERIC(6) NOT NULL," +
@@ -69,7 +70,7 @@ public class SQLDict {
             "CONSTRAINT PERSON_ID_FK FOREIGN KEY (PERSON_ID) " +
             "REFERENCES PERSON(PERSON_ID))";
 
-    public static final String createSeqEmail =
+    public final String createSeqEmail =
             "CREATE SEQUENCE EMAIL_SEQ " +
             "INCREMENT BY 1 " +
             "NO MAXVALUE " +
@@ -77,28 +78,27 @@ public class SQLDict {
             "START WITH 1 " +
             "NO CYCLE";
 
-    public static final String  dropTableAddres =
+    public String  dropTableAddres =
             "DROP TABLE ADDRESS";
 
-    public static final String  dropTablePhone =
+    public String  dropTablePhone =
             "DROP TABLE PHONE";
 
-    public static final String  dropTableEmail =
+    public String  dropTableEmail =
             "DROP TABLE EMAIL";
 
-    public static final String dropTablePerson =
+    public String dropTablePerson =
             "DROP TABLE PERSON CASCADE";
 
-    public static final String dropSeqAddres =
+    public String dropSeqAddres =
             "DROP SEQUENCE ADDRESS_SEQ";
 
-    public static final String dropSeqPhone =
+    public String dropSeqPhone =
             "DROP SEQUENCE PHONE_SEQ";
 
-    public static final String dropSeqEmail =
+    public String dropSeqEmail =
             "DROP SEQUENCE EMAIL_SEQ";
 
-    public static final String dropSeqPerson =
+    public String dropSeqPerson =
             "DROP SEQUENCE PERSON_SEQ";
-
 }

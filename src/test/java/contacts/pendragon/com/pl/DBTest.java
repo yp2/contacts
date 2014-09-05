@@ -5,19 +5,20 @@ package contacts.pendragon.com.pl;
  */
 
 import contacts.pendragon.com.pl.dbutils.DBManager;
+import contacts.pendragon.com.pl.dbutils.SQLDict;
 import contacts.pendragon.com.pl.dbutils.factory.DBFactory;
+import contacts.pendragon.com.pl.dbutils.factory.SQLDictFactory;
+import contacts.pendragon.com.pl.dbutils.repo.PgSQLDict;
 import contacts.pendragon.com.pl.dbutils.repo.PostgreSql;
-import contacts.pendragon.com.pl.repo.AppDict;
-import contacts.pendragon.com.pl.repo.PgSQLDict;
-import contacts.pendragon.com.pl.repo.SQLDict;
+import contacts.pendragon.com.pl.dbutils.repo.SLiteSQLDict;
+import contacts.pendragon.com.pl.repo.*;
 import org.junit.*;
+
 import static org.junit.Assert.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import contacts.pendragon.com.pl.repo.Settings;
 
 public class DBTest {
 
@@ -71,10 +72,11 @@ public class DBTest {
      */
     public void pgCreateDB(Connection conn) throws SQLException {
         Statement stat = conn.createStatement();
-        stat.executeUpdate(PgSQLDict.createTablePerson);
-        stat.executeUpdate(PgSQLDict.createTableAddress);
-        stat.executeUpdate(PgSQLDict.createTablePhone);
-        stat.executeUpdate(PgSQLDict.createTabelEmail);
+        SQLDict sqlDict = new SQLDictFactory().getSQLDict();
+        stat.executeUpdate(sqlDict.createTablePerson);
+        stat.executeUpdate(sqlDict.createTableAddress);
+        stat.executeUpdate(sqlDict.createTablePhone);
+        stat.executeUpdate(sqlDict.createTabelEmail);
     }
 
     /**
@@ -84,22 +86,51 @@ public class DBTest {
      */
     public void pgDropDB(Connection conn) throws SQLException {
         Statement stat = conn.createStatement();
-        stat.executeUpdate(PgSQLDict.dropTableAddres);
-        stat.executeUpdate(PgSQLDict.dropTablePhone);
-        stat.executeUpdate(PgSQLDict.dropTableEmail);
-        stat.executeUpdate(PgSQLDict.dropTablePerson);
+        SQLDict sqlDict = new SQLDictFactory().getSQLDict();
+        stat.executeUpdate(sqlDict.dropTableAddres);
+        stat.executeUpdate(sqlDict.dropTablePhone);
+        stat.executeUpdate(sqlDict.dropTableEmail);
+        stat.executeUpdate(sqlDict.dropTablePerson);
     }
 
-    public void dropDB(Connection conn) throws SQLException {
+    /**
+     * Method to create sqlite DB
+     * @param conn Connection to DB
+     * @throws SQLException
+     */
+    public void sliteCreateDB(Connection conn) throws SQLException {
         Statement stat = conn.createStatement();
-        stat.executeUpdate(SQLDict.dropTableAddres);
-        stat.executeUpdate(SQLDict.dropTablePhone);
-        stat.executeUpdate(SQLDict.dropTableEmail);
-        stat.executeUpdate(SQLDict.dropTablePerson);
-        stat.executeUpdate(SQLDict.dropSeqAddres);
-        stat.executeUpdate(SQLDict.dropSeqPhone);
-        stat.executeUpdate(SQLDict.dropSeqEmail);
-        stat.executeUpdate(SQLDict.dropSeqPerson);
+        SQLDict sqlDict = new SQLDictFactory().getSQLDict();
+        stat.executeUpdate(sqlDict.createTablePerson);
+        stat.executeUpdate(sqlDict.createTableAddress);
+        stat.executeUpdate(sqlDict.createTablePhone);
+        stat.executeUpdate(sqlDict.createTabelEmail);
+    }
+    /**
+     * Method to drop postgresql DB
+     * @param conn Connection to DB
+     * @throws SQLException
+     */
+    public void sliteDropDB(Connection conn) throws SQLException {
+        Statement stat = conn.createStatement();
+        SQLDict sqlDict = new SQLDictFactory().getSQLDict();
+        stat.executeUpdate(sqlDict.dropTableAddres);
+        stat.executeUpdate(sqlDict.dropTablePhone);
+        stat.executeUpdate(sqlDict.dropTableEmail);
+        stat.executeUpdate(sqlDict.dropTablePerson);
+    }
+
+    @Test
+    public void SQLDictFactory() {
+        this.dbSetPostgreSQL();
+        SQLDictFactory factory = new SQLDictFactory();
+        SQLDict sqlDict = factory.getSQLDict();
+        System.out.println(sqlDict.createTablePerson);
+
+        this.dbSetSQLite();
+        factory = new SQLDictFactory();
+        sqlDict = factory.getSQLDict();
+        System.out.println(sqlDict.createTablePerson);
     }
 
     @Test
@@ -116,18 +147,18 @@ public class DBTest {
         }
     }
 
-//    @Test
-//    public void createDBSQLite() throws SQLException{
-//        this.dbSetSQLite();
-//
-//        DBFactory factory = new DBFactory();
-//
-//        try (Connection conn = factory.getDBConnection())
-//        {
-//            this.createDB(conn);
-//
-//        }
-//    }
+    @Test
+    public void createDBSQLite() throws SQLException{
+        this.dbSetSQLite();
+
+        DBFactory factory = new DBFactory();
+
+        try (Connection conn = factory.getDBConnection())
+        {
+            this.sliteCreateDB(conn);
+            this.sliteDropDB(conn);
+        }
+    }
 
     @Test
     public void testDBConnPGSql() {
