@@ -122,15 +122,23 @@ public class DBTest {
 
     @Test
     public void SQLDictFactory() {
+        SQLDictFactory factory;
+        SQLDict sqlDict;
+        SQLDict compSqlDict;
+        //Postgresql
         this.dbSetPostgreSQL();
-        SQLDictFactory factory = new SQLDictFactory();
-        SQLDict sqlDict = factory.getSQLDict();
-        System.out.println(sqlDict.createTablePerson);
 
+        factory = new SQLDictFactory();
+        sqlDict = factory.getSQLDict();
+        compSqlDict = PgSQLDict.getInstance();
+        assertEquals(sqlDict.createTablePerson, compSqlDict.createTablePerson);
+
+        //SQLite
         this.dbSetSQLite();
         factory = new SQLDictFactory();
         sqlDict = factory.getSQLDict();
-        System.out.println(sqlDict.createTablePerson);
+        compSqlDict = SLiteSQLDict.getInstance();
+        assertEquals(sqlDict.createTablePerson, compSqlDict.createTablePerson);
     }
 
     @Test
