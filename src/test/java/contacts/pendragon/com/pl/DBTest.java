@@ -4,13 +4,12 @@ package contacts.pendragon.com.pl;
  * Created by daniel on 03.09.14.
  */
 
+import contacts.pendragon.com.pl.dbutils.DBField;
 import contacts.pendragon.com.pl.dbutils.DBManager;
 import contacts.pendragon.com.pl.dbutils.SQLDict;
 import contacts.pendragon.com.pl.dbutils.factory.DBFactory;
 import contacts.pendragon.com.pl.dbutils.factory.SQLDictFactory;
-import contacts.pendragon.com.pl.dbutils.repo.PgSQLDict;
-import contacts.pendragon.com.pl.dbutils.repo.PostgreSql;
-import contacts.pendragon.com.pl.dbutils.repo.SLiteSQLDict;
+import contacts.pendragon.com.pl.dbutils.repo.*;
 import contacts.pendragon.com.pl.repo.*;
 import org.junit.*;
 
@@ -118,6 +117,21 @@ public class DBTest {
         stat.executeUpdate(sqlDict.dropTablePhone);
         stat.executeUpdate(sqlDict.dropTableEmail);
         stat.executeUpdate(sqlDict.dropTablePerson);
+    }
+
+    @Test
+    public void fields() throws ValueToLongException,
+            ClassNotFoundException, IllegalAccessException{
+        DBField cf = new CharField("Coś");
+        DBField ci = new IntegerField(12);
+        DBField ct = new TextField("Soc");
+
+        System.out.println(ci.getValue());
+        System.out.println(cf.getValue());
+        System.out.println(ct.getValue());
+
+        Person p = new Person("Daniel", "Derezinski", "", "to ja");
+        p.getSQLInsertStatment();
     }
 
     @Test

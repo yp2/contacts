@@ -22,6 +22,7 @@ public class PgSQLDict extends SQLDict {
                 "CREATE TABLE ADDRESS (" +
                         "ADDRESS_ID SERIAL PRIMARY KEY," +
                         "PERSON_ID INTEGER REFERENCES PERSON," +
+                        "TYPE VARCHAR(3) NOT NULL," +
                         "STREET VARCHAR(255)," +
                         "HOUSE_NO VARCHAR(20)," +
                         "FLAT_NO VARCHAR(20)," +
@@ -33,12 +34,14 @@ public class PgSQLDict extends SQLDict {
                 "CREATE TABLE PHONE (" +
                         "PHONE_ID SERIAL PRIMARY KEY," +
                         "PERSON_ID INTEGER REFERENCES PERSON," +
+                        "TYPE VARCHAR(3) NOT NULL," +
                         "NUMBER VARCHAR(30) NOT NULL)";
 
         this.createTabelEmail =
                 "CREATE TABLE EMAIL (" +
                         "EMAIL_ID SERIAL PRIMARY KEY," +
                         "PERSON_ID INTEGER REFERENCES PERSON," +
+                        "TYPE VARCHAR(3) NOT NULL," +
                         "EMAIL VARCHAR(255) NOT NULL)";
 
         this.dropTableAddres =
