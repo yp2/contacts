@@ -16,11 +16,11 @@ import java.sql.SQLException;
 public class DBFactory {
 
     private DBManager dbManager;
-    private final String dbType;
+    private String dbType;
+    private final Settings appSettings;
 
     public DBFactory() {
-        Settings appSettings = Settings.getInstance();
-        dbType = appSettings.getDbType();
+        appSettings = Settings.getInstance();
     }
 
     /**
@@ -28,6 +28,7 @@ public class DBFactory {
      * @return database connection manager
      */
     public DBManager getDBmanager(){
+        dbType = appSettings.getDbType();
         if (dbType.equals(AppDict.postgresql)){
             dbManager = new PostgreSql();
         } else if (dbType.equals(AppDict.sqllite)) {

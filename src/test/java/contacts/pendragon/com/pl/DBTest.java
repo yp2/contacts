@@ -131,7 +131,8 @@ public class DBTest {
         System.out.println(ct.getValue());
 
         Person p = new Person("Daniel", "Derezinski", "", "to ja");
-        p.getSQLInsertStatment();
+        DBFactory factory = new DBFactory();
+//        p.getInsertStatment(Connection);
     }
 
     @Test
