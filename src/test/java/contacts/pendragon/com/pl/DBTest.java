@@ -121,7 +121,8 @@ public class DBTest {
 
     @Test
     public void fields() throws ValueToLongException,
-            ClassNotFoundException, IllegalAccessException{
+            ClassNotFoundException, IllegalAccessException, SQLException{
+        this.dbSetPostgreSQL();
         DBField cf = new CharField("Coś");
         DBField ci = new IntegerField(12);
         DBField ct = new TextField("Soc");
@@ -131,8 +132,9 @@ public class DBTest {
         System.out.println(ct.getValue());
 
         Person p = new Person("Daniel", "Derezinski", "", "to ja");
+        Person pu = new Person(1, "Daniel", "Derezinski", "", "to ja");
         DBFactory factory = new DBFactory();
-//        p.getInsertStatment(Connection);
+        p.save();
     }
 
     @Test

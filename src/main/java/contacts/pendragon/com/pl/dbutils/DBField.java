@@ -19,7 +19,7 @@ public abstract class DBField<T> {
         this.value = value;
     }
 
-    public DBField(T value, Integer size){
+    public DBField(T value, int size){
         this.size = size;
         this.value = value;
     }
@@ -28,7 +28,7 @@ public abstract class DBField<T> {
         this.size = size;
     }
 
-    public Integer getSize(){
+    public int getSize(){
         return this.size;
     }
 

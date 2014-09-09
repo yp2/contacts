@@ -73,7 +73,7 @@ public abstract class SQLDict {
             "CONSTRAINT PERSON_ID_FK FOREIGN KEY (PERSON_ID) " +
             "REFERENCES PERSON(PERSON_ID))";
 
-    public final String createSeqEmail =
+    public  String createSeqEmail =
             "CREATE SEQUENCE EMAIL_SEQ " +
             "INCREMENT BY 1 " +
             "NO MAXVALUE " +
@@ -104,4 +104,18 @@ public abstract class SQLDict {
 
     public String dropSeqPerson =
             "DROP SEQUENCE PERSON_SEQ";
+
+    public String insertStatment =
+            "INSERT INTO %s (%s) VALUES (%s);";
+
+    public String column =
+            "%s, ";
+    public String columnLast =
+            "%s";
+
+    public String value =
+            "?, ";
+
+    public String valueLast =
+            "?";
 }
