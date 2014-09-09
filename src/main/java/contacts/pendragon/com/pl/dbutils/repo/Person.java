@@ -12,7 +12,7 @@ import java.util.*;
 public class Person extends DBModel {
 
     public static String table = "person";
-    public IntegerField id = new IntegerField(null);
+    public IntegerField person_id = new IntegerField(null);
     public CharField name = new CharField(null, 255);
     public CharField surname = new CharField(null, 255);
     public CharField com_name = new CharField(null, 255);
