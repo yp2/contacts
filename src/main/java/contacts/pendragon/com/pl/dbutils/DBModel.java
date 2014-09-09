@@ -19,6 +19,7 @@ public abstract class DBModel {
     private DBFactory dbFactory = new DBFactory();
 
     public DBModel(String table){
+        // moze uzyc this.model = this.getClass().getName().upper()
         this.model = table;
 
     }
