@@ -18,6 +18,9 @@ public class Person extends DBModel {
     public CharField com_name = new CharField(null, 255);
     public CharField description = new TextField(null);
 
+    public Person(){
+        super(table);
+    }
 
     public Person(String name, String surname,
                   String com_name, String description) throws ValueToLongException {
