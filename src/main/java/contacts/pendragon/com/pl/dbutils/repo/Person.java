@@ -18,12 +18,13 @@ public class Person extends DBModel {
     public CharField com_name = new CharField(null, 255);
     public CharField description = new TextField(null);
 
-    public Person() throws ValueToLongException {
+    public Person() throws ValueToLongException, IllegalAccessException {
         super(table);
     }
 
     public Person(String name, String surname,
-                  String com_name, String description) throws ValueToLongException {
+                  String com_name, String description) throws IllegalAccessException,
+            ValueToLongException {
         super(table);
         this.name.setValue(name);
         this.surname.setValue(surname);
@@ -32,7 +33,8 @@ public class Person extends DBModel {
     }
 
     public Person (Integer person_id, String name, String surname,
-                   String com_name, String description) throws ValueToLongException {
+                   String com_name, String description) throws IllegalAccessException,
+            ValueToLongException {
         super(table);
         this.person_id.setValue(person_id);
         this.name.setValue(name);

@@ -3,6 +3,7 @@ package contacts.pendragon.com.pl.dbutils;
 import contacts.pendragon.com.pl.dbutils.factory.DBFactory;
 import contacts.pendragon.com.pl.dbutils.factory.SQLDictFactory;
 import contacts.pendragon.com.pl.dbutils.repo.PrimaryKeyField;
+import contacts.pendragon.com.pl.dbutils.repo.ValueToLongException;
 
 import java.sql.Statement;
 import java.lang.reflect.Field;
@@ -11,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by daniel on 08.09.14.
@@ -22,43 +24,51 @@ public abstract class DBModel {
     private DBFactory dbFactory = new DBFactory();
     private SQLDictFactory sqlDictFactory = new SQLDictFactory();
     private PrimaryKeyField pkField;
+    private List<Field> modelFields;
 
-    public DBModel(String table){
+    public DBModel(String table) throws IllegalAccessException {
         // TODO: moze uzyc this.model = this.getClass().getName().upper()
         this.model = table;
 
     }
 
-    /**
-     * Method sets dbConn and sqlDict. It must been invoked on each db connecction,
-     * save or other DB realated action to set correct SQL dialect and connection.
-     * TODO: Make no sense - we have to have controll on connection close
-     * so we must move dbConn nd sqlDict to methodes a,
-     */
-//    private void setDB() throws SQLException {
-//        dbConn = dbFactory.getDBConnection();
-//        sqlDict = sqlDictFactory.getSQLDict();
-//    }
-
+    public Integer getId(){
+        return this.pkField.getValue();
+    }
+    public void setPkField(Integer id) throws ValueToLongException{
+        this.pkField.setValue(id);
+    }
 
     private List<Field> getFields () throws IllegalAccessException{
         Class cl = this.getClass();
         Field[] fields = cl.getFields();
-        List<Field> filedsDBField= new LinkedList<Field>();
+        List<Field> modelFields= new LinkedList<Field>();
         for (Field f: fields){
             Class fSuperclass = f.getType().getSuperclass();
             Class fClass = f.getType();
 
             if (fSuperclass == DBField.class && fClass != PrimaryKeyField.class){
-                filedsDBField.add(f);
+                modelFields.add(f);
             }
+
             // setting primary key field for model
             if (fClass == PrimaryKeyField.class){
                 pkField = (PrimaryKeyField) f.get(this);
             }
         }
-        return filedsDBField;
+        return modelFields;
     }
+
+//    private List<Field> getNotNullFields() throws IllegalAccessException{
+//        List<Field> fields = new LinkedList<>();
+//        for (Field f : this.modelFields){
+//            DBField dbField = (DBField) f.get(this);
+//            if (dbField.getValue() != null){
+//                fields.add(f);
+//            }
+//        }
+//        return fields;
+//    }
 
     private List<Field> getNotNullFields() throws IllegalAccessException{
         List<Field> fields = this.getFields();
@@ -159,10 +169,10 @@ public abstract class DBModel {
         //try with resources to create and close connection
 //        try (Connection dbConn = )
 //        this.setDB();
-        getInsertStatmant();
-        if (this.pkField.getValue() != null){
-            System.out.println(this.pkField.getValue());
-        }
+        System.out.println(getInsertStatmant());
+//        if (this.pkField.getValue() != null){
+//            System.out.println(this.pkField.getValue());
+//        }
     }
 
 //    public void getSQLInsertStatment() throws ClassNotFoundException, IllegalAccessException {
