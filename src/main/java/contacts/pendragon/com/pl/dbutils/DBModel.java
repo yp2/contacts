@@ -4,6 +4,7 @@ import contacts.pendragon.com.pl.dbutils.factory.DBFactory;
 import contacts.pendragon.com.pl.dbutils.factory.SQLDictFactory;
 import contacts.pendragon.com.pl.dbutils.repo.PrimaryKeyField;
 
+import java.sql.Statement;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -94,15 +95,14 @@ public abstract class DBModel {
     }
 
     /**
-     * setDB method must be already invoked
+     *
      */
-    private String getInsertStatmant() throws IllegalAccessException, SQLException{
+    private String getInsertStatmant() throws IllegalAccessException{
         SQLDict sqlDict = sqlDictFactory.getSQLDict();
         String baseSqlStatment = sqlDict.insertStatment;
         String sql;
         StringBuilder sqlColumns = new StringBuilder();
         StringBuilder sqlValues = new StringBuilder();
-        PreparedStatement stat;
 
         List<Field> fields = this.getNotNullFields(); //not null fields
         int listSize = fields.size() - 1 ;
@@ -130,14 +130,33 @@ public abstract class DBModel {
         return sql;
     }
 
-    private void runInsert(Connection dbConn)  {
+    private void runInsert(Connection dbConn) throws IllegalAccessException, SQLException{
+        String sql = this.getInsertStatmant();
+        List<Field> fields = this.getFields();
+        List<DBField> dbFields = this.getDBFields(fields);
+        // tu zamykamy statment a w save zamykamy connection
+        try(PreparedStatement stat = dbConn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+            // i = 1 for prepareStatmant usage
+            for (int i=1; i <= dbFields.size(); i = i + 1){
+                stat.setString(i, (String) dbFields.get(i).getValue());
+            }
+        }
+
+
+        // try with resource to create and close prepared statment
     }
 
     private void getUpdateStatment(){
 
     }
 
+    /**
+     * Metoda save zarządza connection !!!
+     * @throws SQLException
+     * @throws IllegalAccessException
+     */
     public void save() throws SQLException, IllegalAccessException{
+        //try with resources to create and close connection
 //        try (Connection dbConn = )
 //        this.setDB();
         getInsertStatmant();
