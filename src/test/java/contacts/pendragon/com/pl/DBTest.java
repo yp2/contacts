@@ -119,34 +119,34 @@ public class DBTest {
         stat.executeUpdate(sqlDict.dropTablePerson);
     }
 
-    @Test
-    public void fields() throws ValueToLongException,
-            ClassNotFoundException, IllegalAccessException, SQLException{
-        this.dbSetPostgreSQL();
-//        DBField cf = new CharField("Coś");
-//        DBField ci = new IntegerField(12);
-//        DBField ct = new TextField("Soc");
+//    @Test
+//    public void fields() throws ValueToLongException,
+//            ClassNotFoundException, IllegalAccessException, SQLException{
+//        this.dbSetPostgreSQL();
+////        DBField cf = new CharField("Coś");
+////        DBField ci = new IntegerField(12);
+////        DBField ct = new TextField("Soc");
+////
+////        System.out.println(ci.getValue());
+////        System.out.println(cf.getValue());
+////        System.out.println(ct.getValue());
 //
-//        System.out.println(ci.getValue());
-//        System.out.println(cf.getValue());
-//        System.out.println(ct.getValue());
-
-        Person p = new Person("Daniel", "Derezinski", "", "to ja");
-        p.save();
-        p.name.setValue(null);
-        p.save();
-        p.person_id.setValue(2);
-        System.out.println(p.person_id.getValue());
-        System.out.println(p.getId());
-//        p.setPkField(1);
-//        p.setPkField(2);
-//        System.out.println(p.getId());
-
-//        Person pu = new Person(1, "Daniel", "Derezinski", "", "to ja");
-//        DBFactory factory = new DBFactory();
+//        Person p = new Person("Daniel", "Derezinski", "", "to ja");
+////        System.out.println(p.getId());
+////        p.person_id.setValue(1);
+////        System.out.println(p.getId());
+////        p.setPkField(2);
+////        System.out.println(p.person_id.getValue());
 //        p.save();
-    }
+//        p.getId();
+//
+////        Person pu = new Person(1, "Daniel", "Derezinski", "", "to ja");
+////        DBFactory factory = new DBFactory();
+////        p.save();
+//    }
 
+
+//
     @Test
     public void SQLDictFactory() {
         SQLDictFactory factory;

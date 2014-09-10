@@ -5,11 +5,8 @@ import contacts.pendragon.com.pl.dbutils.factory.SQLDictFactory;
 import contacts.pendragon.com.pl.dbutils.repo.PrimaryKeyField;
 import contacts.pendragon.com.pl.dbutils.repo.ValueToLongException;
 
-import java.sql.Statement;
+import java.sql.*;
 import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -26,15 +23,20 @@ public abstract class DBModel {
     private PrimaryKeyField pkField;
     private List<Field> modelFields;
 
-    public DBModel(String table) throws IllegalAccessException {
+    public DBModel(String table) {
         // TODO: moze uzyc this.model = this.getClass().getName().upper()
         this.model = table;
 
     }
 
+    public void setFields() throws IllegalAccessException{
+        modelFields = getFields();
+    }
+
     public Integer getId(){
         return this.pkField.getValue();
     }
+    // this is not needed method
     public void setPkField(Integer id) throws ValueToLongException{
         this.pkField.setValue(id);
     }
@@ -59,23 +61,12 @@ public abstract class DBModel {
         return modelFields;
     }
 
-//    private List<Field> getNotNullFields() throws IllegalAccessException{
-//        List<Field> fields = new LinkedList<>();
-//        for (Field f : this.modelFields){
-//            DBField dbField = (DBField) f.get(this);
-//            if (dbField.getValue() != null){
-//                fields.add(f);
-//            }
-//        }
-//        return fields;
-//    }
-
-    private List<Field> getNotNullFields() throws IllegalAccessException{
-        List<Field> fields = this.getFields();
-        for(int i = 0; i< fields.size(); i=i+1){
-            DBField dbField = (DBField) fields.get(i).get(this);
-            if (dbField.getValue() == null){
-                fields.remove(i);
+    private List<Field> getNotNullFields(List<Field> modelFields) throws IllegalAccessException{
+        List<Field> fields = new LinkedList<>();
+        for (Field mf: modelFields){
+            DBField dbField = (DBField) mf.get(this);
+            if (dbField.getValue() != null){
+                fields.add(mf);
             }
         }
         return fields;
@@ -90,23 +81,8 @@ public abstract class DBModel {
             dbFields.add(dbField);
         }
         return dbFields;
-//        List<Field> fields = this.getNotNullFields();
-//        List<DBField> notNullDBFields = new LinkedList<DBField>();
-//        for (Field f: fields){
-//            //geting object of DBField for this object; casting is crucial
-//            //alter that we obtain instances of field for specific model
-//            DBField notNullDBField = (DBField) f.get(this);
-//            if (notNullDBField.getValue() != null){
-//                notNullDBFields.add(notNullDBField);
-//                System.out.println(f.getName());
-//            }
-//        }
-//        return notNullDBFields;
     }
 
-    /**
-     *
-     */
     private String getInsertStatmant() throws IllegalAccessException{
         SQLDict sqlDict = sqlDictFactory.getSQLDict();
         String baseSqlStatment = sqlDict.insertStatment;
@@ -114,7 +90,7 @@ public abstract class DBModel {
         StringBuilder sqlColumns = new StringBuilder();
         StringBuilder sqlValues = new StringBuilder();
 
-        List<Field> fields = this.getNotNullFields(); //not null fields
+        List<Field> fields = this.getNotNullFields(modelFields); //not null fields
         int listSize = fields.size() - 1 ;
         for (int i = 0; i <= listSize; i= i + 1 ){
             if (i != listSize ){
@@ -128,36 +104,30 @@ public abstract class DBModel {
         sql = String.format(baseSqlStatment, this.model.toUpperCase(),
                 sqlColumns.toString(), sqlValues.toString());
 
-//        stat = dbConn.prepareStatement(sql);
-//
-//        List<DBField> dbFields = this.getDBFields(fields);
-//
-//        for (int i = 0; i<=listSize; i = i + 1){
-//            // incrementing i by 1 for PreparedStatment
-//            stat.setString((i+1), (String) dbFields.get(i).getValue());
-//        }
-
         return sql;
     }
 
     private void runInsert(Connection dbConn) throws IllegalAccessException, SQLException{
         String sql = this.getInsertStatmant();
-        List<Field> fields = this.getFields();
+        List<Field> fields = this.getNotNullFields(this.modelFields);
         List<DBField> dbFields = this.getDBFields(fields);
-        // tu zamykamy statment a w save zamykamy connection
-        try(PreparedStatement stat = dbConn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
-            // i = 1 for prepareStatmant usage
-            for (int i=1; i <= dbFields.size(); i = i + 1){
-                stat.setString(i, (String) dbFields.get(i).getValue());
+        // here we close statment the connectio must be close in method invoking this method
+        try(PreparedStatement stmt = dbConn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+            for (int i=0; i < dbFields.size(); i = i + 1){
+                stmt.setString((i+1), (String) dbFields.get(i).getValue());
             }
+            stmt.executeUpdate();
+            ResultSet rsId = stmt.getGeneratedKeys();
+            if (rsId.next()){
+                try {
+                    this.pkField.setValue(rsId.getInt(1));
+                } catch (ValueToLongException ex){}
+            }
+
         }
-
-
-        // try with resource to create and close prepared statment
     }
 
     private void getUpdateStatment(){
-
     }
 
     /**
@@ -166,13 +136,9 @@ public abstract class DBModel {
      * @throws IllegalAccessException
      */
     public void save() throws SQLException, IllegalAccessException{
-        //try with resources to create and close connection
-//        try (Connection dbConn = )
-//        this.setDB();
-        System.out.println(getInsertStatmant());
-//        if (this.pkField.getValue() != null){
-//            System.out.println(this.pkField.getValue());
-//        }
+        try(Connection conn = dbFactory.getDBConnection()){
+            this.runInsert(conn);
+        }
     }
 
 //    public void getSQLInsertStatment() throws ClassNotFoundException, IllegalAccessException {
@@ -211,4 +177,14 @@ public abstract class DBModel {
 
         }
     }
+//    private List<Field> getNotNullFields() throws IllegalAccessException{
+//        List<Field> fields = this.getFields();
+//        for(int i = 0; i< fields.size(); i=i+1){
+//            DBField dbField = (DBField) fields.get(i).get(this);
+//            if (dbField.getValue() == null){
+//                fields.remove(i);
+//            }
+//        }
+//        return fields;
+//    }
 }
