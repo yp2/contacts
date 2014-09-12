@@ -1,4 +1,4 @@
 contacts
 ========
 
-Contact App for Java classes on WSEI Lublin
+Contact App for Java classes at WSEI Lublin
