@@ -174,16 +174,15 @@ public abstract class DBModel {
         if (pkValue != null) {
             // primary key is set - we add it to sqlWhere
             if (listSize == 0) {
-                sqlWhere.append(String.format(sqlDict.selectWhereFirst,
-                        Integer.toString(pkValue)));
+                sqlWhere.append(String.format(sqlDict.selectWherePKFirst,
+                        this.pkFieldName.toUpperCase()));
             } else {
-                sqlWhere.append(String.format(sqlDict.selectWhere,
-                        Integer.toString(pkValue)));
+                sqlWhere.append(String.format(sqlDict.selectWherePKLast,
+                        this.pkFieldName.toUpperCase()));
             }
         }
 
-        // setting order
-
+        // setting order by
         if (order_by != null && order_by.length > 0){
             int orderSize = order_by.length - 1 ;
             // ordered statmanet
@@ -211,6 +210,32 @@ public abstract class DBModel {
                     this.model.toUpperCase(), sqlWhere.toString());
         }
         return sql;
+    }
+
+    private void runSelectSimple(Connection dbConn, String [] order_by, String sort_type)
+        throws IllegalAccessException, SQLException
+    {
+        String sql = this.getSelectSimpleStatment(order_by, sort_type);
+        List<Field> fields = this.getNotNullFields(this.modelFields);
+        List<DBField> dbFields = this.getDBFields(fields);
+
+        // here we close statment the connection must be close in method invoking this method
+        try(PreparedStatement stmt = dbConn.prepareStatement(sql)) {
+            int listSize = dbFields.size();
+            for (int i = 0; i < listSize; i = i+1){
+                stmt.setString((i+1), (String) dbFields.get(i).getValue());
+            }
+            // settin value for pk - this will by always last position
+            if (pkField.getValue() != null){
+                stmt.setInt((listSize+1), pkField.getValue());
+            }
+
+            System.out.println(stmt.toString());
+            try(ResultSet rs = stmt.executeQuery()){
+
+            }
+
+        }
     }
 
 
@@ -275,30 +300,43 @@ public abstract class DBModel {
 
 
 
-    private void sQuery(String [] order_by, String sort_by) throws IllegalAccessException{
-        System.out.println(getSelectSimpleStatment(order_by, sort_by));
+    private void sQuery(String [] order_by, String sort_by)
+            throws IllegalAccessException, SQLException {
+//        System.out.println(getSelectSimpleStatment(order_by, sort_by));
+        try(Connection conn = dbFactory.getDBConnection()){
+            this.runSelectSimple(conn, order_by, sort_by);
+        }
+
 
 
     }
 
-    public void simpleQuery() throws IllegalAccessException{
+    public void simpleQuery() throws IllegalAccessException, SQLException{
         this.sQuery(null, null);
     }
 
-    public void simpleQuery(String [] order_by, String sort_by) throws IllegalAccessException {
+    public void simpleQuery(String [] order_by, String sort_by)
+            throws IllegalAccessException, SQLException
+    {
         this.sQuery(order_by, sort_by);
     }
 
-    public void simpleQuery(String order_by, String sort_by) throws IllegalAccessException {
+    public void simpleQuery(String order_by, String sort_by)
+            throws IllegalAccessException, SQLException
+    {
         String[] order_array = {order_by};
         this.sQuery(order_array, sort_by);
     }
 
-    public void simpleQuery(String [] order_by) throws IllegalAccessException {
+    public void simpleQuery(String [] order_by)
+            throws IllegalAccessException, SQLException
+    {
         this.sQuery(order_by, null);
     }
 
-    public void simpleQuery(String order_by) throws IllegalAccessException {
+    public void simpleQuery(String order_by)
+            throws IllegalAccessException, SQLException
+    {
         String[] order_array = {order_by};
         this.sQuery(order_array, null);
     }

@@ -146,10 +146,15 @@ public abstract class SQLDict {
     public String sortDESC =
             "DESC";
 
+    //TODO: zamiast = dać like?
     public String selectWhereFirst =
-            "%s=? ";
+            "LOWER(%s)=LOWER(?) ";
     public String selectWhere =
-            "AND %s=? ";
+            "AND LOWER(%s)=LOWER(?) ";
     public String selectWhereLast =
+            "AND LOWER(%s)=LOWER(?)";
+    public String selectWherePKFirst =
+            "%s=?";
+    public String selectWherePKLast =
             "AND %s=?";
 }

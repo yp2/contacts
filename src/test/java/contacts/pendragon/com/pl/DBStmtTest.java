@@ -136,7 +136,8 @@ public class DBStmtTest {
 
         Person pq1 = new Person();
         pq1.surname.setValue("Kowalski");
-        pq1.name.setValue("jan");
+//        pq1.name.setValue("jan");
+//        pq1.person_id.setValue(1);
         pq1.simpleQuery();
         String[] order = {"surname", "person_id"};
         pq1.simpleQuery(order, sd.sortDESC);
