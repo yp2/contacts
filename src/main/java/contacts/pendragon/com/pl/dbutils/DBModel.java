@@ -23,10 +23,13 @@ public abstract class DBModel {
     private PrimaryKeyField pkField;
     private List<Field> modelFields;
 
-    public DBModel(String table) {
-        // TODO: moze uzyc this.model = this.getClass().getName().upper()
-        this.model = table;
+    public DBModel() {
+        String [] split = this.getClass().getName().split("\\.");
+        this.model = split[split.length-1].toLowerCase();
+    }
 
+    public String getModel () {
+        return this.model;
     }
 
     public void setFields() throws IllegalAccessException{

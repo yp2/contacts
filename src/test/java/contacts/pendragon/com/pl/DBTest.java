@@ -6,6 +6,7 @@ package contacts.pendragon.com.pl;
 
 import contacts.pendragon.com.pl.dbutils.DBField;
 import contacts.pendragon.com.pl.dbutils.DBManager;
+import contacts.pendragon.com.pl.dbutils.DBModel;
 import contacts.pendragon.com.pl.dbutils.SQLDict;
 import contacts.pendragon.com.pl.dbutils.factory.DBFactory;
 import contacts.pendragon.com.pl.dbutils.factory.SQLDictFactory;
@@ -117,6 +118,15 @@ public class DBTest {
         stat.executeUpdate(sqlDict.dropTablePhone);
         stat.executeUpdate(sqlDict.dropTableEmail);
         stat.executeUpdate(sqlDict.dropTablePerson);
+    }
+
+    @Test
+    public void testDBModelName () throws ValueToLongException,
+            IllegalAccessException
+    {
+        DBModel m1 = new Person();
+        String m1Model = "person";
+        assertEquals(m1.getModel(), m1Model);
     }
 
 //    @Test
