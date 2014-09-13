@@ -218,6 +218,8 @@ public abstract class DBModel {
         String sql = this.getSelectSimpleStatment(order_by, sort_type);
         List<Field> fields = this.getNotNullFields(this.modelFields);
         List<DBField> dbFields = this.getDBFields(fields);
+        Class modelClass = this.getClass();
+        List<DBModel> querySet = new LinkedList<>();
 
         // here we close statment the connection must be close in method invoking this method
         try(PreparedStatement stmt = dbConn.prepareStatement(sql)) {
@@ -232,9 +234,15 @@ public abstract class DBModel {
 
             System.out.println(stmt.toString());
             try(ResultSet rs = stmt.executeQuery()){
-
+                while (rs.next()){
+                    System.out.println(rs.getString(1) + " " + rs.getString(2));
+                    try {
+                        //constructor
+                        querySet.add((DBModel) modelClass.newInstance());
+                    } catch (InstantiationException e) {}
+                }
             }
-
+            System.out.println(querySet.toString());
         }
     }
 
