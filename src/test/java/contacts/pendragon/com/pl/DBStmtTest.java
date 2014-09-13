@@ -6,6 +6,7 @@ package contacts.pendragon.com.pl;
 
 import contacts.pendragon.com.pl.dbutils.DBField;
 import contacts.pendragon.com.pl.dbutils.DBManager;
+import contacts.pendragon.com.pl.dbutils.DBModel;
 import contacts.pendragon.com.pl.dbutils.SQLDict;
 import contacts.pendragon.com.pl.dbutils.factory.DBFactory;
 import contacts.pendragon.com.pl.dbutils.factory.SQLDictFactory;
@@ -119,59 +120,71 @@ public class DBStmtTest {
     }
 
     @Test
-    public void insertPersonPG()
-            throws SQLException, IllegalAccessException, ValueToLongException{
-        int firstRecordId;
-        int secondRecordId;
-
-        //set DB
+    public void updatePersonPG() throws
+            SQLException, IllegalAccessException, ValueToLongException{
         this.dbSetPostgreSQL();
-        //create DB
-        try (Connection conn = new DBFactory().getDBConnection() ){
-            pgCreateDB(conn);
-        }
-        Person p1 = new Person("Jan", "Kowalski", null, "to opis do Jan Kowalski");
+
+        Person p1 = new Person();
+        p1.setPkField(1);
+        p1.name.setValue("Jan");
+        p1.description.setValue("JA trotoo");
         p1.save();
-        firstRecordId = p1.person_id.getValue();
-        Person p2 = new Person("Anna", "Kowalska", "Kowalska Company", "to opis do Anna Kowalska");
-        p2.save();
-        secondRecordId = p2.person_id.getValue();
-
-        // drop db
-        try (Connection conn = new DBFactory().getDBConnection() ){
-            pgDropDB(conn);
-        }
-
-        assertEquals(firstRecordId, 1);
-        assertEquals(secondRecordId, 2);
     }
 
-    @Test
-    public void insertPersonSL()
-            throws SQLException, IllegalAccessException, ValueToLongException{
-        int firstRecordId;
-        int secondRecordId;
-
-        //set DB
-        this.dbSetSQLite();
-        //create DB
-        try (Connection conn = new DBFactory().getDBConnection() ){
-            pgCreateDB(conn);
-        }
-        Person p1 = new Person("Jan", "Kowalski", null, "to opis do Jan Kowalski");
-        p1.save();
-        firstRecordId = p1.person_id.getValue();
-        Person p2 = new Person("Anna", "Kowalska", "Kowalska Company", "to opis do Anna Kowalska");
-        p2.save();
-        secondRecordId = p2.person_id.getValue();
-
-        // drop db
-        try (Connection conn = new DBFactory().getDBConnection() ){
-            pgDropDB(conn);
-        }
-
-        assertEquals(firstRecordId, 1);
-        assertEquals(secondRecordId, 2);
-    }
+//    @Test
+//    public void insertPersonPG()
+//            throws SQLException, IllegalAccessException, ValueToLongException{
+//        int firstRecordId;
+//        int secondRecordId;
+//
+//        //set DB
+//        this.dbSetPostgreSQL();
+//        //create DB
+//        try (Connection conn = new DBFactory().getDBConnection() ){
+//            pgCreateDB(conn);
+//        }
+//        Person p1 = new Person("Jan", "Kowalski", null, "to opis do Jan Kowalski");
+//        p1.save();
+//        firstRecordId = p1.person_id.getValue();
+//        Person p2 = new Person("Anna", "Kowalska", "Kowalska Company", "to opis do Anna Kowalska");
+//        p2.save();
+//        secondRecordId = p2.person_id.getValue();
+//
+//        // drop db
+//        try (Connection conn = new DBFactory().getDBConnection() ){
+//            pgDropDB(conn);
+//        }
+//
+//        assertEquals(firstRecordId, 1);
+//        assertEquals(secondRecordId, 2);
+//    }
+//
+//    @Test
+//    public void insertPersonSL()
+//            throws SQLException, IllegalAccessException, ValueToLongException{
+//        int firstRecordId;
+//        int secondRecordId;
+//
+//        //set DB
+//        this.dbSetSQLite();
+//        //create DB
+//        try (Connection conn = new DBFactory().getDBConnection() ){
+//            pgCreateDB(conn);
+//        }
+//        Person p1 = new Person("Jan", "Kowalski", null, "to opis do Jan Kowalski");
+//        p1.save();
+//        firstRecordId = p1.person_id.getValue();
+//        Person p2 = new Person("Anna", "Kowalska", "Kowalska Company", "to opis do Anna Kowalska");
+//        p2.save();
+//        secondRecordId = p2.person_id.getValue();
+//
+//        // drop db
+//        try (Connection conn = new DBFactory().getDBConnection() ){
+//            pgDropDB(conn);
+//        }
+//
+//        assertEquals(firstRecordId, 1);
+//        assertEquals(secondRecordId, 2);
+//    }
 
 }

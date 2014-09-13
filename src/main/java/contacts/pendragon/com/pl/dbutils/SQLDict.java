@@ -121,4 +121,16 @@ public abstract class SQLDict {
 
     public String updateStatment =
             "UPDATE %s SET (%s) WHERE %s;";
+
+    public String columnSet =
+            "%s=?, ";
+
+    public String columnSetLast =
+            "%s=?";
+
+    public String where =
+            "%s=?,";
+
+    public String whereLast =
+            "%s=?";
 }

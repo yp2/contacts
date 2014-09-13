@@ -21,6 +21,7 @@ public abstract class DBModel {
     private DBFactory dbFactory = new DBFactory();
     private SQLDictFactory sqlDictFactory = new SQLDictFactory();
     private PrimaryKeyField pkField;
+    private String pkFieldName;
     private List<Field> modelFields;
 
     public DBModel() {
@@ -58,6 +59,7 @@ public abstract class DBModel {
 
             // setting primary key field for model
             if (fClass == PrimaryKeyField.class){
+                pkFieldName = f.getName();
                 pkField = (PrimaryKeyField) f.get(this);
             }
         }
@@ -96,7 +98,7 @@ public abstract class DBModel {
         List<Field> fields = this.getNotNullFields(modelFields); //not null fields
         int listSize = fields.size() - 1 ;
         for (int i = 0; i <= listSize; i= i + 1 ){
-            if (i != listSize ){
+            if (i < listSize ){
                 sqlColumns.append(String.format(sqlDict.column, fields.get(i).getName()).toUpperCase());
                 sqlValues.append(sqlDict.value);
             } else {
@@ -110,11 +112,41 @@ public abstract class DBModel {
         return sql;
     }
 
+//    private String getPKFieldName(){
+//        Class cl = this.getClass();
+//    }
+
+    private String getUpdateStatment() throws  IllegalAccessException{
+        SQLDict sqlDict = sqlDictFactory.getSQLDict();
+        String baseSqlStatment = sqlDict.updateStatment;
+        String sql;
+        StringBuilder sqlWhere = new StringBuilder();
+        StringBuilder sqlSet = new StringBuilder();
+
+        List<Field> fields = this.getNotNullFields(modelFields);
+        int listSize = fields.size() - 1;
+        for (int i = 0; i <= listSize; i = i +1 ){
+            if (i < listSize){
+                sqlSet.append(String.format(sqlDict.columnSet, fields.get(i).getName()).toUpperCase());
+            } else {
+                sqlSet.append(String.format(sqlDict.columnSetLast, fields.get(i).getName()).toUpperCase());
+            }
+        }
+
+        sqlWhere.append(String.format(sqlDict.whereLast, this.pkFieldName.toUpperCase()));
+
+        sql = String.format(baseSqlStatment, this.model.toUpperCase(),
+                sqlSet.toString(), sqlWhere.toString());
+
+        return sql;
+    }
+
     private void runInsert(Connection dbConn) throws IllegalAccessException, SQLException{
         String sql = this.getInsertStatmant();
         List<Field> fields = this.getNotNullFields(this.modelFields);
         List<DBField> dbFields = this.getDBFields(fields);
-        // here we close statment the connectio must be close in method invoking this method
+
+        // here we close statment the connection must be close in method invoking this method
         try(PreparedStatement stmt = dbConn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             for (int i=0; i < dbFields.size(); i = i + 1){
                 stmt.setString((i+1), (String) dbFields.get(i).getValue());
@@ -130,8 +162,25 @@ public abstract class DBModel {
         }
     }
 
-    private void getUpdateStatment(){
+    private void runUpdate(Connection dbConn) throws IllegalAccessException, SQLException{
+        String sql = this.getUpdateStatment();
+        List<Field> fields = this.getNotNullFields(this.modelFields);
+        List<DBField> dbFields = this.getDBFields(fields);
+
+        // here we close statment the connection must be close in method invoking this method
+        try(PreparedStatement stmt = dbConn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+            int listSize = dbFields.size();
+            for (int i = 0; i < listSize; i = i + 1){
+                stmt.setString((i+1), (String) dbFields.get(i).getValue());
+            }
+            // setting where clause to pkField value - primary key
+            stmt.setInt((listSize+1), pkField.getValue());
+            stmt.executeUpdate();
+            //setting the pkField is not needed, we all ready have this value
+        }
     }
+
+
 
     /**
      * Metoda save zarządza connection !!!
@@ -139,8 +188,9 @@ public abstract class DBModel {
      * @throws IllegalAccessException
      */
     public void save() throws SQLException, IllegalAccessException{
+
         try(Connection conn = dbFactory.getDBConnection()){
-            this.runInsert(conn);
+            this.runUpdate(conn);
         }
     }
 
