@@ -99,10 +99,12 @@ public abstract class DBModel {
         int listSize = fields.size() - 1 ;
         for (int i = 0; i <= listSize; i= i + 1 ){
             if (i < listSize ){
-                sqlColumns.append(String.format(sqlDict.column, fields.get(i).getName()).toUpperCase());
+                sqlColumns.append(String.format(sqlDict.column,
+                        fields.get(i).getName()).toUpperCase());
                 sqlValues.append(sqlDict.value);
             } else {
-                sqlColumns.append(String.format(sqlDict.columnLast, fields.get(i).getName()).toUpperCase());
+                sqlColumns.append(String.format(sqlDict.columnLast,
+                        fields.get(i).getName()).toUpperCase());
                 sqlValues.append(sqlDict.valueLast);
             }
         }
@@ -127,19 +129,90 @@ public abstract class DBModel {
         int listSize = fields.size() - 1;
         for (int i = 0; i <= listSize; i = i +1 ){
             if (i < listSize){
-                sqlSet.append(String.format(sqlDict.columnSet, fields.get(i).getName()).toUpperCase());
+                sqlSet.append(String.format(sqlDict.columnSet,
+                        fields.get(i).getName()).toUpperCase());
             } else {
-                sqlSet.append(String.format(sqlDict.columnSetLast, fields.get(i).getName()).toUpperCase());
+                sqlSet.append(String.format(sqlDict.columnSetLast,
+                        fields.get(i).getName()).toUpperCase());
             }
         }
 
-        sqlWhere.append(String.format(sqlDict.whereLast, this.pkFieldName.toUpperCase()));
+        sqlWhere.append(String.format(sqlDict.whereLast,
+                this.pkFieldName.toUpperCase()));
 
         sql = String.format(baseSqlStatment, this.model.toUpperCase(),
                 sqlSet.toString(), sqlWhere.toString());
 
         return sql;
     }
+
+    private String getSelectSimpleStatment(String [] order_by, String sort_type)
+            throws IllegalAccessException
+    {
+        SQLDict sqlDict = sqlDictFactory.getSQLDict();
+        String baseSqlStatment;
+        String sql;
+        StringBuilder sqlOrder = new StringBuilder();
+        StringBuilder sqlWhere = new StringBuilder();
+        Integer pkValue = pkField.getValue();
+
+        List<Field> fields = this.getNotNullFields(modelFields);
+        int listSize = fields.size() - 1;
+        for (int i = 0; i <= listSize; i = i +1){
+            if (i == 0){
+                sqlWhere.append(String.format(sqlDict.selectWhereFirst,
+                        fields.get(i).getName().toUpperCase()));
+            } else if (i == listSize) {
+                sqlWhere.append(String.format(sqlDict.selectWhereLast,
+                        fields.get(i).getName().toUpperCase()));
+            } else {
+                sqlWhere.append(String.format(sqlDict.selectWhere,
+                        fields.get(i).getName().toUpperCase()));
+            }
+        }
+
+        if (pkValue != null) {
+            // primary key is set - we add it to sqlWhere
+            if (listSize == 0) {
+                sqlWhere.append(String.format(sqlDict.selectWhereFirst,
+                        Integer.toString(pkValue)));
+            } else {
+                sqlWhere.append(String.format(sqlDict.selectWhere,
+                        Integer.toString(pkValue)));
+            }
+        }
+
+        // setting order
+
+        if (order_by != null && order_by.length > 0){
+            int orderSize = order_by.length - 1 ;
+            // ordered statmanet
+            for (int i = 0; i <= orderSize; i = i +1){
+                if (i < orderSize) {
+                    sqlOrder.append(String.format(sqlDict.column, order_by[i].toUpperCase()));
+                } else {
+                    sqlOrder.append(String.format(sqlDict.columnLast, order_by[i].toUpperCase()));
+                }
+            }
+            // sort type setting
+            if (sort_type == null){
+                sqlOrder.append(sqlDict.sortASC);
+            } else {
+                sqlOrder.append(sort_type);
+            }
+
+            baseSqlStatment =  sqlDict.selectSimpleStatmentOrdered;
+            sql = String.format(baseSqlStatment,
+                    this.model.toUpperCase(), sqlWhere.toString(), sqlOrder.toString());
+        } else {
+            // non ordered statment
+            baseSqlStatment =  sqlDict.selectSimpleStatment;
+            sql = String.format(baseSqlStatment,
+                    this.model.toUpperCase(), sqlWhere.toString());
+        }
+        return sql;
+    }
+
 
     private void runInsert(Connection dbConn) throws IllegalAccessException, SQLException{
         String sql = this.getInsertStatmant();
@@ -197,9 +270,40 @@ public abstract class DBModel {
                 // prinary jey has value = Update objcet in db
                 this.runUpdate(conn);
             }
-
         }
     }
+
+
+
+    private void sQuery(String [] order_by, String sort_by) throws IllegalAccessException{
+        System.out.println(getSelectSimpleStatment(order_by, sort_by));
+
+
+    }
+
+    public void simpleQuery() throws IllegalAccessException{
+        this.sQuery(null, null);
+    }
+
+    public void simpleQuery(String [] order_by, String sort_by) throws IllegalAccessException {
+        this.sQuery(order_by, sort_by);
+    }
+
+    public void simpleQuery(String order_by, String sort_by) throws IllegalAccessException {
+        String[] order_array = {order_by};
+        this.sQuery(order_array, sort_by);
+    }
+
+    public void simpleQuery(String [] order_by) throws IllegalAccessException {
+        this.sQuery(order_by, null);
+    }
+
+    public void simpleQuery(String order_by) throws IllegalAccessException {
+        String[] order_array = {order_by};
+        this.sQuery(order_array, null);
+    }
+
+
 
 //    public void getSQLInsertStatment() throws ClassNotFoundException, IllegalAccessException {
 //

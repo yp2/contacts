@@ -123,16 +123,27 @@ public class DBStmtTest {
     public void updatePersonPG() throws
             SQLException, IllegalAccessException, ValueToLongException{
         this.dbSetPostgreSQL();
-
+        SQLDict sd = new SQLDictFactory().getSQLDict();
         // create DB
 //        try (Connection conn = new DBFactory().getDBConnection() ){
 //            pgCreateDB(conn);
 //        }
 
-        Person p1 = new Person("Jan", "Kowalski", null, "to opis do Jan Kowalski");
-        p1.save();
-        p1.name.setValue("Malinowski");
-        p1.save();
+//        Person p1 = new Person("Jan", "Kowalski", null, "to opis do Jan Kowalski");
+//        p1.save();
+//        p1.name.setValue("Malinowski");
+//        p1.save();
+
+        Person pq1 = new Person();
+        pq1.surname.setValue("Kowalski");
+        pq1.name.setValue("jan");
+        pq1.simpleQuery();
+        String[] order = {"surname", "person_id"};
+        pq1.simpleQuery(order, sd.sortDESC);
+        pq1.simpleQuery(order);
+        pq1.simpleQuery("person_id", sd.sortDESC);
+        pq1.simpleQuery("person_id");
+
 
     }
 

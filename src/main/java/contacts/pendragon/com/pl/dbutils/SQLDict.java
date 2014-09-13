@@ -111,7 +111,7 @@ public abstract class SQLDict {
     public String column =
             "%s, ";
     public String columnLast =
-            "%s";
+            "%s ";
 
     public String value =
             "?, ";
@@ -133,4 +133,23 @@ public abstract class SQLDict {
 
     public String whereLast =
             "%s=?";
+
+    public String selectSimpleStatment =
+            "SELECT * FROM %s WHERE %s;";
+
+    public String selectSimpleStatmentOrdered =
+            "SELECT * FROM %s WHERE %s ORDER BY %s;";
+
+    public String sortASC =
+            "ASC";
+
+    public String sortDESC =
+            "DESC";
+
+    public String selectWhereFirst =
+            "%s=? ";
+    public String selectWhere =
+            "AND %s=? ";
+    public String selectWhereLast =
+            "AND %s=?";
 }
