@@ -118,4 +118,7 @@ public abstract class SQLDict {
 
     public String valueLast =
             "?";
+
+    public String updateStatment =
+            "UPDATE %s SET (%s) WHERE %s;";
 }
