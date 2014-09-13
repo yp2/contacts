@@ -133,7 +133,7 @@ public class DBStmtTest {
         Person p1 = new Person("Jan", "Kowalski", null, "to opis do Jan Kowalski");
         p1.save();
         firstRecordId = p1.person_id.getValue();
-        Person p2 = new Person("Anna", "Kowalska", "Kowalsak Company", "to opis do Anna Kowalska");
+        Person p2 = new Person("Anna", "Kowalska", "Kowalska Company", "to opis do Anna Kowalska");
         p2.save();
         secondRecordId = p2.person_id.getValue();
 
