@@ -120,7 +120,7 @@ public abstract class SQLDict {
             "?";
 
     public String updateStatment =
-            "UPDATE %s SET (%s) WHERE %s;";
+            "UPDATE %s SET %s WHERE %s;";
 
     public String columnSet =
             "%s=?, ";

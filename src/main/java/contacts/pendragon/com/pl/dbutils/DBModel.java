@@ -168,7 +168,7 @@ public abstract class DBModel {
         List<DBField> dbFields = this.getDBFields(fields);
 
         // here we close statment the connection must be close in method invoking this method
-        try(PreparedStatement stmt = dbConn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+        try(PreparedStatement stmt = dbConn.prepareStatement(sql)){
             int listSize = dbFields.size();
             for (int i = 0; i < listSize; i = i + 1){
                 stmt.setString((i+1), (String) dbFields.get(i).getValue());
@@ -190,7 +190,14 @@ public abstract class DBModel {
     public void save() throws SQLException, IllegalAccessException{
 
         try(Connection conn = dbFactory.getDBConnection()){
-            this.runUpdate(conn);
+            if (pkField.getValue() == null){
+                // primary key not set = Insert new object to db
+                this.runInsert(conn);
+            } else {
+                // prinary jey has value = Update objcet in db
+                this.runUpdate(conn);
+            }
+
         }
     }
 

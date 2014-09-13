@@ -124,11 +124,16 @@ public class DBStmtTest {
             SQLException, IllegalAccessException, ValueToLongException{
         this.dbSetPostgreSQL();
 
-        Person p1 = new Person();
-        p1.setPkField(1);
-        p1.name.setValue("Jan");
-        p1.description.setValue("JA trotoo");
+        // create DB
+//        try (Connection conn = new DBFactory().getDBConnection() ){
+//            pgCreateDB(conn);
+//        }
+
+        Person p1 = new Person("Jan", "Kowalski", null, "to opis do Jan Kowalski");
         p1.save();
+        p1.name.setValue("Malinowski");
+        p1.save();
+
     }
 
 //    @Test
