@@ -146,4 +146,32 @@ public class DBStmtTest {
         assertEquals(secondRecordId, 2);
     }
 
+    @Test
+    public void insertPersonSL()
+            throws SQLException, IllegalAccessException, ValueToLongException{
+        int firstRecordId;
+        int secondRecordId;
+
+        //set DB
+        this.dbSetSQLite();
+        //create DB
+        try (Connection conn = new DBFactory().getDBConnection() ){
+            pgCreateDB(conn);
+        }
+        Person p1 = new Person("Jan", "Kowalski", null, "to opis do Jan Kowalski");
+        p1.save();
+        firstRecordId = p1.person_id.getValue();
+        Person p2 = new Person("Anna", "Kowalska", "Kowalska Company", "to opis do Anna Kowalska");
+        p2.save();
+        secondRecordId = p2.person_id.getValue();
+
+        // drop db
+        try (Connection conn = new DBFactory().getDBConnection() ){
+            pgDropDB(conn);
+        }
+
+        assertEquals(firstRecordId, 1);
+        assertEquals(secondRecordId, 2);
+    }
+
 }
