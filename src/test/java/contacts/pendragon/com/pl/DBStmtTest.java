@@ -193,7 +193,7 @@ public class DBStmtTest {
         Person pq3 = new Person();
         pq3.description.setValue("opis po update");
         assertEquals(pq3.simpleQuery().size(), 1);
-        pq3 = (Person) pq3.simpleQuery().get(0);
+        pq3 = (Person) pq3.get();
         assertEquals(pq3.com_name.getValue(), "Ogrodnictwo Malinowski i Spółka");
         assertEquals(pq3.description.getValue(), "opis po update");
 
@@ -249,7 +249,7 @@ public class DBStmtTest {
         Person pq3 = new Person();
         pq3.description.setValue("opis po update");
         assertEquals(pq3.simpleQuery().size(), 1);
-        pq3 = (Person) pq3.simpleQuery().get(0);
+        pq3 = (Person) pq3.get();
         assertEquals(pq3.com_name.getValue(), "Ogrodnictwo Malinowski i Spółka");
         assertEquals(pq3.description.getValue(), "opis po update");
 

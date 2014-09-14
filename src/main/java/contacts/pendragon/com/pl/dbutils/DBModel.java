@@ -357,6 +357,19 @@ public abstract class DBModel {
         return this.sQuery(order_array, null);
     }
 
+    public DBModel get()
+            throws IllegalAccessException, SQLException, DBModelException
+    {
+        List<DBModel> qs = this.sQuery(null, null);
+        DBModel result;
+        if (qs.size() == 1){
+            result = qs.get(0);
+        } else {
+            throw new DBModelException("Query return multiple result");
+        }
+        return result;
+    }
+
 
 
 //    public void getSQLInsertStatment() throws ClassNotFoundException, IllegalAccessException {
