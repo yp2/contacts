@@ -2,9 +2,13 @@ package contacts.pendragon.com.pl.dbutils;
 
 import contacts.pendragon.com.pl.dbutils.factory.DBFactory;
 import contacts.pendragon.com.pl.dbutils.factory.SQLDictFactory;
+import contacts.pendragon.com.pl.dbutils.repo.DBModelException;
 import contacts.pendragon.com.pl.dbutils.repo.PrimaryKeyField;
 import contacts.pendragon.com.pl.dbutils.repo.ValueToLongException;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Type;
 import java.sql.*;
 import java.lang.reflect.Field;
 import java.util.LinkedList;
@@ -212,17 +216,22 @@ public abstract class DBModel {
         return sql;
     }
 
-    private void runSelectSimple(Connection dbConn, String [] order_by, String sort_type)
-        throws IllegalAccessException, SQLException
+    private List<DBModel> runSelectSimple(Connection dbConn, String [] order_by, String sort_type)
+        throws IllegalAccessException, SQLException, DBModelException
     {
         String sql = this.getSelectSimpleStatment(order_by, sort_type);
         List<Field> fields = this.getNotNullFields(this.modelFields);
         List<DBField> dbFields = this.getDBFields(fields);
-        Class modelClass = this.getClass();
+        Class<?> modelClass = this.getClass();
+        Constructor<?> [] ctorArray = modelClass.getConstructors();
+//        List<DBModel> querySet = new LinkedList<>();
+        System.out.println(modelClass.cast(this));
+        Object modelType = modelClass.cast(this);
         List<DBModel> querySet = new LinkedList<>();
 
         // here we close statment the connection must be close in method invoking this method
         try(PreparedStatement stmt = dbConn.prepareStatement(sql)) {
+
             int listSize = dbFields.size();
             for (int i = 0; i < listSize; i = i+1){
                 stmt.setString((i+1), (String) dbFields.get(i).getValue());
@@ -231,19 +240,30 @@ public abstract class DBModel {
             if (pkField.getValue() != null){
                 stmt.setInt((listSize+1), pkField.getValue());
             }
+            try{
+                Constructor ctor = modelClass.getConstructor(String[].class);
+                try(ResultSet rs = stmt.executeQuery()){
+                    int columnCount = rs.getMetaData().getColumnCount();
+                    while (rs.next()){
+                        String [] values = new String[columnCount];
+                        try {
 
-            System.out.println(stmt.toString());
-            try(ResultSet rs = stmt.executeQuery()){
-                while (rs.next()){
-                    System.out.println(rs.getString(1) + " " + rs.getString(2));
-                    try {
-                        //constructor
-                        querySet.add((DBModel) modelClass.newInstance());
-                    } catch (InstantiationException e) {}
+                            for (int i = 0; i < columnCount; i++) {
+                                if (rs.getString(i+1) == "null"){
+                                    values[i] = null;
+                                } else {
+                                    values[i] = rs.getString(i+1);
+                                }
+                            }
+                            querySet.add((DBModel) ctor.newInstance(new Object[] {values}));
+                        }
+                        catch (InvocationTargetException e) {throw new DBModelException(e);}
+                        catch (InstantiationException e){throw new DBModelException(e);}
+                    }
                 }
-            }
-            System.out.println(querySet.toString());
+            } catch (NoSuchMethodException e) {throw new DBModelException(e);}
         }
+        return querySet;
     }
 
 
@@ -286,8 +306,6 @@ public abstract class DBModel {
         }
     }
 
-
-
     /**
      * Metoda save zarządza connection !!!
      * @throws SQLException
@@ -300,53 +318,52 @@ public abstract class DBModel {
                 // primary key not set = Insert new object to db
                 this.runInsert(conn);
             } else {
-                // prinary jey has value = Update objcet in db
+                // primary key has value = Update objcet in db
                 this.runUpdate(conn);
             }
         }
     }
 
-
-
-    private void sQuery(String [] order_by, String sort_by)
-            throws IllegalAccessException, SQLException {
-//        System.out.println(getSelectSimpleStatment(order_by, sort_by));
+    private List<DBModel> sQuery(String [] order_by, String sort_by)
+            throws IllegalAccessException, SQLException, DBModelException
+    {
+        List<DBModel> querySet;
         try(Connection conn = dbFactory.getDBConnection()){
-            this.runSelectSimple(conn, order_by, sort_by);
+            querySet = this.runSelectSimple(conn, order_by, sort_by);
         }
-
-
-
+        return querySet;
     }
 
-    public void simpleQuery() throws IllegalAccessException, SQLException{
-        this.sQuery(null, null);
-    }
-
-    public void simpleQuery(String [] order_by, String sort_by)
-            throws IllegalAccessException, SQLException
+    public List<DBModel> simpleQuery()
+            throws IllegalAccessException, SQLException, DBModelException
     {
-        this.sQuery(order_by, sort_by);
+        return this.sQuery(null, null);
     }
 
-    public void simpleQuery(String order_by, String sort_by)
-            throws IllegalAccessException, SQLException
+    public List<DBModel> simpleQuery(String [] order_by, String sort_by)
+            throws IllegalAccessException, SQLException, DBModelException
     {
-        String[] order_array = {order_by};
-        this.sQuery(order_array, sort_by);
+        return this.sQuery(order_by, sort_by);
     }
 
-    public void simpleQuery(String [] order_by)
-            throws IllegalAccessException, SQLException
-    {
-        this.sQuery(order_by, null);
-    }
-
-    public void simpleQuery(String order_by)
-            throws IllegalAccessException, SQLException
+    public List<DBModel> simpleQuery(String order_by, String sort_by)
+            throws IllegalAccessException, SQLException, DBModelException
     {
         String[] order_array = {order_by};
-        this.sQuery(order_array, null);
+        return  this.sQuery(order_array, sort_by);
+    }
+
+    public List<DBModel> simpleQuery(String [] order_by)
+            throws IllegalAccessException, SQLException, DBModelException
+    {
+        return this.sQuery(order_by, null);
+    }
+
+    public List<DBModel> simpleQuery(String order_by)
+            throws IllegalAccessException, SQLException, DBModelException
+    {
+        String[] order_array = {order_by};
+        return this.sQuery(order_array, null);
     }
 
 

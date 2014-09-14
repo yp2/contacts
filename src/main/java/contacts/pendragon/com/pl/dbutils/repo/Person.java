@@ -46,5 +46,14 @@ public class Person extends DBModel {
         setFields();
     }
 
+    public Person(String[] values) throws ValueToLongException{
+        super();
+        this.person_id.setValue(Integer.parseInt(values[0]));
+        this.name.setValue(values[1]);
+        this.surname.setValue(values[2]);
+        this.com_name.setValue(values[3]);
+        this.description.setValue(values[4]);
+    }
+
 
 }

@@ -19,6 +19,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 public class DBStmtTest {
     private Settings appSettings;
@@ -121,7 +122,8 @@ public class DBStmtTest {
 
     @Test
     public void updatePersonPG() throws
-            SQLException, IllegalAccessException, ValueToLongException{
+            SQLException, IllegalAccessException, ValueToLongException, DBModelException
+    {
         this.dbSetPostgreSQL();
         SQLDict sd = new SQLDictFactory().getSQLDict();
         // create DB
@@ -136,14 +138,20 @@ public class DBStmtTest {
 
         Person pq1 = new Person();
         pq1.surname.setValue("Kowalski");
+        List<DBModel> qs = pq1.simpleQuery();
+        for (DBModel p: qs) {
+            Person pm = (Person) p;
+            System.out.println(pm.name.getValue());
+        }
+
 //        pq1.name.setValue("jan");
 //        pq1.person_id.setValue(1);
-        pq1.simpleQuery();
-        String[] order = {"surname", "person_id"};
-        pq1.simpleQuery(order, sd.sortDESC);
-        pq1.simpleQuery(order);
-        pq1.simpleQuery("person_id", sd.sortDESC);
-        pq1.simpleQuery("person_id");
+//        pq1.simpleQuery();
+//        String[] order = {"surname", "person_id"};
+//        pq1.simpleQuery(order, sd.sortDESC);
+//        pq1.simpleQuery(order);
+//        pq1.simpleQuery("person_id", sd.sortDESC);
+//        pq1.simpleQuery("person_id");
 
 
     }
