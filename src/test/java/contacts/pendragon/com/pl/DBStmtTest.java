@@ -37,8 +37,35 @@ public class DBStmtTest {
         dbUsername = appSettings.getProperty("test.jdbc.username");
         dbPassword = appSettings.getProperty("test.jdbc.password");
         dbSqliteUrl = appSettings.getProperty("test.sqlite.jdbc.url");
-
     }
+
+    @After
+    public void tearDown(){
+        // droping all databases
+
+        // PostgreSql
+        this.dbSetPostgreSQL();
+        // drop db
+        try{
+            try (Connection conn = new DBFactory().getDBConnection() ){
+                pgDropDB(conn);
+            }
+        } catch (SQLException e) {
+            System.out.println("PG no table to drop");
+        }
+
+        // SQLite
+        this.dbSetSQLite();
+        // drop db
+        try{
+            try (Connection conn = new DBFactory().getDBConnection() ){
+                sliteDropDB(conn);
+            }
+        } catch (SQLException e) {
+            System.out.println("SL no table to drop");
+        }
+    }
+
     /**
      * Method sets app properities for postgresql db; base on test default settings
      */
@@ -125,24 +152,127 @@ public class DBStmtTest {
             SQLException, IllegalAccessException, ValueToLongException, DBModelException
     {
         this.dbSetPostgreSQL();
-        SQLDict sd = new SQLDictFactory().getSQLDict();
         // create DB
-//        try (Connection conn = new DBFactory().getDBConnection() ){
-//            pgCreateDB(conn);
-//        }
+        try (Connection conn = new DBFactory().getDBConnection() ){
+            pgCreateDB(conn);
+        }
+
+        // Populate DB
+        Person p1 = new Person("Jan", "Kowalski", null, "to opis do Jana Kowalskiego");
+        Person p2 = new Person("Andrzej", "Sroka", "Sroka Company", "to opis od Andrzeja Sroki");
+        Person p3 = new Person(null, null, "Ogrodnictwo Malinowski i Spółka", "to opis do Ogrodnictwa");
+        p1.save();
+        p2.save();
+        p3.save();
+
+        // update
+        p1.name.setValue("Jacek");
+        p2.surname.setValue("Kowal");
+        p3.description.setValue("opis po update");
+
+        p1.save();
+        p2.save();
+        p3.save();
+
+        Person pq1 =  new Person();
+        pq1.name.setValue("jacek");
+        List<DBModel> qs1 = pq1.simpleQuery();
+        assertEquals(qs1.size(), 1);
+        pq1 = (Person) qs1.get(0);
+        assertEquals(pq1.surname.getValue(), "Kowalski");
+        assertEquals(pq1.name.getValue(), "Jacek");
+
+        Person pq2 = new Person();
+        pq2.surname.setValue("kowal");
+        List<DBModel> qs2 = pq2.simpleQuery();
+        assertEquals(qs2.size(), 1);
+        pq2 = (Person) qs2.get(0);
+        assertEquals(pq2.name.getValue(), "Andrzej");
+        assertEquals(pq2.surname.getValue(), "Kowal");
+
+        Person pq3 = new Person();
+        pq3.description.setValue("opis po update");
+        assertEquals(pq3.simpleQuery().size(), 1);
+        pq3 = (Person) pq3.simpleQuery().get(0);
+        assertEquals(pq3.com_name.getValue(), "Ogrodnictwo Malinowski i Spółka");
+        assertEquals(pq3.description.getValue(), "opis po update");
+
+        // drop db
+        try (Connection conn = new DBFactory().getDBConnection() ){
+            pgDropDB(conn);
+        }
+    }
+
+    @Test
+    public void updatePersonSL() throws
+            SQLException, IllegalAccessException, ValueToLongException, DBModelException
+    {
+        this.dbSetSQLite();
+        // create DB
+        try (Connection conn = new DBFactory().getDBConnection() ){
+            sliteCreateDB(conn);
+        }
+
+        // Populate DB
+        Person p1 = new Person("Jan", "Kowalski", null, "to opis do Jana Kowalskiego");
+        Person p2 = new Person("Andrzej", "Sroka", "Sroka Company", "to opis od Andrzeja Sroki");
+        Person p3 = new Person(null, null, "Ogrodnictwo Malinowski i Spółka", "to opis do Ogrodnictwa");
+        p1.save();
+        p2.save();
+        p3.save();
+
+        // update
+        p1.name.setValue("Jacek");
+        p2.surname.setValue("Kowal");
+        p3.description.setValue("opis po update");
+
+        p1.save();
+        p2.save();
+        p3.save();
+
+        Person pq1 =  new Person();
+        pq1.name.setValue("jacek");
+        List<DBModel> qs1 = pq1.simpleQuery();
+        assertEquals(qs1.size(), 1);
+        pq1 = (Person) qs1.get(0);
+        assertEquals(pq1.surname.getValue(), "Kowalski");
+        assertEquals(pq1.name.getValue(), "Jacek");
+
+        Person pq2 = new Person();
+        pq2.surname.setValue("kowal");
+        List<DBModel> qs2 = pq2.simpleQuery();
+        assertEquals(qs2.size(), 1);
+        pq2 = (Person) qs2.get(0);
+        assertEquals(pq2.name.getValue(), "Andrzej");
+        assertEquals(pq2.surname.getValue(), "Kowal");
+
+        Person pq3 = new Person();
+        pq3.description.setValue("opis po update");
+        assertEquals(pq3.simpleQuery().size(), 1);
+        pq3 = (Person) pq3.simpleQuery().get(0);
+        assertEquals(pq3.com_name.getValue(), "Ogrodnictwo Malinowski i Spółka");
+        assertEquals(pq3.description.getValue(), "opis po update");
+
+        // drop db
+        try (Connection conn = new DBFactory().getDBConnection() ){
+            sliteDropDB(conn);
+        }
+    }
+    //
+//        SQLDict sd = new SQLDictFactory().getSQLDict();
 
 //        Person p1 = new Person("Jan", "Kowalski", null, "to opis do Jan Kowalski");
 //        p1.save();
 //        p1.name.setValue("Malinowski");
 //        p1.save();
 
-        Person pq1 = new Person();
-        pq1.surname.setValue("Kowalski");
-        List<DBModel> qs = pq1.simpleQuery();
-        for (DBModel p: qs) {
-            Person pm = (Person) p;
-            System.out.println(pm.name.getValue());
-        }
+//        Person pq1 = new Person();
+//        pq1.surname.setValue("Kowalski");
+//        List<DBModel> qs = pq1.simpleQuery();
+//        for (DBModel p: qs) {
+//            Person pm = (Person) p;
+//            System.out.println(pm.name.getValue());
+//        }
 
 //        pq1.name.setValue("jan");
 //        pq1.person_id.setValue(1);
@@ -153,63 +283,60 @@ public class DBStmtTest {
 //        pq1.simpleQuery("person_id", sd.sortDESC);
 //        pq1.simpleQuery("person_id");
 
+    @Test
+    public void insertPersonPG()
+            throws SQLException, IllegalAccessException, ValueToLongException{
+        int firstRecordId;
+        int secondRecordId;
 
+        //set DB
+        this.dbSetPostgreSQL();
+        //create DB
+        try (Connection conn = new DBFactory().getDBConnection() ){
+            pgCreateDB(conn);
+        }
+        Person p1 = new Person("Jan", "Kowalski", null, "to opis do Jan Kowalski");
+        p1.save();
+        firstRecordId = p1.person_id.getValue();
+        Person p2 = new Person("Anna", "Kowalska", "Kowalska Company", "to opis do Anna Kowalska");
+        p2.save();
+        secondRecordId = p2.person_id.getValue();
+
+        // drop db
+        try (Connection conn = new DBFactory().getDBConnection() ){
+            pgDropDB(conn);
+        }
+
+        assertEquals(firstRecordId, 1);
+        assertEquals(secondRecordId, 2);
     }
 
-//    @Test
-//    public void insertPersonPG()
-//            throws SQLException, IllegalAccessException, ValueToLongException{
-//        int firstRecordId;
-//        int secondRecordId;
-//
-//        //set DB
-//        this.dbSetPostgreSQL();
-//        //create DB
-//        try (Connection conn = new DBFactory().getDBConnection() ){
-//            pgCreateDB(conn);
-//        }
-//        Person p1 = new Person("Jan", "Kowalski", null, "to opis do Jan Kowalski");
-//        p1.save();
-//        firstRecordId = p1.person_id.getValue();
-//        Person p2 = new Person("Anna", "Kowalska", "Kowalska Company", "to opis do Anna Kowalska");
-//        p2.save();
-//        secondRecordId = p2.person_id.getValue();
-//
-//        // drop db
-//        try (Connection conn = new DBFactory().getDBConnection() ){
-//            pgDropDB(conn);
-//        }
-//
-//        assertEquals(firstRecordId, 1);
-//        assertEquals(secondRecordId, 2);
-//    }
-//
-//    @Test
-//    public void insertPersonSL()
-//            throws SQLException, IllegalAccessException, ValueToLongException{
-//        int firstRecordId;
-//        int secondRecordId;
-//
-//        //set DB
-//        this.dbSetSQLite();
-//        //create DB
-//        try (Connection conn = new DBFactory().getDBConnection() ){
-//            pgCreateDB(conn);
-//        }
-//        Person p1 = new Person("Jan", "Kowalski", null, "to opis do Jan Kowalski");
-//        p1.save();
-//        firstRecordId = p1.person_id.getValue();
-//        Person p2 = new Person("Anna", "Kowalska", "Kowalska Company", "to opis do Anna Kowalska");
-//        p2.save();
-//        secondRecordId = p2.person_id.getValue();
-//
-//        // drop db
-//        try (Connection conn = new DBFactory().getDBConnection() ){
-//            pgDropDB(conn);
-//        }
-//
-//        assertEquals(firstRecordId, 1);
-//        assertEquals(secondRecordId, 2);
-//    }
+    @Test
+    public void insertPersonSL()
+            throws SQLException, IllegalAccessException, ValueToLongException{
+        int firstRecordId;
+        int secondRecordId;
+
+        //set DB
+        this.dbSetSQLite();
+        //create DB
+        try (Connection conn = new DBFactory().getDBConnection() ){
+            pgCreateDB(conn);
+        }
+        Person p1 = new Person("Jan", "Kowalski", null, "to opis do Jan Kowalski");
+        p1.save();
+        firstRecordId = p1.person_id.getValue();
+        Person p2 = new Person("Anna", "Kowalska", "Kowalska Company", "to opis do Anna Kowalska");
+        p2.save();
+        secondRecordId = p2.person_id.getValue();
+
+        // drop db
+        try (Connection conn = new DBFactory().getDBConnection() ){
+            pgDropDB(conn);
+        }
+
+        assertEquals(firstRecordId, 1);
+        assertEquals(secondRecordId, 2);
+    }
 
 }

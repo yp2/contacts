@@ -278,10 +278,9 @@ public abstract class DBModel {
             ResultSet rsId = stmt.getGeneratedKeys();
             if (rsId.next()){
                 try {
-                    this.pkField.setValue(rsId.getInt(1));
+                    this.pkField.setValue(rsId.getInt(1)); //there will be no error
                 } catch (ValueToLongException ex){}
             }
-
         }
     }
 
@@ -303,11 +302,6 @@ public abstract class DBModel {
         }
     }
 
-    /**
-     * Metoda save zarządza connection !!!
-     * @throws SQLException
-     * @throws IllegalAccessException
-     */
     public void save() throws SQLException, IllegalAccessException{
 
         try(Connection conn = dbFactory.getDBConnection()){
@@ -321,12 +315,12 @@ public abstract class DBModel {
         }
     }
 
-    private List<DBModel> sQuery(String [] order_by, String sort_by)
+    private List<DBModel> sQuery(String [] order_by, String sort_type)
             throws IllegalAccessException, SQLException, DBModelException
     {
         List<DBModel> querySet;
         try(Connection conn = dbFactory.getDBConnection()){
-            querySet = this.runSelectSimple(conn, order_by, sort_by);
+            querySet = this.runSelectSimple(conn, order_by, sort_type);
         }
         return querySet;
     }
@@ -337,17 +331,17 @@ public abstract class DBModel {
         return this.sQuery(null, null);
     }
 
-    public List<DBModel> simpleQuery(String [] order_by, String sort_by)
+    public List<DBModel> simpleQuery(String [] order_by, String sort_type)
             throws IllegalAccessException, SQLException, DBModelException
     {
-        return this.sQuery(order_by, sort_by);
+        return this.sQuery(order_by, sort_type);
     }
 
-    public List<DBModel> simpleQuery(String order_by, String sort_by)
+    public List<DBModel> simpleQuery(String order_by, String sort_type)
             throws IllegalAccessException, SQLException, DBModelException
     {
         String[] order_array = {order_by};
-        return  this.sQuery(order_array, sort_by);
+        return  this.sQuery(order_array, sort_type);
     }
 
     public List<DBModel> simpleQuery(String [] order_by)
@@ -394,13 +388,13 @@ public abstract class DBModel {
 //
 //    }
 
-    public void insertToDB() throws SQLException {
-        DBFactory factory = new DBFactory();
-
-        try (Connection conn = factory.getDBConnection()) {
-
-        }
-    }
+//    public void insertToDB() throws SQLException {
+//        DBFactory factory = new DBFactory();
+//
+//        try (Connection conn = factory.getDBConnection()) {
+//
+//        }
+//    }
 //    private List<Field> getNotNullFields() throws IllegalAccessException{
 //        List<Field> fields = this.getFields();
 //        for(int i = 0; i< fields.size(); i=i+1){

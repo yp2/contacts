@@ -20,7 +20,7 @@ public class Person extends DBModel {
 
     public Person() throws ValueToLongException, IllegalAccessException {
         super();
-        setFields(); //each model construct have to end with this methode
+        setFields(); //each model construct have to end with this methode !!!
     }
 
     public Person(String name, String surname,
@@ -46,13 +46,15 @@ public class Person extends DBModel {
         setFields();
     }
 
-    public Person(String[] values) throws ValueToLongException{
+    public Person(String[] values) throws ValueToLongException, IllegalAccessException
+    {
         super();
         this.person_id.setValue(Integer.parseInt(values[0]));
         this.name.setValue(values[1]);
         this.surname.setValue(values[2]);
         this.com_name.setValue(values[3]);
         this.description.setValue(values[4]);
+        setFields();
     }
 
 
