@@ -224,9 +224,6 @@ public abstract class DBModel {
         List<DBField> dbFields = this.getDBFields(fields);
         Class<?> modelClass = this.getClass();
         Constructor<?> [] ctorArray = modelClass.getConstructors();
-//        List<DBModel> querySet = new LinkedList<>();
-        System.out.println(modelClass.cast(this));
-        Object modelType = modelClass.cast(this);
         List<DBModel> querySet = new LinkedList<>();
 
         // here we close statment the connection must be close in method invoking this method
