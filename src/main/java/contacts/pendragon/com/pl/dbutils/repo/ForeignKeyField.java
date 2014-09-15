@@ -44,6 +44,16 @@ public class ForeignKeyField extends DBField<Integer> {
         }
     }
 
+    public DBModel getForeignKey () throws DBModelException{
+        try {
+            return this.foreignKey.get();
+        } catch (IllegalAccessException e){
+            throw new DBModelException(e);
+        } catch (SQLException e){
+            throw  new DBModelException(e);
+        }
+    }
+
 //    private DBModel foreignModel;
 //
 //    public ForeignKeyField(DBModel model){

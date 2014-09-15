@@ -72,9 +72,11 @@ public class Address extends DBModel{
     public Address (String[] values)
             throws ValueToLongException, IllegalAccessException
     {
-        this(values[1], values[2], values[3], values[4],values[5], values[6], values[7]);
+        this(values[2], values[3], values[4], values[5],values[6], values[7], values[8]);
+        //setting pk
+        this.address_id.setValue(Integer.parseInt(values[0]));
         //setting fk
-        this.person_id.setValue(values[0]);
+        this.person_id.setValue(values[1]);
         setFields();
     }
 }

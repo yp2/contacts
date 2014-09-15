@@ -153,8 +153,11 @@ public abstract class SQLDict {
             "AND LOWER(%s)=LOWER(?) ";
     public String selectWhereLast =
             "AND LOWER(%s)=LOWER(?)";
-    public String selectWherePKFirst =
+    public String selectWhereIntFirst =
             "%s=?";
-    public String selectWherePKLast =
+    public String selectWhereInt =
+            "AND %s=? ";
+    public String selectWhereIntLast =
             "AND %s=?";
+
 }

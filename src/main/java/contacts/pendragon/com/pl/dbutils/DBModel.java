@@ -9,12 +9,10 @@ import contacts.pendragon.com.pl.dbutils.repo.ValueToLongException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Type;
 import java.sql.*;
 import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by daniel on 08.09.14.
@@ -166,27 +164,45 @@ public abstract class DBModel {
         Integer pkValue = pkField.getValue();
 
         List<Field> fields = this.getNotNullFields(modelFields);
+        List<DBField> dbFields = this.getDBFields(fields);
         int listSize = fields.size() - 1;
+
         for (int i = 0; i <= listSize; i = i +1){
             if (i == 0){
-                sqlWhere.append(String.format(sqlDict.selectWhereFirst,
-                        fields.get(i).getName().toUpperCase()));
+                if (dbFields.get(i).getClass() == ForeignKeyField.class){
+                    sqlWhere.append(String.format(sqlDict.selectWhereIntFirst,
+                            fields.get(i).getName().toUpperCase()));
+                } else {
+                    sqlWhere.append(String.format(sqlDict.selectWhereFirst,
+                            fields.get(i).getName().toUpperCase()));
+                }
             } else if (i == listSize) {
-                sqlWhere.append(String.format(sqlDict.selectWhereLast,
-                        fields.get(i).getName().toUpperCase()));
+                if (dbFields.get(i).getClass() == ForeignKeyField.class){
+                    sqlWhere.append(String.format(sqlDict.selectWhereIntLast,
+                            fields.get(i).getName().toUpperCase()));
+                } else {
+                    sqlWhere.append(String.format(sqlDict.selectWhereLast,
+                            fields.get(i).getName().toUpperCase()));
+                }
             } else {
-                sqlWhere.append(String.format(sqlDict.selectWhere,
-                        fields.get(i).getName().toUpperCase()));
+                if (dbFields.get(i).getClass() == ForeignKeyField.class){
+                    sqlWhere.append(String.format(sqlDict.selectWhereInt,
+                            fields.get(i).getName().toUpperCase()));
+                } else {
+                    sqlWhere.append(String.format(sqlDict.selectWhere,
+                            fields.get(i).getName().toUpperCase()));
+                }
             }
         }
 
         if (pkValue != null) {
+            listSize = listSize+1;
             // primary key is set - we add it to sqlWhere
             if (listSize == 0) {
-                sqlWhere.append(String.format(sqlDict.selectWherePKFirst,
+                sqlWhere.append(String.format(sqlDict.selectWhereIntFirst,
                         this.pkFieldName.toUpperCase()));
             } else {
-                sqlWhere.append(String.format(sqlDict.selectWherePKLast,
+                sqlWhere.append(String.format(sqlDict.selectWhereIntLast,
                         this.pkFieldName.toUpperCase()));
             }
         }
@@ -236,12 +252,19 @@ public abstract class DBModel {
 
             int listSize = dbFields.size();
             for (int i = 0; i < listSize; i = i+1){
-                stmt.setString((i+1), (String) dbFields.get(i).getValue());
+                try{ // dirty solution; better checkig the filed type
+                    stmt.setString((i+1), (String) dbFields.get(i).getValue());
+                } catch (ClassCastException e) {
+                    // we have integer field
+                    stmt.setInt((i+1), (Integer) dbFields.get(i).getValue());
+                }
             }
+
             // settin value for pk - this will by always last position
             if (pkField.getValue() != null){
                 stmt.setInt((listSize+1), pkField.getValue());
             }
+
             try{
                 Constructor ctor = modelClass.getConstructor(String[].class);
                 try(ResultSet rs = stmt.executeQuery()){
@@ -281,7 +304,7 @@ public abstract class DBModel {
             for (int i=0; i < dbFields.size(); i = i + 1){
                 // fk must be int type
                 if (dbFields.get(i).getClass() == ForeignKeyField.class){
-                    stmt.setInt((i+1), (Integer) dbFields.get(i).getValue());
+                    stmt.setInt((i + 1), (Integer) dbFields.get(i).getValue());
                 } else {
                     stmt.setString((i+1), (String) dbFields.get(i).getValue());
                 }
@@ -389,52 +412,4 @@ public abstract class DBModel {
         return result;
     }
 
-
-
-//    public void getSQLInsertStatment() throws ClassNotFoundException, IllegalAccessException {
-//
-//        List<Field> fields = this.getFields();
-//        StringBuilder sql = new StringBuilder(this.insert);
-//        StringBuilder sqlColumns = new StringBuilder();
-//        StringBuilder sqlValues = new StringBuilder();
-//
-//        sql.append(this.model);
-//        for (Field field : fields){
-//           DBField f = (DBField) field.get(this); //casting important this object to get value
-//           if (f.getValue() != null) {
-//               sqlColumns.append(field.getName());
-//               sqlColumns.append(",");
-//               sqlValues.append("?,");
-//           }
-//        }
-//
-//        sql.append("(");
-//        sql.append(sqlColumns);
-//        sql.append(")");
-//        sql.append(" VALUES ");
-//        sql.append("(");
-//        sql.append(sqlValues);
-//        sql.append(")");
-//        System.out.println(sql.toString());
-//
-//
-//    }
-
-//    public void insertToDB() throws SQLException {
-//        DBFactory factory = new DBFactory();
-//
-//        try (Connection conn = factory.getDBConnection()) {
-//
-//        }
-//    }
-//    private List<Field> getNotNullFields() throws IllegalAccessException{
-//        List<Field> fields = this.getFields();
-//        for(int i = 0; i< fields.size(); i=i+1){
-//            DBField dbField = (DBField) fields.get(i).get(this);
-//            if (dbField.getValue() == null){
-//                fields.remove(i);
-//            }
-//        }
-//        return fields;
-//    }
 }
