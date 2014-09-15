@@ -306,7 +306,12 @@ public abstract class DBModel {
         try(PreparedStatement stmt = dbConn.prepareStatement(sql)){
             int listSize = dbFields.size();
             for (int i = 0; i < listSize; i = i + 1){
-                stmt.setString((i+1), (String) dbFields.get(i).getValue());
+                // fk must be int type
+                if (dbFields.get(i).getClass() == ForeignKeyField.class){
+                    stmt.setInt((i+1), (Integer) dbFields.get(i).getValue());
+                } else {
+                    stmt.setString((i+1), (String) dbFields.get(i).getValue());
+                }
             }
             // setting where clause to pkField value - primary key
             stmt.setInt((listSize+1), pkField.getValue());
