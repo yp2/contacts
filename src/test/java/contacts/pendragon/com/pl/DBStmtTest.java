@@ -285,7 +285,9 @@ public class DBStmtTest {
 
     @Test
     public void insertPersonPG()
-            throws SQLException, IllegalAccessException, ValueToLongException{
+            throws SQLException, IllegalAccessException,
+            ValueToLongException, DBModelException
+    {
         int firstRecordId;
         int secondRecordId;
 
@@ -313,7 +315,9 @@ public class DBStmtTest {
 
     @Test
     public void insertPersonSL()
-            throws SQLException, IllegalAccessException, ValueToLongException{
+            throws SQLException, IllegalAccessException,
+            ValueToLongException, DBModelException
+    {
         int firstRecordId;
         int secondRecordId;
 

@@ -41,7 +41,7 @@ public abstract class DBModel {
         modelFields = getFields();
     }
 
-    public Integer getId(){
+    public Integer getId() throws DBModelException{
         return this.pkField.getValue();
     }
     // this is not needed method
@@ -70,7 +70,8 @@ public abstract class DBModel {
         return modelFields;
     }
 
-    private List<Field> getNotNullFields(List<Field> modelFields) throws IllegalAccessException{
+    private List<Field> getNotNullFields(List<Field> modelFields)
+            throws IllegalAccessException, DBModelException{
         List<Field> fields = new LinkedList<>();
         for (Field mf: modelFields){
             DBField dbField = (DBField) mf.get(this);
@@ -92,7 +93,9 @@ public abstract class DBModel {
         return dbFields;
     }
 
-    private String getInsertStatmant() throws IllegalAccessException{
+    private String getInsertStatmant()
+            throws IllegalAccessException, DBModelException
+    {
         SQLDict sqlDict = sqlDictFactory.getSQLDict();
         String baseSqlStatment = sqlDict.insertStatment;
         String sql;
@@ -122,7 +125,9 @@ public abstract class DBModel {
 //        Class cl = this.getClass();
 //    }
 
-    private String getUpdateStatment() throws  IllegalAccessException{
+    private String getUpdateStatment()
+            throws  IllegalAccessException, DBModelException
+    {
         SQLDict sqlDict = sqlDictFactory.getSQLDict();
         String baseSqlStatment = sqlDict.updateStatment;
         String sql;
@@ -151,7 +156,7 @@ public abstract class DBModel {
     }
 
     private String getSelectSimpleStatment(String [] order_by, String sort_type)
-            throws IllegalAccessException
+            throws IllegalAccessException, DBModelException
     {
         SQLDict sqlDict = sqlDictFactory.getSQLDict();
         String baseSqlStatment;
@@ -264,7 +269,9 @@ public abstract class DBModel {
     }
 
 
-    private void runInsert(Connection dbConn) throws IllegalAccessException, SQLException{
+    private void runInsert(Connection dbConn)
+            throws IllegalAccessException, SQLException, DBModelException
+    {
         String sql = this.getInsertStatmant();
         List<Field> fields = this.getNotNullFields(this.modelFields);
         List<DBField> dbFields = this.getDBFields(fields);
@@ -284,7 +291,8 @@ public abstract class DBModel {
         }
     }
 
-    private void runUpdate(Connection dbConn) throws IllegalAccessException, SQLException{
+    private void runUpdate(Connection dbConn)
+            throws IllegalAccessException, SQLException, DBModelException{
         String sql = this.getUpdateStatment();
         List<Field> fields = this.getNotNullFields(this.modelFields);
         List<DBField> dbFields = this.getDBFields(fields);
@@ -302,8 +310,9 @@ public abstract class DBModel {
         }
     }
 
-    public void save() throws SQLException, IllegalAccessException{
-
+    public void save()
+            throws SQLException, IllegalAccessException, DBModelException
+    {
         try(Connection conn = dbFactory.getDBConnection()){
             if (pkField.getValue() == null){
                 // primary key not set = Insert new object to db

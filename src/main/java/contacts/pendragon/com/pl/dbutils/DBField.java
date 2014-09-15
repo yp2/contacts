@@ -1,5 +1,6 @@
 package contacts.pendragon.com.pl.dbutils;
 
+import contacts.pendragon.com.pl.dbutils.repo.DBModelException;
 import contacts.pendragon.com.pl.dbutils.repo.ValueToLongException;
 
 /**
@@ -19,7 +20,7 @@ public abstract class DBField<T> {
         this.value = value;
     }
 
-    public DBField(T value, int size){
+    public DBField(T value, Integer size){
         this.size = size;
         this.value = value;
     }
@@ -32,7 +33,7 @@ public abstract class DBField<T> {
         return this.size;
     }
 
-    public T getValue(){
+    public T getValue() throws DBModelException{
         return value;
     }
 
