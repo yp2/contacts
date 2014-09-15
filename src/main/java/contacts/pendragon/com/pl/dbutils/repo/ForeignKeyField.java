@@ -37,20 +37,16 @@ public class ForeignKeyField extends DBField<Integer> {
     public Integer getValue() throws DBModelException{
         try {
             return this.foreignKey.get().getPkField();
-        } catch (IllegalAccessException e){
+        } catch (IllegalAccessException | SQLException e){
             throw new DBModelException(e);
-        } catch (SQLException e){
-            throw  new DBModelException(e);
         }
     }
 
-    public DBModel getForeignKey () throws DBModelException{
+    public DBModel getForeignModel () throws DBModelException{
         try {
             return this.foreignKey.get();
-        } catch (IllegalAccessException e){
+        } catch (IllegalAccessException | SQLException e){
             throw new DBModelException(e);
-        } catch (SQLException e){
-            throw  new DBModelException(e);
         }
     }
 }

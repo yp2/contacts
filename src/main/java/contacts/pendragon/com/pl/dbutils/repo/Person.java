@@ -1,9 +1,6 @@
 package contacts.pendragon.com.pl.dbutils.repo;
 
-import contacts.pendragon.com.pl.dbutils.DBField;
 import contacts.pendragon.com.pl.dbutils.DBModel;
-import java.lang.reflect.*;
-import java.util.*;
 
 
 /**
@@ -11,7 +8,7 @@ import java.util.*;
  */
 public class Person extends DBModel {
 
-//    private static String table = "person";
+    //    private static String table = "person";
     public PrimaryKeyField person_id = new PrimaryKeyField(null);
     public CharField name = new CharField(null, 255);
     public CharField surname = new CharField(null, 255);
@@ -20,7 +17,7 @@ public class Person extends DBModel {
 
     public Person() throws ValueToLongException, IllegalAccessException {
         super();
-        setFields(); //each model construct have to end with this methode !!!
+        setFields(); //each model construct have to end with this method !!!
     }
 
     public Person(String name, String surname,
@@ -47,8 +44,7 @@ public class Person extends DBModel {
 //        setFields();
 //    }
 
-    public Person(String[] values) throws ValueToLongException, IllegalAccessException
-    {
+    public Person(String[] values) throws ValueToLongException, IllegalAccessException {
         super();
         this.person_id.setValue(Integer.parseInt(values[0]));
         this.name.setValue(values[1]);

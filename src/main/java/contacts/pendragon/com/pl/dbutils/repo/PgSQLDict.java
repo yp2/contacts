@@ -7,7 +7,7 @@ import contacts.pendragon.com.pl.dbutils.SQLDict;
  */
 public class PgSQLDict extends SQLDict {
 
-    private static SQLDict instnace = new PgSQLDict();
+    private static SQLDict instance = new PgSQLDict();
 
     private PgSQLDict() {
         this.createTablePerson =
@@ -37,14 +37,14 @@ public class PgSQLDict extends SQLDict {
                         "TYPE VARCHAR(3) NOT NULL," +
                         "NUMBER VARCHAR(30) NOT NULL)";
 
-        this.createTabelEmail =
+        this.createTableEmail =
                 "CREATE TABLE EMAIL (" +
                         "EMAIL_ID SERIAL PRIMARY KEY," +
                         "PERSON_ID INTEGER REFERENCES PERSON," +
                         "TYPE VARCHAR(3) NOT NULL," +
                         "EMAIL VARCHAR(255) NOT NULL)";
 
-        this.dropTableAddres =
+        this.dropTableAddress =
                 "DROP TABLE ADDRESS CASCADE";
 
         this.dropTablePhone =
@@ -58,6 +58,6 @@ public class PgSQLDict extends SQLDict {
     }
 
     public static SQLDict getInstance() {
-        return instnace;
+        return instance;
     }
 }

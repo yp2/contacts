@@ -2,6 +2,7 @@ package contacts.pendragon.com.pl;
 
 /**
  * Created by daniel on 10.09.14.
+ *
  */
 
 import contacts.pendragon.com.pl.dbutils.DBModel;
@@ -200,8 +201,12 @@ public class DBStmtTest extends DBTestHelper {
         Address qa1 = new Address();
         qa1.person_id.setValue(2);
         qa1 = (Address) qa1.get();
-        System.out.println(qa1.street.getValue());
-        System.out.println(qa1.house_no.getValue());
+
+        assertEquals(qa1.street.getValue(), a2.street.getValue());
+        assertEquals(qa1.person_id.getValue(), a2.person_id.getValue());
+
+        Person pa1 = (Person) qa1.person_id.getForeignModel();
+        assertEquals(pa1.surname.getValue(), p2.surname.getValue());
 
 
     }

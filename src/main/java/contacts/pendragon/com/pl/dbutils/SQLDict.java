@@ -63,13 +63,13 @@ public abstract class SQLDict {
             "START WITH 1 " +
             "NO CYCLE";
 
-    public String createTabelEmail =
+    public String createTableEmail =
             "CREATE TABLE EMAIL (" +
             "EMAIL_ID NUMERIC(6) NOT NULL," +
             "PERSON_ID NUMERIC(6) NOT NULL," +
             "TYPE VARCHAR (3) NOT NULL" +
             "EMAIL VARCHAR(255) NOT NULL," +
-            "CONSTRAINT EMIAL_ID_PK PRIMARY KEY (EMAIL_ID)," +
+            "CONSTRAINT EMAIL_ID_PK PRIMARY KEY (EMAIL_ID)," +
             "CONSTRAINT PERSON_ID_FK FOREIGN KEY (PERSON_ID) " +
             "REFERENCES PERSON(PERSON_ID))";
 
@@ -81,7 +81,7 @@ public abstract class SQLDict {
             "START WITH 1 " +
             "NO CYCLE";
 
-    public String  dropTableAddres =
+    public String dropTableAddress =
             "DROP TABLE ADDRESS";
 
     public String  dropTablePhone =
@@ -105,7 +105,7 @@ public abstract class SQLDict {
     public String dropSeqPerson =
             "DROP SEQUENCE PERSON_SEQ";
 
-    public String insertStatment =
+    public String insertStatement =
             "INSERT INTO %s (%s) VALUES (%s);";
 
     public String column =
@@ -119,7 +119,7 @@ public abstract class SQLDict {
     public String valueLast =
             "?";
 
-    public String updateStatment =
+    public String updateStatement =
             "UPDATE %s SET %s WHERE %s;";
 
     public String columnSet =
@@ -134,10 +134,10 @@ public abstract class SQLDict {
     public String whereLast =
             "%s=?";
 
-    public String selectSimpleStatment =
+    public String selectSimpleStatement =
             "SELECT * FROM %s WHERE %s;";
 
-    public String selectSimpleStatmentOrdered =
+    public String selectSimpleStatementOrdered =
             "SELECT * FROM %s WHERE %s ORDER BY %s;";
 
     public String sortASC =

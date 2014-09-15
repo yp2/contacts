@@ -38,7 +38,7 @@ public class SLiteSQLDict extends SQLDict {
                         "NUMBER TEXT NOT NULL," +
                         "FOREIGN KEY (PERSON_ID) REFERENCES PERSON(PERSON_ID))";
 
-        this.createTabelEmail =
+        this.createTableEmail =
                 "CREATE TABLE EMAIL (" +
                         "EMAIL_ID INTEGER PRIMARY KEY," +
                         "PERSON_ID INTEGER," +
@@ -46,7 +46,7 @@ public class SLiteSQLDict extends SQLDict {
                         "EMAIL TEXT NOT NULL," +
                         "FOREIGN KEY (PERSON_ID) REFERENCES PERSON(PERSON_ID))";
 
-        this.dropTableAddres =
+        this.dropTableAddress =
                 "DROP TABLE ADDRESS";
 
         this.dropTablePhone =

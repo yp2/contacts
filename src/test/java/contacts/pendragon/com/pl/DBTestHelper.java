@@ -36,12 +36,12 @@ public class DBTestHelper {
         stat.executeUpdate(sqlDict.createTablePerson);
         stat.executeUpdate(sqlDict.createTableAddress);
         stat.executeUpdate(sqlDict.createTablePhone);
-        stat.executeUpdate(sqlDict.createTabelEmail);
+        stat.executeUpdate(sqlDict.createTableEmail);
     }
 
     public void dropDB(Connection conn, SQLDict sqlDict) throws SQLException {
         Statement stat = conn.createStatement();
-        stat.executeUpdate(sqlDict.dropTableAddres);
+        stat.executeUpdate(sqlDict.dropTableAddress);
         stat.executeUpdate(sqlDict.dropTablePhone);
         stat.executeUpdate(sqlDict.dropTableEmail);
         stat.executeUpdate(sqlDict.dropTablePerson);
