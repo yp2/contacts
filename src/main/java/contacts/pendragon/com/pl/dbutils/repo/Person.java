@@ -34,17 +34,18 @@ public class Person extends DBModel {
         setFields();
     }
 
-    public Person (Integer person_id, String name, String surname,
-                   String com_name, String description) throws IllegalAccessException,
-            ValueToLongException {
-        super();
-        this.person_id.setValue(person_id);
-        this.name.setValue(name);
-        this.surname.setValue(surname);
-        this.com_name.setValue(com_name);
-        this.description.setValue(description);
-        setFields();
-    }
+// Constructor not used
+//    public Person (Integer person_id, String name, String surname,
+//                   String com_name, String description) throws IllegalAccessException,
+//            ValueToLongException {
+//        super();
+//        this.person_id.setValue(person_id);
+//        this.name.setValue(name);
+//        this.surname.setValue(surname);
+//        this.com_name.setValue(com_name);
+//        this.description.setValue(description);
+//        setFields();
+//    }
 
     public Person(String[] values) throws ValueToLongException, IllegalAccessException
     {

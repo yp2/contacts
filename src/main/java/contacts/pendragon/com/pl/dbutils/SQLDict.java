@@ -24,9 +24,9 @@ public abstract class SQLDict {
 
     public String createTableAddress =
             "CREATE TABLE ADDRESS (" +
-            "TYPE VARCHAR(3) NOT NULL," +
             "ADDRESS_ID NUMERIC(6) NOT NULL," +
             "PERSON_ID NUMERIC(6) NOT NULL," +
+            "TYPE VARCHAR(3) NOT NULL," +
             "STREET VARCHAR(255)," +
             "HOUSE_NO VARCHAR(20)," +
             "FLAT_NO VARCHAR(20)," +
@@ -47,9 +47,9 @@ public abstract class SQLDict {
 
     public String createTablePhone =
             "CREATE TABLE PHONE (" +
-            "TYPE VARCHAR (3) NOT NULL," +
             "PHONE_ID NUMERIC(6) NOT NULL," +
             "PERSON_ID NUMERIC(6) NOT NULL," +
+            "TYPE VARCHAR (3) NOT NULL," +
             "NUMBER VARCHAR(30) NOT NULL," +
             "CONSTRAINT PHONE_ID_PK PRIMARY KEY(PHONE_ID)," +
             "CONSTRAINT PERSON_ID_FK FOREIGN KEY (PERSON_ID)" +
@@ -65,9 +65,9 @@ public abstract class SQLDict {
 
     public String createTabelEmail =
             "CREATE TABLE EMAIL (" +
-            "TYPE VARCHAR (3) NOT NULL" +
             "EMAIL_ID NUMERIC(6) NOT NULL," +
             "PERSON_ID NUMERIC(6) NOT NULL," +
+            "TYPE VARCHAR (3) NOT NULL" +
             "EMAIL VARCHAR(255) NOT NULL," +
             "CONSTRAINT EMIAL_ID_PK PRIMARY KEY (EMAIL_ID)," +
             "CONSTRAINT PERSON_ID_FK FOREIGN KEY (PERSON_ID) " +
