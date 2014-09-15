@@ -120,10 +120,6 @@ public abstract class DBModel {
         return sql;
     }
 
-//    private String getPKFieldName(){
-//        Class cl = this.getClass();
-//    }
-
     private String getUpdateStatement()
             throws IllegalAccessException, DBModelException {
         SQLDict sqlDict = sqlDictFactory.getSQLDict();
@@ -289,7 +285,6 @@ public abstract class DBModel {
         }
         return querySet;
     }
-
 
     private void runInsert(Connection dbConn)
             throws IllegalAccessException, SQLException, DBModelException {
