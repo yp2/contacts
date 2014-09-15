@@ -53,29 +53,4 @@ public class ForeignKeyField extends DBField<Integer> {
             throw  new DBModelException(e);
         }
     }
-
-//    private DBModel foreignModel;
-//
-//    public ForeignKeyField(DBModel model){
-//        super();
-//        foreignModel = model;
-//    }
-//
-//    public ForeignKeyField(DBModel model, Integer value){
-//        super();
-//        foreignModel = model;
-//        this.setValue(value);
-//    }
-//
-//    public ForeignKeyField(DBModel model, String value){
-//        super();
-//        foreignModel = model;
-//        this.setValue(value);
-//    }
-//
-
-//    @Override
-//    public DBModel getValue(){
-//        return foreignModel.get();
-//    }
 }
