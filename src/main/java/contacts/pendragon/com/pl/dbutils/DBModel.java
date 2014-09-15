@@ -3,6 +3,7 @@ package contacts.pendragon.com.pl.dbutils;
 import contacts.pendragon.com.pl.dbutils.factory.DBFactory;
 import contacts.pendragon.com.pl.dbutils.factory.SQLDictFactory;
 import contacts.pendragon.com.pl.dbutils.repo.DBModelException;
+import contacts.pendragon.com.pl.dbutils.repo.ForeignKeyField;
 import contacts.pendragon.com.pl.dbutils.repo.PrimaryKeyField;
 import contacts.pendragon.com.pl.dbutils.repo.ValueToLongException;
 
@@ -41,13 +42,12 @@ public abstract class DBModel {
         modelFields = getFields();
     }
 
-    public Integer getId() throws DBModelException{
-        return this.pkField.getValue();
-    }
     // this is not needed method
     public void setPkField(Integer id) throws ValueToLongException{
         this.pkField.setValue(id);
     }
+
+    public Integer getPkField() throws DBModelException { return this.pkField.getValue();}
 
     private List<Field> getFields () throws IllegalAccessException{
         Class cl = this.getClass();
@@ -279,7 +279,12 @@ public abstract class DBModel {
         // here we close statment the connection must be close in method invoking this method
         try(PreparedStatement stmt = dbConn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             for (int i=0; i < dbFields.size(); i = i + 1){
-                stmt.setString((i+1), (String) dbFields.get(i).getValue());
+                // fk must be int type
+                if (dbFields.get(i).getClass() == ForeignKeyField.class){
+                    stmt.setInt((i+1), (Integer) dbFields.get(i).getValue());
+                } else {
+                    stmt.setString((i+1), (String) dbFields.get(i).getValue());
+                }
             }
             stmt.executeUpdate();
             ResultSet rsId = stmt.getGeneratedKeys();

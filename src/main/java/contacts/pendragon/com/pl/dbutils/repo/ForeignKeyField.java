@@ -8,27 +8,35 @@ import java.sql.SQLException;
 /**
  * Created by daniel on 15.09.14.
  */
-public class ForeignKeyField extends DBField<DBModel> {
+public class ForeignKeyField extends DBField<Integer> {
 
-    public ForeignKeyField(DBModel value){
-        super(value, null);
-    }
+    //przerobic całe pole getValue musi zwracać string dla kompatyblinosci
+    DBModel foreignKey;
+
+    public ForeignKeyField(DBModel model){
+        super();
+        foreignKey = model;
+        }
 
     public void setValue(Integer value){
         try {
-            this.value.setPkField(value); // this will not hapend
+            this.foreignKey.setPkField(value); // this will not hapend
         } catch (ValueToLongException e){}
     }
 
     public void setValue(String value){
         try{
-            this.value.setPkField(Integer.parseInt(value));
+            this.foreignKey.setPkField(Integer.parseInt(value));
         } catch (ValueToLongException e) {}
     }
 
-    public DBModel getValue() throws DBModelException{
+    public void setValue(DBModel model) {
+        this.foreignKey = model;
+    }
+
+    public Integer getValue() throws DBModelException{
         try {
-            return this.value.get();
+            return this.foreignKey.get().getPkField();
         } catch (IllegalAccessException e){
             throw new DBModelException(e);
         } catch (SQLException e){
