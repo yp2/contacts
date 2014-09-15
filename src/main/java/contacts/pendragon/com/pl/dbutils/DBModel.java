@@ -222,8 +222,8 @@ public abstract class DBModel {
         String sql = this.getSelectSimpleStatment(order_by, sort_type);
         List<Field> fields = this.getNotNullFields(this.modelFields);
         List<DBField> dbFields = this.getDBFields(fields);
-        Class<?> modelClass = this.getClass();
-        Constructor<?> [] ctorArray = modelClass.getConstructors();
+        Class modelClass = this.getClass();
+        Constructor [] ctorArray = modelClass.getConstructors();
         List<DBModel> querySet = new LinkedList<>();
 
         // here we close statment the connection must be close in method invoking this method
