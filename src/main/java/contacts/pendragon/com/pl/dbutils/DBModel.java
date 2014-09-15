@@ -271,7 +271,7 @@ public abstract class DBModel {
                         try {
 
                             for (int i = 0; i < columnCount; i++) {
-                                if (rs.getString(i + 1).equals("null")) {
+                                if (rs.getString(i + 1) == "null") {
                                     values[i] = null;
                                 } else {
                                     values[i] = rs.getString(i + 1);
