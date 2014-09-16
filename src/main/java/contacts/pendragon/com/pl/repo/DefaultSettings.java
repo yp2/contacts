@@ -37,9 +37,9 @@ public class DefaultSettings {
          */
         this.defaultProp.setProperty("jdbc.drivers", "org.postgresql.Driver:org.sqlite.JDBC");
         this.defaultProp.setProperty("db.type", AppDict.postgresql);
-        this.defaultProp.setProperty("jdbc.url", "jdbc:postgresql:dbname");
-        this.defaultProp.setProperty("jdbc.username", "username");
-        this.defaultProp.setProperty("jdbc.password", "password");
+        this.defaultProp.setProperty("jdbc.url", "jdbc:postgresql:contacts");
+        this.defaultProp.setProperty("jdbc.username", "javalab");
+        this.defaultProp.setProperty("jdbc.password", "java");
     }
 
     public Properties getDefaultProp(){

@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by daniel on 08.09.14.
  */
-public abstract class DBModel {
+public abstract class DBModel implements Comparable<DBModel> {
     //    public abstract String getSQLInsertStatement();
 
     private String model;
@@ -258,8 +258,6 @@ public abstract class DBModel {
                 stmt.setInt((listSize + 1), pkField.getValue());
             }
 
-            System.out.println(stmt.toString());
-
             try {
                 Constructor ctor = modelClass.getConstructor(String[].class);
                 try (ResultSet rs = stmt.executeQuery()) {
@@ -398,6 +396,29 @@ public abstract class DBModel {
             throw new DBModelException("Query return multiple result");
         }
         return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        DBModel second = (DBModel) obj;
+        boolean value = false;
+        try {
+            if (this.getPkField() == second.getPkField()) {
+                value = true;
+            }
+        } catch (DBModelException e) {}
+        return value;
+    }
+
+    @Override
+    public int compareTo(DBModel o) {
+        int value = 0;
+        try {
+            value = Integer.compare(this.getPkField(), o.getPkField());
+        } catch (DBModelException e) {
+            e.printStackTrace();
+        }
+        return value;
     }
 
 }

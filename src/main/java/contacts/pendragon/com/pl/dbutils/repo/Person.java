@@ -54,5 +54,30 @@ public class Person extends DBModel {
         setFields();
     }
 
+    @Override
+    public String toString() {
+        String value = "";
+        try {
+            value = this.name.getValue() + " " + this.surname.getValue();
+        } catch (DBModelException e) {
+            e.printStackTrace();
+        }
+        return value;
+    }
 
+    @Override
+    public int compareTo(DBModel o) {
+        Person second = (Person) o;
+        String f = "";
+        String s = "";
+        try {
+            // this strange construction is for TreeSet and comparable iface
+            f = this.toString() + " " + this.getPkField().toString();
+            s =  second.toString() + " " + second.getPkField().toString();
+        } catch (DBModelException e) {
+            e.printStackTrace();
+        }
+        int value = f.compareTo(s);
+        return value;
+    }
 }

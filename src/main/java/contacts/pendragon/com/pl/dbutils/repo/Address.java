@@ -79,4 +79,12 @@ public class Address extends DBModel{
         this.person_id.setValue(values[1]);
         setFields();
     }
+
+    @Override
+    public String toString() {
+        // todo: !!!!
+        return super.toString();
+    }
+
+
 }

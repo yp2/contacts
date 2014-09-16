@@ -1,6 +1,11 @@
 package contacts.pendragon.com.pl;
 
 
+import contacts.pendragon.com.pl.gui.MainWindow;
+
+import javax.swing.*;
+import java.awt.*;
+
 
 /**
  * Hello world!
@@ -9,6 +14,18 @@ package contacts.pendragon.com.pl;
  */
 public class App {
     public static void main(String[] args) {
+
+
+        EventQueue.invokeLater( new Runnable() {
+            @Override
+            public void run() {
+                JFrame frame = new JFrame("MainWindow");
+                frame.setContentPane(new MainWindow().$$$getRootComponent$$$());
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.pack();
+                frame.setVisible(true);
+            }
+        });
 
     }
     }
