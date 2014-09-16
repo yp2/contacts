@@ -148,11 +148,11 @@ public abstract class SQLDict {
 
     //TODO: zamiast = dać like?
     public String selectWhereFirst =
-            "LOWER(%s)=LOWER(?) ";
+            "LOWER(%s) LIKE LOWER(?) ";
     public String selectWhere =
-            "AND LOWER(%s)=LOWER(?) ";
+            "AND LOWER(%s) LIKE LOWER(?) ";
     public String selectWhereLast =
-            "AND LOWER(%s)=LOWER(?)";
+            "AND LOWER(%s) LIKE LOWER(?)";
     public String selectWhereIntFirst =
             "%s=?";
     public String selectWhereInt =

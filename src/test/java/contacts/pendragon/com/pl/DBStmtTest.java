@@ -43,7 +43,7 @@ public class DBStmtTest extends DBTestHelper {
 
         // update
         p1.name.setValue("Jacek");
-        p2.surname.setValue("Kowal");
+        p2.surname.setValue("Nowakowski");
         p3.description.setValue("opis po update");
 
         p1.save();
@@ -59,12 +59,12 @@ public class DBStmtTest extends DBTestHelper {
         assertEquals(pq1.name.getValue(), "Jacek");
 
         Person pq2 = new Person();
-        pq2.surname.setValue("kowal");
+        pq2.surname.setValue("nowakowski");
         List<DBModel> qs2 = pq2.simpleQuery();
         assertEquals(qs2.size(), 1);
         pq2 = (Person) qs2.get(0);
         assertEquals(pq2.name.getValue(), "Andrzej");
-        assertEquals(pq2.surname.getValue(), "Kowal");
+        assertEquals(pq2.surname.getValue(), "Nowakowski");
 
         Person pq3 = new Person();
         pq3.description.setValue("opis po update");
@@ -95,7 +95,7 @@ public class DBStmtTest extends DBTestHelper {
 
         // update
         p1.name.setValue("Jacek");
-        p2.surname.setValue("Kowal");
+        p2.surname.setValue("Nowakowski");
         p3.description.setValue("opis po update");
 
         p1.save();
@@ -111,12 +111,12 @@ public class DBStmtTest extends DBTestHelper {
         assertEquals(pq1.name.getValue(), "Jacek");
 
         Person pq2 = new Person();
-        pq2.surname.setValue("kowal");
+        pq2.surname.setValue("nowakowski");
         List<DBModel> qs2 = pq2.simpleQuery();
         assertEquals(qs2.size(), 1);
         pq2 = (Person) qs2.get(0);
         assertEquals(pq2.name.getValue(), "Andrzej");
-        assertEquals(pq2.surname.getValue(), "Kowal");
+        assertEquals(pq2.surname.getValue(), "Nowakowski");
 
         Person pq3 = new Person();
         pq3.description.setValue("opis po update");

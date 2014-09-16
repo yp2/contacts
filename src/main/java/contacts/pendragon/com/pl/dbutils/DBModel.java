@@ -246,7 +246,7 @@ public abstract class DBModel {
             int listSize = dbFields.size();
             for (int i = 0; i < listSize; i = i + 1) {
                 try { // dirty solution; better checking the filed type
-                    stmt.setString((i + 1), (String) dbFields.get(i).getValue());
+                    stmt.setString((i + 1), "%" + (String) dbFields.get(i).getValue() + "%");
                 } catch (ClassCastException e) {
                     // we have integer field
                     stmt.setInt((i + 1), (Integer) dbFields.get(i).getValue());
@@ -257,6 +257,8 @@ public abstract class DBModel {
             if (pkField.getValue() != null) {
                 stmt.setInt((listSize + 1), pkField.getValue());
             }
+
+            System.out.println(stmt.toString());
 
             try {
                 Constructor ctor = modelClass.getConstructor(String[].class);
