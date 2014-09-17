@@ -30,7 +30,6 @@ public class SearchPerson {
         rs.addAll(qsSurname);
         rs.addAll(qsName);
 
-
         return rs;
     }
 }
