@@ -58,7 +58,11 @@ public class Person extends DBModel {
     public String toString() {
         String value = "";
         try {
-            value = this.name.getValue() + " " + this.surname.getValue();
+            if (this.name.getValue() == null && this.surname.getValue() == null){
+                value = this.com_name.getValue();
+            } else {
+                value = this.name.getValue() + " " + this.surname.getValue();
+            }
         } catch (DBModelException e) {
             e.printStackTrace();
         }

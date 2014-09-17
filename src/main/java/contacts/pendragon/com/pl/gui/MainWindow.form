@@ -8,7 +8,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="fbff4" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+      <component id="fbff4" class="javax.swing.JTextField" binding="quickSearchField">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="250" height="-1"/>
@@ -16,7 +16,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="af308" class="javax.swing.JButton" binding="button1" default-binding="true">
+      <component id="af308" class="javax.swing.JButton" binding="quickSearchButton">
         <constraints>
           <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -96,7 +96,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="80f84" class="javax.swing.JList" binding="rsList">
+              <component id="80f84" class="javax.swing.JList" binding="rsList" custom-create="true">
                 <constraints/>
                 <properties>
                   <selectionMode value="0"/>

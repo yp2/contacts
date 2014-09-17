@@ -20,15 +20,19 @@ public class SearchPerson {
 
         Person pSurname = new Person();
         Person pName = new Person();
+        Person pComName = new Person();
 
         pSurname.surname.setValue(value);
         pName.name.setValue(value);
+        pComName.com_name.setValue(value);
         List<DBModel> qsSurname = pSurname.simpleQuery("surname");
         List<DBModel> qsName = pName.simpleQuery("surname");
+        List<DBModel> qsComName = pComName.simpleQuery("com_name");
 
         Set<DBModel> rs = new TreeSet<>();
         rs.addAll(qsSurname);
         rs.addAll(qsName);
+        rs.addAll(qsComName);
 
         return rs;
     }
