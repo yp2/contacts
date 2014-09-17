@@ -275,12 +275,12 @@ public abstract class DBModel implements Comparable<DBModel> {
                             }
                             querySet.add((DBModel) ctor.newInstance(new Object[]{values}));
                         } catch (InvocationTargetException | InstantiationException e) {
-                            throw new DBModelException(e);
+                            throw new DBModelException(e.toString());
                         }
                     }
                 }
             } catch (NoSuchMethodException e) {
-                throw new DBModelException(e);
+                throw new DBModelException(e.toString());
             }
         }
         return querySet;
@@ -393,7 +393,7 @@ public abstract class DBModel implements Comparable<DBModel> {
         if (qs.size() == 1) {
             result = qs.get(0);
         } else {
-            throw new DBModelException("Query return multiple result");
+            throw new DBModelException("Query return multiple result:" + qs.toString());
         }
         return result;
     }

@@ -2,8 +2,8 @@ package contacts.pendragon.com.pl.gui;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
 import contacts.pendragon.com.pl.dbutils.DBModel;
-import contacts.pendragon.com.pl.dbutils.factory.DBFactory;
 import contacts.pendragon.com.pl.dbutils.repo.DBModelException;
 import contacts.pendragon.com.pl.dbutils.repo.ValueToLongException;
 import contacts.pendragon.com.pl.engine.SearchPerson;
@@ -22,10 +22,19 @@ public class MainWindow {
     private JPanel panel1;
     private JTextField textField1;
     private JButton button1;
+    private JLabel statusLabel;
+    protected JButton addButton;
+    protected JButton settingsButton;
+    protected JList rsList;
+    protected JButton editButton;
+    private JFrame frame;
+    protected  Set<DBModel> rs;
 
-    public MainWindow() {
+    public MainWindow(JFrame frame) {
+        this.frame = frame;
         button1.addActionListener(new SearchListener());
         textField1.addActionListener(new SearchListener());
+        editButton.addActionListener(new EditListener());
     }
 
     {
@@ -48,11 +57,36 @@ public class MainWindow {
         textField1 = new JTextField();
         panel1.add(textField1, new GridConstraints(0, 0, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(250, -1), null, 0, false));
         button1 = new JButton();
-        button1.setText("Button");
+        button1.setText("Szukaj");
         panel1.add(button1, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel2.setLayout(new GridLayoutManager(2, 3, new Insets(0, 0, 0, 0), -1, -1));
         panel1.add(panel2, new GridConstraints(1, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        final JPanel panel3 = new JPanel();
+        panel3.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel2.add(panel3, new GridConstraints(1, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        statusLabel = new JLabel();
+        statusLabel.setText("Contacts");
+        panel3.add(statusLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JPanel panel4 = new JPanel();
+        panel4.setLayout(new GridLayoutManager(4, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel2.add(panel4, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        addButton = new JButton();
+        addButton.setText("Dodaj");
+        panel4.add(addButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer1 = new Spacer();
+        panel4.add(spacer1, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        settingsButton = new JButton();
+        settingsButton.setText("Opcje");
+        panel4.add(settingsButton, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        editButton = new JButton();
+        editButton.setText("Edytuj");
+        panel4.add(editButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JScrollPane scrollPane1 = new JScrollPane();
+        panel2.add(scrollPane1, new GridConstraints(0, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        rsList = new JList();
+        rsList.setSelectionMode(0);
+        scrollPane1.setViewportView(rsList);
     }
 
     /**
@@ -66,22 +100,41 @@ public class MainWindow {
         @Override
         public void actionPerformed(ActionEvent e) {
             String value = textField1.getText();
-            Set<DBModel> rs;
+            DefaultListModel listModel = new DefaultListModel();
+
             try {
                 rs = SearchPerson.quickSearch(value);
+                if (rs.size() == 0) {
+                    statusLabel.setText("Brak wyników...");
+                } else {
+                    statusLabel.setText("Znaleziono: " + rs.size() + " rekordy.");
+                    rsList.setListData(rs.toArray());
+                }
                 for (DBModel m : rs) {
+
                     System.out.println(m.toString());
                 }
             } catch (IllegalAccessException e1) {
+                JOptionPane.showMessageDialog(frame, e1.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
                 e1.printStackTrace();
             } catch (ValueToLongException e1) {
+                JOptionPane.showMessageDialog(frame, e1.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
                 e1.printStackTrace();
             } catch (SQLException e1) {
+                JOptionPane.showMessageDialog(frame, e1.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
                 e1.printStackTrace();
             } catch (DBModelException e1) {
+                JOptionPane.showMessageDialog(frame, e1.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
                 e1.printStackTrace();
             }
         }
     }
 
+    private class EditListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int index = rsList.getSelectedIndex();
+            System.out.println(rs.toArray()[index]);
+        }
+    }
 }

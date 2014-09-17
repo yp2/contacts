@@ -38,7 +38,7 @@ public class ForeignKeyField extends DBField<Integer> {
         try {
             return this.foreignKey.get().getPkField();
         } catch (IllegalAccessException | SQLException e){
-            throw new DBModelException(e);
+            throw new DBModelException(e.toString());
         }
     }
 
@@ -46,7 +46,7 @@ public class ForeignKeyField extends DBField<Integer> {
         try {
             return this.foreignKey.get();
         } catch (IllegalAccessException | SQLException e){
-            throw new DBModelException(e);
+            throw new DBModelException(e.toString());
         }
     }
 }

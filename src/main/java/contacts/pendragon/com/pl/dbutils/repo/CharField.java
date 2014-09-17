@@ -19,7 +19,7 @@ public class CharField extends DBField<String>{
 
     public void checkSize() throws ValueToLongException {
         if (this.value != null && this.value.length() > this.size){
-            throw new ValueToLongException(this.value);
+            throw new ValueToLongException("Łańcuch znaków za długi:" + this.value);
         }
     }
 

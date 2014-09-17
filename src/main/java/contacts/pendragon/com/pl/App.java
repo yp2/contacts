@@ -20,7 +20,7 @@ public class App {
             @Override
             public void run() {
                 JFrame frame = new JFrame("MainWindow");
-                frame.setContentPane(new MainWindow().$$$getRootComponent$$$());
+                frame.setContentPane(new MainWindow(frame).$$$getRootComponent$$$());
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);
