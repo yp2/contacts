@@ -98,7 +98,7 @@ public class PersonEdit extends JDialog {
             this.comNameField.setText(sP.com_name.getValue());
             this.descriptionField.setText(sP.description.getValue());
         } catch (DBModelException e) {
-            JOptionPane.showMessageDialog(parent, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
 

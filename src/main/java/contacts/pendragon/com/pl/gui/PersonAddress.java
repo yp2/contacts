@@ -4,14 +4,17 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import contacts.pendragon.com.pl.dbutils.DBModel;
+import contacts.pendragon.com.pl.dbutils.repo.Address;
 import contacts.pendragon.com.pl.dbutils.repo.DBModelException;
 import contacts.pendragon.com.pl.dbutils.repo.Person;
 import contacts.pendragon.com.pl.dbutils.repo.ValueToLongException;
 import contacts.pendragon.com.pl.engine.SearchPersonAddress;
+import contacts.pendragon.com.pl.repo.AppDict;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.StringReader;
 import java.sql.SQLException;
 import java.util.Set;
 
@@ -23,6 +26,7 @@ public class PersonAddress extends JDialog {
     protected JButton editAddressButton;
     protected JButton showAddressButton;
     protected JList rsList;
+    protected JLabel statusLabel;
     protected JFrame parent;
     protected MainWindow mainWindow;
     protected JTextField qsField;
@@ -39,6 +43,10 @@ public class PersonAddress extends JDialog {
         this.mainWindow = mainWindow;
         this.qsField = this.mainWindow.getQuickSearchField();
         this.sPerson = selectedPerson;
+
+        showAddressButton.addActionListener(new ShowAddressListener());
+        editAddressButton.addActionListener(new EditAddressListener());
+        addAddressButton.addActionListener(new AddAddressListener());
 
         this.setRsList();
 
@@ -76,7 +84,11 @@ public class PersonAddress extends JDialog {
         rsList.setModel(dModel);
     }
 
-    private void setRsList() {
+    public void setStatus(String messages) {
+        statusLabel.setText(messages);
+    }
+
+    public void setRsList() {
         try {
             rs = SearchPersonAddress.search(sPerson);
             this.rsList.setListData(rs.toArray());
@@ -93,7 +105,6 @@ public class PersonAddress extends JDialog {
             JOptionPane.showMessageDialog(parent, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
-
     }
 
     /**
@@ -106,7 +117,7 @@ public class PersonAddress extends JDialog {
     private void $$$setupUI$$$() {
         createUIComponents();
         contentPane = new JPanel();
-        contentPane.setLayout(new GridLayoutManager(2, 1, new Insets(10, 10, 10, 10), -1, -1));
+        contentPane.setLayout(new GridLayoutManager(3, 1, new Insets(1, 1, 1, 1), -1, -1));
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
         contentPane.add(panel1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, 1, null, null, null, 0, false));
@@ -136,6 +147,9 @@ public class PersonAddress extends JDialog {
         panel3.add(scrollPane1, new GridConstraints(0, 1, 4, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         rsList.setSelectionMode(0);
         scrollPane1.setViewportView(rsList);
+        statusLabel = new JLabel();
+        statusLabel.setText("");
+        contentPane.add(statusLabel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
     }
 
     /**
@@ -144,4 +158,44 @@ public class PersonAddress extends JDialog {
     public JComponent $$$getRootComponent$$$() {
         return contentPane;
     }
+
+    class ShowAddressListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int index = rsList.getSelectedIndex();
+            if (index < 0) {
+                statusLabel.setText("Wybierz adres do pokazania.");
+            } else {
+                Address selectedAddress = (Address) rs.toArray()[index];
+                SEIAddress showAddress = new SEIAddress(PersonAddress.this, selectedAddress, AppDict.SHOW);
+                showAddress.pack();
+                showAddress.setVisible(true);
+            }
+        }
+    }
+
+    class EditAddressListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int index = rsList.getSelectedIndex();
+            if (index < 0) {
+                statusLabel.setText("Wybierz adres do pokazania.");
+            } else {
+                Address selectedAddress = (Address) rs.toArray()[index];
+                SEIAddress showAddress = new SEIAddress(PersonAddress.this, selectedAddress, AppDict.EDIT);
+                showAddress.pack();
+                showAddress.setVisible(true);
+            }
+        }
+    }
+
+    class AddAddressListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
+
 }
+
