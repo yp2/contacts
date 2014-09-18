@@ -28,6 +28,9 @@ public class MainWindow {
     protected JButton settingsButton;
     protected JList rsList;
     protected JButton editButton;
+    protected JButton personAddressButton;
+    protected JButton phonePersonButton;
+    protected JButton emailPersonButton;
     private JFrame frame;
     protected Set<DBModel> rs;
     protected DefaultListModel<DBModel> dModel;
@@ -37,10 +40,13 @@ public class MainWindow {
         quickSearchButton.addActionListener(new SearchListener());
         quickSearchField.addActionListener(new SearchListener());
         editButton.addActionListener(new EditListener());
+        personAddressButton.addActionListener(new AddressPersonListener());
+        phonePersonButton.addActionListener(new PhonePersonListener());
+        emailPersonButton.addActionListener(new EmailPersonListener());
         this.frame = frame;
 
 
-
+        addButton.addActionListener(new InsertPersonListener());
     }
 
     public JLabel getStatusLabel() {
@@ -88,19 +94,28 @@ public class MainWindow {
         statusLabel.setText("Contacts");
         panel3.add(statusLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel4 = new JPanel();
-        panel4.setLayout(new GridLayoutManager(4, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel4.setLayout(new GridLayoutManager(7, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel2.add(panel4, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         addButton = new JButton();
-        addButton.setText("Dodaj");
+        addButton.setText("Dodaj osobę");
         panel4.add(addButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
-        panel4.add(spacer1, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel4.add(spacer1, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         settingsButton = new JButton();
         settingsButton.setText("Opcje");
-        panel4.add(settingsButton, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel4.add(settingsButton, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         editButton = new JButton();
-        editButton.setText("Edytuj");
+        editButton.setText("Edytuj osobę");
         panel4.add(editButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        personAddressButton = new JButton();
+        personAddressButton.setText("Adres osoby");
+        panel4.add(personAddressButton, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        phonePersonButton = new JButton();
+        phonePersonButton.setText("Telefon osoby");
+        panel4.add(phonePersonButton, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        emailPersonButton = new JButton();
+        emailPersonButton.setText("Email osoby");
+        panel4.add(emailPersonButton, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JScrollPane scrollPane1 = new JScrollPane();
         panel2.add(scrollPane1, new GridConstraints(0, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         rsList.setSelectionMode(0);
@@ -124,16 +139,12 @@ public class MainWindow {
                 rs = SearchPerson.quickSearch(value);
                 if (rs.size() == 0) {
                     dModel.removeAllElements();
-//
                     rsList.setModel(dModel);
                     statusLabel.setText("Brak wyników...");
                 } else {
-//                   statusLabel.setText("Znaleziono: " + rs.size() + " rekordy.");
                     rsList.setListData(rs.toArray());
                 }
-                for (DBModel m : rs) {
-                    System.out.println(m.toString());
-                }
+
             } catch (IllegalAccessException e1) {
                 JOptionPane.showMessageDialog(frame, e1.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
                 e1.printStackTrace();
@@ -150,7 +161,7 @@ public class MainWindow {
         }
     }
 
-    private class EditListener implements ActionListener {
+    class EditListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             int index = rsList.getSelectedIndex();
@@ -161,8 +172,46 @@ public class MainWindow {
                 PersonEdit personEdit = new PersonEdit(frame, MainWindow.this, selectedPerson);
                 personEdit.pack();
                 personEdit.setVisible(true);
-                System.out.println(rs.toArray()[index]);
             }
         }
     }
+
+    class InsertPersonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            PersonInsert personInsert = new PersonInsert(frame, MainWindow.this);
+            personInsert.pack();
+            personInsert.setVisible(true);
+        }
+    }
+
+    class AddressPersonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int index = rsList.getSelectedIndex();
+            if (index < 0) {
+                statusLabel.setText("Wybierz osobę aby pokazać jej adresy.");
+            } else {
+                Person selectedPerson = (Person) rs.toArray()[index];
+                PersonAddress personAddress = new PersonAddress(frame, MainWindow.this, selectedPerson);
+                personAddress.pack();
+                personAddress.setVisible(true);
+            }
+        }
+    }
+
+    class PhonePersonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
+    class EmailPersonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
+    }
+
 }
