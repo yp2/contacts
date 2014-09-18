@@ -194,8 +194,8 @@ public class DBStmtTest extends DBTestHelper {
 //        p1.save();
 //        p2.save();
 //
-//        Address a1 = new Address(p1, "KOR", "Diamentowa", "10", null, "Lublin", "20-543", "Polska");
-//        Address a2 = new Address(p2, "ZAM", "Onyksowa", "3", "34", "Lublin", "20-542", "Polska");
+//        Address a1 = new Address(p1, "Diamentowa", "10", null, "Lublin", "20-543", "Polska", "To jest opis");
+//        Address a2 = new Address(p2, "Onyksowa", "3", "34", "Lublin", "20-542", "Polska", "To jest opis");
 //        a1.save();
 //        a2.save();
 //

@@ -21,29 +21,29 @@ public class SLiteSQLDict extends SQLDict {
                 "CREATE TABLE ADDRESS (" +
                         "ADDRESS_ID INTEGER PRIMARY KEY," +
                         "PERSON_ID INTEGER," +
-                        "TYPE TEXT NOT NULL," +
                         "STREET TEXT," +
                         "HOUSE_NO TEXT," +
                         "FLAT_NO TEXT," +
                         "CITY TEXT," +
                         "POST_CODE TEXT," +
                         "COUNTRY TEXT," +
+                        "DESCRIPTION TEXT," +
                         "FOREIGN KEY (PERSON_ID) REFERENCES PERSON(PERSON_ID))";
 
         this.createTablePhone =
                 "CREATE TABLE PHONE (" +
                         "PHONE_ID INTEGER PRIMARY KEY," +
                         "PERSON_ID INTEGER," +
-                        "TYPE TEXT NOT NULL," +
                         "NUMBER TEXT NOT NULL," +
+                        "DESCRIPTION TEXT," +
                         "FOREIGN KEY (PERSON_ID) REFERENCES PERSON(PERSON_ID))";
 
         this.createTableEmail =
                 "CREATE TABLE EMAIL (" +
                         "EMAIL_ID INTEGER PRIMARY KEY," +
                         "PERSON_ID INTEGER," +
-                        "TYPE TEXT NOT NULL," +
                         "EMAIL TEXT NOT NULL," +
+                        "DESCRIPTION TEXT," +
                         "FOREIGN KEY (PERSON_ID) REFERENCES PERSON(PERSON_ID))";
 
         this.dropTableAddress =
