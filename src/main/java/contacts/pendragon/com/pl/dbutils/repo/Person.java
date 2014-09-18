@@ -13,7 +13,7 @@ public class Person extends DBModel {
     public CharField name = new CharField(null, 255);
     public CharField surname = new CharField(null, 255);
     public CharField com_name = new CharField(null, 255);
-    public TextField description = new TextField(null);
+    public CharField description = new TextField(null); //TODO: if type is TextField test fails why?
 
     public Person() throws ValueToLongException, IllegalAccessException {
         super();

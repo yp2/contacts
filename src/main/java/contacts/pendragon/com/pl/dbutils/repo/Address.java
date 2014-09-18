@@ -15,7 +15,7 @@ public class Address extends DBModel{
     public CharField city = new CharField(null, 255);
     public CharField post_code = new CharField(null, 20);
     public CharField country = new CharField(null, 255);
-    public TextField description = new TextField(null);
+    public CharField description = new TextField(null);
 
     public Address() throws ValueToLongException, IllegalAccessException{
         super();
