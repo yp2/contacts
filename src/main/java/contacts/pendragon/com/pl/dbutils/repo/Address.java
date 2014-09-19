@@ -85,12 +85,12 @@ public class Address extends DBModel{
         String value = "";
         try{
             if (this.flat_no.getValue() == null) {
-                value = this.street.getValue() +" " + this.house_no.getValue() + " " +
-                        this.city.getValue() + " " + this.country.getValue();
+                value = this.street.toString() +" " + this.house_no.toString() + " " +
+                        this.city.toString() + " " + this.country.toString();
             }else {
-                value = this.street.getValue() +" " + this.house_no.getValue() + "/" +
-                        this.flat_no.getValue() + " " + this.city.getValue() + " "
-                        + this.country.getValue();
+                value = this.street.toString() +" " + this.house_no.toString() + "/" +
+                        this.flat_no.toString() + " " + this.city.toString() + " "
+                        + this.country.toString();
             }
         } catch (DBModelException e){
             e.printStackTrace();

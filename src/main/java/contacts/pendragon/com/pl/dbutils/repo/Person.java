@@ -59,9 +59,9 @@ public class Person extends DBModel {
         String value = "";
         try {
             if (this.name.getValue() == null && this.surname.getValue() == null){
-                value = this.com_name.getValue();
+                value = this.com_name.toString();
             } else {
-                value = this.name.getValue() + " " + this.surname.getValue();
+                value = this.name.toString() + " " + this.surname.toString();
             }
         } catch (DBModelException e) {
             e.printStackTrace();

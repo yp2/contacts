@@ -11,7 +11,7 @@ public class TextField extends CharField {
 
     @Override
     public void setValue(String value) throws ValueToLongException {
-        setSize(value.length());
+        setSize(value != null ? value.length() : 0);
         this.value = value;
         checkSize();
     }

@@ -41,4 +41,14 @@ public abstract class DBField<T> {
         this.value = value;
     }
 
+    @Override
+    public String toString() {
+        String rValue;
+        if (value != null){
+            rValue = value.toString();
+        } else {
+            rValue = "";
+        }
+        return rValue;
+    }
 }
