@@ -30,7 +30,7 @@ public class SEIAddress extends JDialog {
     protected Address address;
     protected PersonAddress parent;
 
-    public SEIAddress(PersonAddress parent, Address address, int type) {
+    public SEIAddress(PersonAddress parent, Address address, final int type) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -38,16 +38,25 @@ public class SEIAddress extends JDialog {
         this.parent = parent;
         saveButton.setVisible(false); //hide savebutton
 
+        try {
+            addressPersonLabel.setText(address.person_id.getForeignModel().toString());
+        } catch (DBModelException e) {
+            JOptionPane.showMessageDialog(this, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+
         if (type == AppDict.SHOW) {
             setFieldsValues();
             setNotEditable();
-        } else if (type == AppDict.EDIT) {
-            setFieldsValues();
+        } else if (type == AppDict.EDIT || type == AppDict.ADD) {
+            if (type == AppDict.EDIT) {
+                setFieldsValues();
+            }
             saveButton.setVisible(true);
             saveButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    onSave();
+                    onSave(type);
                 }
             });
         }
@@ -95,7 +104,7 @@ public class SEIAddress extends JDialog {
         }
     }
 
-    private void onSave() {
+    private void onSave(int type) {
         System.out.println("tu");
         try {
             address.street.setValue(this.streetField.getText().equals("") ? null : this.streetField.getText());
@@ -108,7 +117,11 @@ public class SEIAddress extends JDialog {
             address.save();
             parent.setStatus("Zapisano");
             parent.setRsList();
+            if (type == AppDict.ADD) {
+                dispose();
+            }
         } catch (IllegalAccessException | SQLException | DBModelException | ValueToLongException e) {
+            JOptionPane.showMessageDialog(this, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }

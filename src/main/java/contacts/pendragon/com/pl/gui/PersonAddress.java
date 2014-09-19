@@ -14,7 +14,6 @@ import contacts.pendragon.com.pl.repo.AppDict;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.StringReader;
 import java.sql.SQLException;
 import java.util.Set;
 
@@ -27,6 +26,7 @@ public class PersonAddress extends JDialog {
     protected JButton showAddressButton;
     protected JList rsList;
     protected JLabel statusLabel;
+    protected JLabel infoLabel;
     protected JFrame parent;
     protected MainWindow mainWindow;
     protected JTextField qsField;
@@ -47,6 +47,8 @@ public class PersonAddress extends JDialog {
         showAddressButton.addActionListener(new ShowAddressListener());
         editAddressButton.addActionListener(new EditAddressListener());
         addAddressButton.addActionListener(new AddAddressListener());
+
+        infoLabel.setText(selectedPerson.toString());
 
         this.setRsList();
 
@@ -117,10 +119,10 @@ public class PersonAddress extends JDialog {
     private void $$$setupUI$$$() {
         createUIComponents();
         contentPane = new JPanel();
-        contentPane.setLayout(new GridLayoutManager(3, 1, new Insets(1, 1, 1, 1), -1, -1));
+        contentPane.setLayout(new GridLayoutManager(4, 1, new Insets(1, 1, 1, 1), -1, -1));
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
-        contentPane.add(panel1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, 1, null, null, null, 0, false));
+        contentPane.add(panel1, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, 1, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
         panel1.add(spacer1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final JPanel panel2 = new JPanel();
@@ -131,7 +133,7 @@ public class PersonAddress extends JDialog {
         panel2.add(closeButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel3 = new JPanel();
         panel3.setLayout(new GridLayoutManager(4, 2, new Insets(0, 0, 0, 0), -1, -1));
-        contentPane.add(panel3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        contentPane.add(panel3, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         addAddressButton = new JButton();
         addAddressButton.setText("Dodaj adres");
         panel3.add(addAddressButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -149,7 +151,10 @@ public class PersonAddress extends JDialog {
         scrollPane1.setViewportView(rsList);
         statusLabel = new JLabel();
         statusLabel.setText("");
-        contentPane.add(statusLabel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        contentPane.add(statusLabel, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        infoLabel = new JLabel();
+        infoLabel.setText("");
+        contentPane.add(infoLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
     }
 
     /**
@@ -179,7 +184,7 @@ public class PersonAddress extends JDialog {
         public void actionPerformed(ActionEvent e) {
             int index = rsList.getSelectedIndex();
             if (index < 0) {
-                statusLabel.setText("Wybierz adres do pokazania.");
+                statusLabel.setText("Wybierz adres do edycji.");
             } else {
                 Address selectedAddress = (Address) rs.toArray()[index];
                 SEIAddress showAddress = new SEIAddress(PersonAddress.this, selectedAddress, AppDict.EDIT);
@@ -192,6 +197,20 @@ public class PersonAddress extends JDialog {
     class AddAddressListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            try {
+                Address addressNew = new Address();
+                addressNew.person_id.setValue(sPerson);
+                SEIAddress showAddress = new SEIAddress(PersonAddress.this, addressNew, AppDict.ADD);
+                showAddress.pack();
+                showAddress.setVisible(true);
+            } catch (ValueToLongException e1) {
+                JOptionPane.showMessageDialog(PersonAddress.this, e1.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
+                e1.printStackTrace();
+            } catch (IllegalAccessException e1) {
+                JOptionPane.showMessageDialog(PersonAddress.this, e1.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
+                e1.printStackTrace();
+            }
+
 
         }
     }
