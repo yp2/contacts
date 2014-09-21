@@ -17,9 +17,8 @@ import java.util.TreeSet;
 public class SearchPersonEmail {
 
     public static Set<DBModel> search(Person person)
-        throws ValueToLongException, IllegalAccessException, SQLException,
-            DBModelException
-    {
+            throws ValueToLongException, IllegalAccessException, SQLException,
+            DBModelException {
         Email email = new Email();
         email.person_id.setValue(person);
         Set<DBModel> rs = new TreeSet<>();

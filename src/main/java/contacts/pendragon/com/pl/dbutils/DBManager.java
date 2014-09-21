@@ -11,12 +11,12 @@ import java.util.Properties;
  */
 public abstract class DBManager {
 
-    private String drivers;
     protected String url;
     protected String username;
     protected String password;
+    private String drivers;
 
-    public DBManager(){
+    public DBManager() {
         Properties appProp = Settings.getInstance().getAppProp();
         drivers = appProp.getProperty("jdbc.drivers");
         url = appProp.getProperty("jdbc.url");

@@ -7,10 +7,11 @@ import contacts.pendragon.com.pl.dbutils.DBField;
  */
 public class PrimaryKeyField extends DBField<Integer> {
 
-    public PrimaryKeyField(Integer value){
+    public PrimaryKeyField(Integer value) {
         super(value);
     }
-    public PrimaryKeyField(Integer value, Integer size){
+
+    public PrimaryKeyField(Integer value, Integer size) {
         super(value, size);
     }
 

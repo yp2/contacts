@@ -40,13 +40,13 @@ public abstract class DBModel implements Comparable<DBModel> {
         modelFields = getFields();
     }
 
+    public Integer getPkField() throws DBModelException {
+        return this.pkField.getValue();
+    }
+
     // this is not needed method
     public void setPkField(Integer id) throws ValueToLongException {
         this.pkField.setValue(id);
-    }
-
-    public Integer getPkField() throws DBModelException {
-        return this.pkField.getValue();
     }
 
     private List<Field> getFields() throws IllegalAccessException {
@@ -406,7 +406,8 @@ public abstract class DBModel implements Comparable<DBModel> {
             if (this.getPkField() == second.getPkField()) {
                 value = true;
             }
-        } catch (DBModelException e) {}
+        } catch (DBModelException e) {
+        }
         return value;
     }
 
@@ -422,8 +423,7 @@ public abstract class DBModel implements Comparable<DBModel> {
     }
 
     private void runDelete(Connection dbConn)
-            throws DBModelException, SQLException
-    {
+            throws DBModelException, SQLException {
         SQLDict sqlDict = sqlDictFactory.getSQLDict();
         String baseSqlStatement;
         String sql;
@@ -437,7 +437,7 @@ public abstract class DBModel implements Comparable<DBModel> {
         sql = String.format(baseSqlStatement, model.toUpperCase(), sqlWhere);
 
         // run delete
-        try(PreparedStatement stmt = dbConn.prepareStatement(sql)){
+        try (PreparedStatement stmt = dbConn.prepareStatement(sql)) {
             stmt.setInt(1, pkField.getValue());
 
             stmt.executeUpdate();
@@ -445,13 +445,11 @@ public abstract class DBModel implements Comparable<DBModel> {
     }
 
     public void delete()
-        throws IllegalAccessException, SQLException, DBModelException
-    {
-        try(Connection conn = dbFactory.getDBConnection()){
+            throws IllegalAccessException, SQLException, DBModelException {
+        try (Connection conn = dbFactory.getDBConnection()) {
             runDelete(conn);
         }
     }
-
 
 
 }

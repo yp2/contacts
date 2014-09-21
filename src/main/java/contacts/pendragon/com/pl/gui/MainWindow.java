@@ -21,10 +21,6 @@ import java.util.Set;
  * Created by daniel on 16.09.14.
  */
 public class MainWindow {
-    private JPanel panel1;
-    private JTextField quickSearchField;
-    private JButton quickSearchButton;
-    private JLabel statusLabel;
     protected JButton addPersonButton;
     protected JButton settingsButton;
     protected JList rsList;
@@ -33,9 +29,13 @@ public class MainWindow {
     protected JButton phonePersonButton;
     protected JButton emailPersonButton;
     protected JButton showPersonButton;
-    private JFrame frame;
     protected Set<DBModel> rs;
     protected DefaultListModel<DBModel> dModel;
+    private JPanel panel1;
+    private JTextField quickSearchField;
+    private JButton quickSearchButton;
+    private JLabel statusLabel;
+    private JFrame frame;
 
     public MainWindow(JFrame frame) {
         $$$setupUI$$$();

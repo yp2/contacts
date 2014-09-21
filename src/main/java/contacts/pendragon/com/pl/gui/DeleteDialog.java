@@ -4,7 +4,6 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import contacts.pendragon.com.pl.dbutils.DBModel;
-import contacts.pendragon.com.pl.dbutils.repo.Address;
 import contacts.pendragon.com.pl.dbutils.repo.DBModelException;
 
 import javax.swing.*;
@@ -13,12 +12,12 @@ import java.awt.event.*;
 import java.sql.SQLException;
 
 public class DeleteDialog extends JDialog {
-    private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
     protected JLabel statusLabel;
     protected DBModel model;
     protected JDialogApp parent;
+    private JPanel contentPane;
+    private JButton buttonOK;
+    private JButton buttonCancel;
 
     public DeleteDialog(JDialogApp parent, DBModel model, String modelName) {
         setContentPane(contentPane);

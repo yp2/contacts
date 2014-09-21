@@ -9,25 +9,25 @@ public class Settings {
     private static Settings ourInstance = new Settings();
     private static Properties appProp;
 
-    public static Settings getInstance() {
-        return ourInstance;
-    }
-
     private Settings() {
         // TODO: pozmieniac tak aby default tylko w przypadku nie obecnsci pliku
         Properties defaultProp = new DefaultSettings().getDefaultProp();
         appProp = new Properties(defaultProp);
     }
 
-    public Properties getAppProp(){
+    public static Settings getInstance() {
+        return ourInstance;
+    }
+
+    public Properties getAppProp() {
         return appProp;
     }
 
-    public void setProperty(String key, String value){
+    public void setProperty(String key, String value) {
         appProp.setProperty(key, value);
     }
 
-    public String getProperty(String key){
+    public String getProperty(String key) {
         return appProp.getProperty(key);
     }
 

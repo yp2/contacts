@@ -18,9 +18,6 @@ import java.sql.SQLException;
 import java.util.Set;
 
 public class PersonEmail extends JDialogApp {
-    private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton closeButton;
     protected JLabel infoLabel;
     protected JButton showEmailButton;
     protected JButton addEmailButton;
@@ -34,6 +31,9 @@ public class PersonEmail extends JDialogApp {
     protected Person sPerson;
     protected DefaultListModel<DBModel> dModel;
     protected Set<DBModel> rs;
+    private JPanel contentPane;
+    private JButton buttonOK;
+    private JButton closeButton;
 
     public PersonEmail(JFrame parent, MainWindow mainWindow, Person selectedPerson) {
         $$$setupUI$$$();
@@ -54,7 +54,6 @@ public class PersonEmail extends JDialogApp {
         infoLabel.setText(selectedPerson.toString());
 
         this.setRsList();
-
 
         closeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -151,6 +150,26 @@ public class PersonEmail extends JDialogApp {
         return contentPane;
     }
 
+    public void setRsList() {
+        try {
+            rs = SearchPersonEmail.search(sPerson);
+            this.rsList.setListData(rs.toArray());
+        } catch (ValueToLongException e) {
+            JOptionPane.showMessageDialog(parent, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            JOptionPane.showMessageDialog(parent, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(parent, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } catch (DBModelException e) {
+            JOptionPane.showMessageDialog(parent, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+
+    }
+
     class ShowEmailListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -197,8 +216,6 @@ public class PersonEmail extends JDialogApp {
                 JOptionPane.showMessageDialog(parent, e1.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
                 e1.printStackTrace();
             }
-
-
         }
     }
 
@@ -215,26 +232,6 @@ public class PersonEmail extends JDialogApp {
                 deleteDialog.setVisible(true);
             }
         }
-    }
-
-    public void setRsList() {
-        try {
-            rs = SearchPersonEmail.search(sPerson);
-            this.rsList.setListData(rs.toArray());
-        } catch (ValueToLongException e) {
-            JOptionPane.showMessageDialog(parent, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            JOptionPane.showMessageDialog(parent, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(parent, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        } catch (DBModelException e) {
-            JOptionPane.showMessageDialog(parent, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
-
     }
 
 }

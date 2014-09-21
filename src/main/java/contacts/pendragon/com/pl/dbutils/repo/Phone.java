@@ -18,39 +18,35 @@ public class Phone extends DBModel {
     }
 
     public Phone(String number, String description)
-        throws ValueToLongException, IllegalAccessException {
+            throws ValueToLongException, IllegalAccessException {
         super();
         this.number.setValue(number);
         this.description.setValue(description);
     }
 
     public Phone(Integer person_id, String number, String description)
-        throws ValueToLongException, IllegalAccessException
-    {
+            throws ValueToLongException, IllegalAccessException {
         this(number, description);
         this.person_id.setValue(person_id);
         setFields();
     }
 
     public Phone(String person_id, String number, String description)
-            throws ValueToLongException, IllegalAccessException
-    {
+            throws ValueToLongException, IllegalAccessException {
         this(number, description);
         this.person_id.setValue(person_id);
         setFields();
     }
 
     public Phone(DBModel person_id, String number, String description)
-            throws ValueToLongException, IllegalAccessException
-    {
+            throws ValueToLongException, IllegalAccessException {
         this(number, description);
         this.person_id.setValue(person_id);
         setFields();
     }
 
     public Phone(String[] values)
-        throws ValueToLongException, IllegalAccessException
-    {
+            throws ValueToLongException, IllegalAccessException {
         this(values[2], values[3]);
         this.phone_id.setValue(Integer.parseInt(values[0]));
         this.person_id.setValue(values[1]);

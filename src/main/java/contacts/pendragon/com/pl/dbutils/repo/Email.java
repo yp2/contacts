@@ -25,32 +25,28 @@ public class Email extends DBModel {
     }
 
     public Email(Integer person_id, String email, String description)
-        throws ValueToLongException, IllegalAccessException
-    {
+            throws ValueToLongException, IllegalAccessException {
         this(email, description);
         this.person_id.setValue(person_id);
         setFields();
     }
 
     public Email(String person_id, String email, String description)
-            throws ValueToLongException, IllegalAccessException
-    {
+            throws ValueToLongException, IllegalAccessException {
         this(email, description);
         this.person_id.setValue(person_id);
         setFields();
     }
 
     public Email(DBModel person_id, String email, String description)
-            throws ValueToLongException, IllegalAccessException
-    {
+            throws ValueToLongException, IllegalAccessException {
         this(email, description);
         this.person_id.setValue(person_id);
         setFields();
     }
 
     public Email(String[] values)
-        throws IllegalAccessException, ValueToLongException
-    {
+            throws IllegalAccessException, ValueToLongException {
         this(values[2], values[3]);
         this.email_id.setValue(Integer.parseInt(values[0]));
         this.person_id.setValue(values[1]);

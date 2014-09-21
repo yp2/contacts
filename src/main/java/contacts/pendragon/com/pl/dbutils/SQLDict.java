@@ -7,87 +7,87 @@ public abstract class SQLDict {
 
     public String createTablePerson =
             "CREATE TABLE PERSON (" +
-            "PERSON_ID NUMERIC(6) NOT NULL," +
-            "NAME VARCHAR(255)," +
-            "SURNAME VARCHAR(255)," +
-            "COM_NAME VARCHAR(255)," +
-            "DESCRIPTION TEXT," +
-            "CONSTRAINT PERSON_ID_PK PRIMARY KEY (PERSON_ID))";
+                    "PERSON_ID NUMERIC(6) NOT NULL," +
+                    "NAME VARCHAR(255)," +
+                    "SURNAME VARCHAR(255)," +
+                    "COM_NAME VARCHAR(255)," +
+                    "DESCRIPTION TEXT," +
+                    "CONSTRAINT PERSON_ID_PK PRIMARY KEY (PERSON_ID))";
 
     public String createSeqPerson =
             "CREATE SEQUENCE PERSON_SEQ" +
-            "INCREMENT BY 1 " +
-            "NO MAXVALUE " +
-            "MINVALUE 1 " +
-            "START WITH 1 " +
-            "NO CYCLE";
+                    "INCREMENT BY 1 " +
+                    "NO MAXVALUE " +
+                    "MINVALUE 1 " +
+                    "START WITH 1 " +
+                    "NO CYCLE";
 
     public String createTableAddress =
             "CREATE TABLE ADDRESS (" +
-            "ADDRESS_ID NUMERIC(6) NOT NULL," +
-            "PERSON_ID NUMERIC(6) NOT NULL," +
-            "TYPE VARCHAR(3) NOT NULL," +
-            "STREET VARCHAR(255)," +
-            "HOUSE_NO VARCHAR(20)," +
-            "FLAT_NO VARCHAR(20)," +
-            "CITY VARCHAR(255)," +
-            "POST_CODE VARCHAR(20)," +
-            "COUNTRY VARCHAR(255)," +
-            "CONSTRAINT ADDRESS_ID_PK PRIMARY KEY (ADDRESS_ID)," +
-            "CONSTRAINT PERSON_ID_FK FOREIGN KEY (PERSON_ID) " +
-            "REFERENCES PERSON(PERSON_ID))";
+                    "ADDRESS_ID NUMERIC(6) NOT NULL," +
+                    "PERSON_ID NUMERIC(6) NOT NULL," +
+                    "TYPE VARCHAR(3) NOT NULL," +
+                    "STREET VARCHAR(255)," +
+                    "HOUSE_NO VARCHAR(20)," +
+                    "FLAT_NO VARCHAR(20)," +
+                    "CITY VARCHAR(255)," +
+                    "POST_CODE VARCHAR(20)," +
+                    "COUNTRY VARCHAR(255)," +
+                    "CONSTRAINT ADDRESS_ID_PK PRIMARY KEY (ADDRESS_ID)," +
+                    "CONSTRAINT PERSON_ID_FK FOREIGN KEY (PERSON_ID) " +
+                    "REFERENCES PERSON(PERSON_ID))";
 
     public String createSeqAddress =
             "CREATE SEQUENCE ADDRESS_SEQ " +
-            "INCREMENT BY 1 " +
-            "NO MAXVALUE " +
-            "MINVALUE 1 " +
-            "START WITH 1 " +
-            "NO CYCLE";
+                    "INCREMENT BY 1 " +
+                    "NO MAXVALUE " +
+                    "MINVALUE 1 " +
+                    "START WITH 1 " +
+                    "NO CYCLE";
 
     public String createTablePhone =
             "CREATE TABLE PHONE (" +
-            "PHONE_ID NUMERIC(6) NOT NULL," +
-            "PERSON_ID NUMERIC(6) NOT NULL," +
-            "TYPE VARCHAR (3) NOT NULL," +
-            "NUMBER VARCHAR(30) NOT NULL," +
-            "CONSTRAINT PHONE_ID_PK PRIMARY KEY(PHONE_ID)," +
-            "CONSTRAINT PERSON_ID_FK FOREIGN KEY (PERSON_ID)" +
-            "REFERENCES PERSON(PERSON_ID))";
+                    "PHONE_ID NUMERIC(6) NOT NULL," +
+                    "PERSON_ID NUMERIC(6) NOT NULL," +
+                    "TYPE VARCHAR (3) NOT NULL," +
+                    "NUMBER VARCHAR(30) NOT NULL," +
+                    "CONSTRAINT PHONE_ID_PK PRIMARY KEY(PHONE_ID)," +
+                    "CONSTRAINT PERSON_ID_FK FOREIGN KEY (PERSON_ID)" +
+                    "REFERENCES PERSON(PERSON_ID))";
 
     public String createSeqPhone =
             "CREATE SEQUENCE PHONE_SEQ " +
-            "INCREMENT BY 1 " +
-            "NO MAXVALUE " +
-            "MINVALUE 1 " +
-            "START WITH 1 " +
-            "NO CYCLE";
+                    "INCREMENT BY 1 " +
+                    "NO MAXVALUE " +
+                    "MINVALUE 1 " +
+                    "START WITH 1 " +
+                    "NO CYCLE";
 
     public String createTableEmail =
             "CREATE TABLE EMAIL (" +
-            "EMAIL_ID NUMERIC(6) NOT NULL," +
-            "PERSON_ID NUMERIC(6) NOT NULL," +
-            "TYPE VARCHAR (3) NOT NULL" +
-            "EMAIL VARCHAR(255) NOT NULL," +
-            "CONSTRAINT EMAIL_ID_PK PRIMARY KEY (EMAIL_ID)," +
-            "CONSTRAINT PERSON_ID_FK FOREIGN KEY (PERSON_ID) " +
-            "REFERENCES PERSON(PERSON_ID))";
+                    "EMAIL_ID NUMERIC(6) NOT NULL," +
+                    "PERSON_ID NUMERIC(6) NOT NULL," +
+                    "TYPE VARCHAR (3) NOT NULL" +
+                    "EMAIL VARCHAR(255) NOT NULL," +
+                    "CONSTRAINT EMAIL_ID_PK PRIMARY KEY (EMAIL_ID)," +
+                    "CONSTRAINT PERSON_ID_FK FOREIGN KEY (PERSON_ID) " +
+                    "REFERENCES PERSON(PERSON_ID))";
 
-    public  String createSeqEmail =
+    public String createSeqEmail =
             "CREATE SEQUENCE EMAIL_SEQ " +
-            "INCREMENT BY 1 " +
-            "NO MAXVALUE " +
-            "MINVALUE 1 " +
-            "START WITH 1 " +
-            "NO CYCLE";
+                    "INCREMENT BY 1 " +
+                    "NO MAXVALUE " +
+                    "MINVALUE 1 " +
+                    "START WITH 1 " +
+                    "NO CYCLE";
 
     public String dropTableAddress =
             "DROP TABLE ADDRESS";
 
-    public String  dropTablePhone =
+    public String dropTablePhone =
             "DROP TABLE PHONE";
 
-    public String  dropTableEmail =
+    public String dropTableEmail =
             "DROP TABLE EMAIL";
 
     public String dropTablePerson =

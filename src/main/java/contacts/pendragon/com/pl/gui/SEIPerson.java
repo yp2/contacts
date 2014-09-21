@@ -14,15 +14,15 @@ import java.awt.event.*;
 import java.sql.SQLException;
 
 public class SEIPerson extends JDialog {
-    private JPanel contentPane;
-    private JButton saveButton;
-    private JButton closeButton;
     protected JTextField nameField;
     protected JTextField surnameField;
     protected JTextField comNameField;
     protected JTextArea descriptionField;
     protected MainWindow parent;
     protected Person sPerson;
+    private JPanel contentPane;
+    private JButton saveButton;
+    private JButton closeButton;
 
 
     public SEIPerson(MainWindow parent, Person selectedPerson, final int type) {

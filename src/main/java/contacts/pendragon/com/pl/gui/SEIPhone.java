@@ -14,14 +14,14 @@ import java.awt.event.*;
 import java.sql.SQLException;
 
 public class SEIPhone extends JDialog {
-    private JPanel contentPane;
-    private JButton saveButton;
-    private JButton closeButton;
     protected JLabel phonePersonLabel;
     protected JTextField numberField;
     protected JTextArea descriptionField;
     protected PersonPhone parent;
     protected Phone phone;
+    private JPanel contentPane;
+    private JButton saveButton;
+    private JButton closeButton;
 
     public SEIPhone(PersonPhone parent, Phone phone, final int type) {
         setContentPane(contentPane);

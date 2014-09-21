@@ -12,11 +12,9 @@ import java.sql.SQLException;
 public class PostgreSql extends DBManager {
 
     @Override
-    public Connection getDBConnection() throws SQLException{
+    public Connection getDBConnection() throws SQLException {
         return DriverManager.getConnection(this.url, this.username, this.password);
     }
-
-
 
 
 }

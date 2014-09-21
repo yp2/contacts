@@ -14,9 +14,6 @@ import java.awt.event.*;
 import java.sql.SQLException;
 
 public class SEIAddress extends JDialog {
-    private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
     protected JLabel addressPersonLabel;
     protected JTextField streetField;
     protected JTextField houseNoField;
@@ -28,6 +25,9 @@ public class SEIAddress extends JDialog {
     protected JButton saveButton;
     protected Address address;
     protected PersonAddress parent;
+    private JPanel contentPane;
+    private JButton buttonOK;
+    private JButton buttonCancel;
 
     public SEIAddress(PersonAddress parent, Address address, final int type) {
         setContentPane(contentPane);

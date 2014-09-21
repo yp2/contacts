@@ -11,40 +11,40 @@ public abstract class DBField<T> {
     protected T value;
 
 
-    public DBField(){
+    public DBField() {
         this.size = 6;
     }
 
-    public DBField(T value){
+    public DBField(T value) {
         this();
         this.value = value;
     }
 
-    public DBField(T value, Integer size){
+    public DBField(T value, Integer size) {
         this.size = size;
         this.value = value;
     }
 
-    public void setSize(Integer size){
-        this.size = size;
-    }
-
-    public int getSize(){
+    public int getSize() {
         return this.size;
     }
 
-    public T getValue() throws DBModelException{
+    public void setSize(Integer size) {
+        this.size = size;
+    }
+
+    public T getValue() throws DBModelException {
         return value;
     }
 
-    public void setValue(T value) throws ValueToLongException{
+    public void setValue(T value) throws ValueToLongException {
         this.value = value;
     }
 
     @Override
     public String toString() {
         String rValue;
-        if (value != null){
+        if (value != null) {
             rValue = value.toString();
         } else {
             rValue = "";

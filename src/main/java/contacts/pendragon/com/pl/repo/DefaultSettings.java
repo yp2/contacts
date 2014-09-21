@@ -8,7 +8,7 @@ import java.util.Properties;
 public class DefaultSettings {
     private Properties defaultProp = new Properties();
 
-    public DefaultSettings(){
+    public DefaultSettings() {
 
         // test properities
         this.defaultProp.setProperty("Test", "1");
@@ -42,7 +42,7 @@ public class DefaultSettings {
         this.defaultProp.setProperty("jdbc.password", "java");
     }
 
-    public Properties getDefaultProp(){
+    public Properties getDefaultProp() {
         return defaultProp;
     }
 }

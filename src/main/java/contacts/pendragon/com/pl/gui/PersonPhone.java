@@ -18,9 +18,6 @@ import java.sql.SQLException;
 import java.util.Set;
 
 public class PersonPhone extends JDialogApp {
-    private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton closeButton;
     protected JLabel statusLabel;
     protected JLabel infoLabel;
     protected JButton addPhoneButton;
@@ -34,6 +31,9 @@ public class PersonPhone extends JDialogApp {
     protected Person sPerson;
     protected DefaultListModel<DBModel> dModel;
     protected Set<DBModel> rs;
+    private JPanel contentPane;
+    private JButton buttonOK;
+    private JButton closeButton;
 
     public PersonPhone(JFrame parent, MainWindow mainWindow, Person selectedPerson) {
         $$$setupUI$$$();
@@ -150,6 +150,25 @@ public class PersonPhone extends JDialogApp {
         return contentPane;
     }
 
+    public void setRsList() {
+        try {
+            rs = SearchPersonPhone.search(sPerson);
+            this.rsList.setListData(rs.toArray());
+        } catch (ValueToLongException e) {
+            JOptionPane.showMessageDialog(parent, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            JOptionPane.showMessageDialog(parent, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(parent, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } catch (DBModelException e) {
+            JOptionPane.showMessageDialog(parent, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+
     class ShowPhoneListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -213,25 +232,6 @@ public class PersonPhone extends JDialogApp {
                 deleteDialog.pack();
                 deleteDialog.setVisible(true);
             }
-        }
-    }
-
-    public void setRsList() {
-        try {
-            rs = SearchPersonPhone.search(sPerson);
-            this.rsList.setListData(rs.toArray());
-        } catch (ValueToLongException e) {
-            JOptionPane.showMessageDialog(parent, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            JOptionPane.showMessageDialog(parent, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(parent, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        } catch (DBModelException e) {
-            JOptionPane.showMessageDialog(parent, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
         }
     }
 

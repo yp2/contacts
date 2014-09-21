@@ -6,7 +6,9 @@ import contacts.pendragon.com.pl.dbutils.repo.Person;
 import contacts.pendragon.com.pl.dbutils.repo.ValueToLongException;
 
 import java.sql.SQLException;
-import java.util.*;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by daniel on 16.09.14.
@@ -14,9 +16,8 @@ import java.util.*;
 public class SearchPerson {
 
     public static Set<DBModel> quickSearch(String value)
-        throws IllegalAccessException, ValueToLongException, SQLException,
-            DBModelException
-    {
+            throws IllegalAccessException, ValueToLongException, SQLException,
+            DBModelException {
 
         Person pSurname = new Person();
         Person pName = new Person();

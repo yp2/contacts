@@ -17,9 +17,8 @@ import java.util.TreeSet;
 public class SearchPersonAddress {
 
     public static Set<DBModel> search(Person person)
-    throws ValueToLongException, IllegalAccessException, SQLException,
-            DBModelException
-    {
+            throws ValueToLongException, IllegalAccessException, SQLException,
+            DBModelException {
         Address address = new Address();
         address.person_id.setValue(person);
         Set<DBModel> rs = new TreeSet<>();

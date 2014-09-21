@@ -18,9 +18,6 @@ import java.sql.SQLException;
 import java.util.Set;
 
 public class PersonAddress extends JDialogApp {
-    private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton closeButton;
     protected JButton addAddressButton;
     protected JButton editAddressButton;
     protected JButton showAddressButton;
@@ -34,6 +31,9 @@ public class PersonAddress extends JDialogApp {
     protected Person sPerson;
     protected DefaultListModel<DBModel> dModel;
     protected Set<DBModel> rs;
+    private JPanel contentPane;
+    private JButton buttonOK;
+    private JButton closeButton;
 
     public PersonAddress(JFrame parent, MainWindow mainWindow, Person selectedPerson) {
         $$$setupUI$$$();

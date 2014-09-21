@@ -3,7 +3,6 @@ package contacts.pendragon.com.pl.gui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import contacts.pendragon.com.pl.dbutils.DBModel;
 import contacts.pendragon.com.pl.dbutils.repo.DBModelException;
 import contacts.pendragon.com.pl.dbutils.repo.Email;
 import contacts.pendragon.com.pl.dbutils.repo.ValueToLongException;
@@ -15,14 +14,14 @@ import java.awt.event.*;
 import java.sql.SQLException;
 
 public class SEIEmail extends JDialog {
-    private JPanel contentPane;
-    private JButton saveButton;
-    private JButton closeButton;
     protected JLabel emailPersonLabel;
     protected JTextArea descriptionField;
     protected JTextField emailField;
     protected PersonEmail parent;
     protected Email email;
+    private JPanel contentPane;
+    private JButton saveButton;
+    private JButton closeButton;
 
     public SEIEmail(PersonEmail parent, Email email, final int type) {
         setContentPane(contentPane);

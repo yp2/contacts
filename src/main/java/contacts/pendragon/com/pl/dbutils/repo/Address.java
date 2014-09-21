@@ -5,7 +5,7 @@ import contacts.pendragon.com.pl.dbutils.DBModel;
 /**
  * Created by daniel on 15.09.14.
  */
-public class Address extends DBModel{
+public class Address extends DBModel {
 
     public PrimaryKeyField address_id = new PrimaryKeyField(null);
     public ForeignKeyField person_id = new ForeignKeyField(new Person());
@@ -17,16 +17,15 @@ public class Address extends DBModel{
     public CharField country = new CharField(null, 255);
     public CharField description = new TextField(null);
 
-    public Address() throws ValueToLongException, IllegalAccessException{
+    public Address() throws ValueToLongException, IllegalAccessException {
         super();
         setFields();
     }
 
     private Address(String street, String house_no,
-                   String flat_no, String city, String post_code,
-                   String country, String description)
-            throws ValueToLongException, IllegalAccessException
-    {
+                    String flat_no, String city, String post_code,
+                    String country, String description)
+            throws ValueToLongException, IllegalAccessException {
         super();
         this.street.setValue(street);
         this.house_no.setValue(house_no);
@@ -37,42 +36,39 @@ public class Address extends DBModel{
         this.description.setValue(description);
     }
 
-    public Address (Integer person_id, String street, String house_no,
-            String flat_no, String city, String post_code,
-            String country, String description)
-            throws ValueToLongException, IllegalAccessException
-    {
-        this(street, house_no, flat_no, city, post_code, country, description);
-        //setting fk
-        this.person_id.setValue(person_id);
-        setFields();
-    }
-    public Address (String person_id, String street, String house_no,
-                    String flat_no, String city, String post_code,
-                    String country, String description)
-            throws ValueToLongException, IllegalAccessException
-    {
+    public Address(Integer person_id, String street, String house_no,
+                   String flat_no, String city, String post_code,
+                   String country, String description)
+            throws ValueToLongException, IllegalAccessException {
         this(street, house_no, flat_no, city, post_code, country, description);
         //setting fk
         this.person_id.setValue(person_id);
         setFields();
     }
 
-    public Address (DBModel person_id, String street, String house_no,
-                    String flat_no, String city, String post_code,
-                    String country, String description)
-            throws ValueToLongException, IllegalAccessException
-    {
+    public Address(String person_id, String street, String house_no,
+                   String flat_no, String city, String post_code,
+                   String country, String description)
+            throws ValueToLongException, IllegalAccessException {
         this(street, house_no, flat_no, city, post_code, country, description);
         //setting fk
         this.person_id.setValue(person_id);
         setFields();
     }
 
-    public Address (String[] values)
-            throws ValueToLongException, IllegalAccessException
-    {
-        this(values[2], values[3], values[4], values[5],values[6], values[7], values[8]);
+    public Address(DBModel person_id, String street, String house_no,
+                   String flat_no, String city, String post_code,
+                   String country, String description)
+            throws ValueToLongException, IllegalAccessException {
+        this(street, house_no, flat_no, city, post_code, country, description);
+        //setting fk
+        this.person_id.setValue(person_id);
+        setFields();
+    }
+
+    public Address(String[] values)
+            throws ValueToLongException, IllegalAccessException {
+        this(values[2], values[3], values[4], values[5], values[6], values[7], values[8]);
         //setting pk
         this.address_id.setValue(Integer.parseInt(values[0]));
         //setting fk
@@ -83,16 +79,16 @@ public class Address extends DBModel{
     @Override
     public String toString() {
         String value = "";
-        try{
+        try {
             if (this.flat_no.getValue() == null) {
-                value = this.street.toString() +" " + this.house_no.toString() + " " +
+                value = this.street.toString() + " " + this.house_no.toString() + " " +
                         this.city.toString() + " " + this.country.toString();
-            }else {
-                value = this.street.toString() +" " + this.house_no.toString() + "/" +
+            } else {
+                value = this.street.toString() + " " + this.house_no.toString() + "/" +
                         this.flat_no.toString() + " " + this.city.toString() + " "
                         + this.country.toString();
             }
-        } catch (DBModelException e){
+        } catch (DBModelException e) {
             e.printStackTrace();
         }
         return value;

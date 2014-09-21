@@ -9,14 +9,14 @@ import java.awt.*;
 
 /**
  * Hello world!
- *
+ * <p/>
  * Aplikacja bazodanowa do zapisywania listy kontaktów (imię, nazwisko, lub nazwa firmy, adres, e-mail, telefony, opis)
  */
 public class App {
     public static void main(String[] args) {
 
 
-        EventQueue.invokeLater( new Runnable() {
+        EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
                 JFrame frame = new JFrame("Contacts");
@@ -28,4 +28,4 @@ public class App {
         });
 
     }
-    }
+}

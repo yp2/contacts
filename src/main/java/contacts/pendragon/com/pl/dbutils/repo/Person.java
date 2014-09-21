@@ -58,7 +58,7 @@ public class Person extends DBModel {
     public String toString() {
         String value = "";
         try {
-            if (this.name.getValue() == null && this.surname.getValue() == null){
+            if (this.name.getValue() == null && this.surname.getValue() == null) {
                 value = this.com_name.toString();
             } else {
                 value = this.name.toString() + " " + this.surname.toString();
@@ -77,7 +77,7 @@ public class Person extends DBModel {
         try {
             // this strange construction is for TreeSet and comparable iface
             f = this.toString() + " " + this.getPkField().toString();
-            s =  second.toString() + " " + second.getPkField().toString();
+            s = second.toString() + " " + second.getPkField().toString();
         } catch (DBModelException e) {
             e.printStackTrace();
         }

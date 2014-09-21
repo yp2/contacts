@@ -59,7 +59,7 @@ public class SLiteSQLDict extends SQLDict {
                 "DROP TABLE PERSON";
     }
 
-    public static SQLDict getInstance(){
+    public static SQLDict getInstance() {
         return instance;
     }
 
