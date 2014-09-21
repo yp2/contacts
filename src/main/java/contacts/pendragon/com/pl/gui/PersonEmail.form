@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="contacts.pendragon.com.pl.gui.PersonPhone">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="contacts.pendragon.com.pl.gui.PersonEmail">
   <grid id="cbd77" binding="contentPane" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="1" left="1" bottom="1" right="1"/>
     <constraints>
-      <xy x="48" y="54" width="408" height="227"/>
+      <xy x="48" y="54" width="427" height="227"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -41,15 +41,7 @@
           </grid>
         </children>
       </grid>
-      <component id="d0d4d" class="javax.swing.JLabel" binding="infoLabel">
-        <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value=""/>
-        </properties>
-      </component>
-      <grid id="562b5" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="e3588" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -57,38 +49,38 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="18f42" class="javax.swing.JButton" binding="addPhoneButton">
-            <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Dodaj numer telefonu"/>
-            </properties>
-          </component>
-          <component id="9d23f" class="javax.swing.JButton" binding="editPhoneButton">
-            <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Edytuj numer telefonu"/>
-            </properties>
-          </component>
-          <component id="85f34" class="javax.swing.JButton" binding="showPhoneButton">
+          <component id="7d2be" class="javax.swing.JButton" binding="showEmailButton">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Pokaż numer telefonu"/>
+              <text value="Pokaż adres email"/>
             </properties>
           </component>
-          <scrollpane id="ac6f3">
+          <component id="b3fd" class="javax.swing.JButton" binding="addEmailButton">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Dodaj adres email"/>
+            </properties>
+          </component>
+          <component id="444af" class="javax.swing.JButton" binding="editEmailButton">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Edytuj adres email"/>
+            </properties>
+          </component>
+          <scrollpane id="ea837">
             <constraints>
               <grid row="0" column="1" row-span="4" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties/>
             <border type="none"/>
             <children>
-              <component id="13e9" class="javax.swing.JList" binding="rsList" custom-create="true">
+              <component id="9471e" class="javax.swing.JList" binding="rsList" custom-create="true">
                 <constraints/>
                 <properties>
                   <selectionMode value="0"/>
@@ -96,14 +88,22 @@
               </component>
             </children>
           </scrollpane>
-          <vspacer id="caf8c">
+          <vspacer id="52181">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
             </constraints>
           </vspacer>
         </children>
       </grid>
-      <component id="2762e" class="javax.swing.JLabel" binding="statusLabel">
+      <component id="e63c7" class="javax.swing.JLabel" binding="infoLabel">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
+      <component id="109fd" class="javax.swing.JLabel" binding="statusLabel">
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>

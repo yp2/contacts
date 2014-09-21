@@ -5,10 +5,10 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import contacts.pendragon.com.pl.dbutils.DBModel;
 import contacts.pendragon.com.pl.dbutils.repo.DBModelException;
+import contacts.pendragon.com.pl.dbutils.repo.Email;
 import contacts.pendragon.com.pl.dbutils.repo.Person;
-import contacts.pendragon.com.pl.dbutils.repo.Phone;
 import contacts.pendragon.com.pl.dbutils.repo.ValueToLongException;
-import contacts.pendragon.com.pl.engine.SearchPersonPhone;
+import contacts.pendragon.com.pl.engine.SearchPersonEmail;
 import contacts.pendragon.com.pl.repo.AppDict;
 
 import javax.swing.*;
@@ -17,16 +17,16 @@ import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.Set;
 
-public class PersonPhone extends JDialog {
+public class PersonEmail extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton closeButton;
-    protected JLabel statusLabel;
     protected JLabel infoLabel;
-    protected JButton addPhoneButton;
-    protected JButton editPhoneButton;
-    protected JButton showPhoneButton;
+    protected JButton showEmailButton;
+    protected JButton addEmailButton;
+    protected JButton editEmailButton;
     protected JList rsList;
+    protected JLabel statusLabel;
     protected JFrame parent;
     protected MainWindow mainWindow;
     protected JTextField qsField;
@@ -34,7 +34,7 @@ public class PersonPhone extends JDialog {
     protected DefaultListModel<DBModel> dModel;
     protected Set<DBModel> rs;
 
-    public PersonPhone(JFrame parent, MainWindow mainWindow, Person selectedPerson) {
+    public PersonEmail(JFrame parent, MainWindow mainWindow, Person selectedPerson) {
         $$$setupUI$$$();
         setContentPane(contentPane);
         setModal(true);
@@ -44,13 +44,14 @@ public class PersonPhone extends JDialog {
         this.qsField = this.mainWindow.getQuickSearchField();
         this.sPerson = selectedPerson;
 
-        showPhoneButton.addActionListener(new ShowPhoneListener());
-        editPhoneButton.addActionListener(new EditPhoneListener());
-        addPhoneButton.addActionListener(new AddPhoneListener());
+        showEmailButton.addActionListener(new ShowEmailListener());
+        editEmailButton.addActionListener(new EditEmailListener());
+        addEmailButton.addActionListener(new AddEmailListener());
 
         infoLabel.setText(selectedPerson.toString());
 
         this.setRsList();
+
 
         closeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -86,7 +87,7 @@ public class PersonPhone extends JDialog {
     }
 
     public void setStatus(String messages) {
-        statusLabel.setText(messages);
+        infoLabel.setText(messages);
     }
 
     /**
@@ -111,27 +112,27 @@ public class PersonPhone extends JDialog {
         closeButton = new JButton();
         closeButton.setText("Zamknij");
         panel2.add(closeButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        infoLabel = new JLabel();
-        infoLabel.setText("");
-        contentPane.add(infoLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final JPanel panel3 = new JPanel();
         panel3.setLayout(new GridLayoutManager(4, 2, new Insets(0, 0, 0, 0), -1, -1));
         contentPane.add(panel3, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        addPhoneButton = new JButton();
-        addPhoneButton.setText("Dodaj numer telefonu");
-        panel3.add(addPhoneButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        editPhoneButton = new JButton();
-        editPhoneButton.setText("Edytuj numer telefonu");
-        panel3.add(editPhoneButton, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        showPhoneButton = new JButton();
-        showPhoneButton.setText("Pokaż numer telefonu");
-        panel3.add(showPhoneButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        showEmailButton = new JButton();
+        showEmailButton.setText("Pokaż adres email");
+        panel3.add(showEmailButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        addEmailButton = new JButton();
+        addEmailButton.setText("Dodaj adres email");
+        panel3.add(addEmailButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        editEmailButton = new JButton();
+        editEmailButton.setText("Edytuj adres email");
+        panel3.add(editEmailButton, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JScrollPane scrollPane1 = new JScrollPane();
         panel3.add(scrollPane1, new GridConstraints(0, 1, 4, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         rsList.setSelectionMode(0);
         scrollPane1.setViewportView(rsList);
         final Spacer spacer2 = new Spacer();
         panel3.add(spacer2, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        infoLabel = new JLabel();
+        infoLabel.setText("");
+        contentPane.add(infoLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         statusLabel = new JLabel();
         statusLabel.setText("");
         contentPane.add(statusLabel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
@@ -144,45 +145,45 @@ public class PersonPhone extends JDialog {
         return contentPane;
     }
 
-    class ShowPhoneListener implements ActionListener {
+    class ShowEmailListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             int index = rsList.getSelectedIndex();
             if (index < 0) {
-                statusLabel.setText("Wybierz telefon do pokazania.");
+                statusLabel.setText("Wybierz email do pokazania.");
             } else {
-                Phone selectedPhone = (Phone) rs.toArray()[index];
-                SEIPhone showPhone = new SEIPhone(PersonPhone.this, selectedPhone, AppDict.SHOW);
-                showPhone.pack();
-                showPhone.setVisible(true);
+                Email selectedEmail = (Email) rs.toArray()[index];
+                SEIEmail showEmail = new SEIEmail(PersonEmail.this, selectedEmail, AppDict.SHOW);
+                showEmail.pack();
+                showEmail.setVisible(true);
             }
         }
     }
 
-    class EditPhoneListener implements ActionListener {
+    class EditEmailListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             int index = rsList.getSelectedIndex();
             if (index < 0) {
-                statusLabel.setText("Wybierz numer telefonu do edycji.");
+                statusLabel.setText("Wybierz email do pokazania.");
             } else {
-                Phone selectedPhone = (Phone) rs.toArray()[index];
-                SEIPhone showPhone = new SEIPhone(PersonPhone.this, selectedPhone, AppDict.EDIT);
-                showPhone.pack();
-                showPhone.setVisible(true);
+                Email selectedEmail = (Email) rs.toArray()[index];
+                SEIEmail showEmail = new SEIEmail(PersonEmail.this, selectedEmail, AppDict.EDIT);
+                showEmail.pack();
+                showEmail.setVisible(true);
             }
         }
     }
 
-    class AddPhoneListener implements ActionListener {
+    class AddEmailListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                Phone phoneNew = new Phone();
-                phoneNew.person_id.setValue(sPerson);
-                SEIPhone showPhone = new SEIPhone(PersonPhone.this, phoneNew, AppDict.ADD);
-                showPhone.pack();
-                showPhone.setVisible(true);
+                Email emailNew = new Email();
+                emailNew.person_id.setValue(sPerson);
+                SEIEmail showEmail = new SEIEmail(PersonEmail.this, emailNew, AppDict.ADD);
+                showEmail.pack();
+                showEmail.setVisible(true);
             } catch (ValueToLongException e1) {
                 JOptionPane.showMessageDialog(parent, e1.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
                 e1.printStackTrace();
@@ -197,7 +198,7 @@ public class PersonPhone extends JDialog {
 
     public void setRsList() {
         try {
-            rs = SearchPersonPhone.search(sPerson);
+            rs = SearchPersonEmail.search(sPerson);
             this.rsList.setListData(rs.toArray());
         } catch (ValueToLongException e) {
             JOptionPane.showMessageDialog(parent, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
@@ -212,6 +213,7 @@ public class PersonPhone extends JDialog {
             JOptionPane.showMessageDialog(parent, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
+
     }
 
 }

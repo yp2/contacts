@@ -46,6 +46,7 @@ public class MainWindow {
         this.frame = frame;
 
 
+
         addButton.addActionListener(new InsertPersonListener());
     }
 
@@ -218,6 +219,15 @@ public class MainWindow {
     class EmailPersonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            int index = rsList.getSelectedIndex();
+            if (index < 0) {
+                statusLabel.setText("Wybierz osobę aby pokazać jej adres email.");
+            } else {
+                Person selectedPerson = (Person) rs.toArray()[index];
+                PersonEmail personEmail = new PersonEmail(frame, MainWindow.this, selectedPerson);
+                personEmail.pack();
+                personEmail.setVisible(true);
+            }
 
         }
     }
