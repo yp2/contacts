@@ -440,7 +440,6 @@ public abstract class DBModel implements Comparable<DBModel> {
         try(PreparedStatement stmt = dbConn.prepareStatement(sql)){
             stmt.setInt(1, pkField.getValue());
 
-            System.out.println(stmt.toString());
             stmt.executeUpdate();
         }
     }
