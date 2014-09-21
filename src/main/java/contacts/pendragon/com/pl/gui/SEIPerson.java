@@ -6,13 +6,14 @@ import com.intellij.uiDesigner.core.Spacer;
 import contacts.pendragon.com.pl.dbutils.repo.DBModelException;
 import contacts.pendragon.com.pl.dbutils.repo.Person;
 import contacts.pendragon.com.pl.dbutils.repo.ValueToLongException;
+import contacts.pendragon.com.pl.repo.AppDict;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
 
-public class PersonEdit extends JDialog {
+public class SEIPerson extends JDialog {
     private JPanel contentPane;
     private JButton saveButton;
     private JButton closeButton;
@@ -20,90 +21,120 @@ public class PersonEdit extends JDialog {
     protected JTextField surnameField;
     protected JTextField comNameField;
     protected JTextArea descriptionField;
-    protected Person sP;
-    protected JFrame parent;
-    protected MainWindow mainWindow;
-    protected JTextField qsField;
+    protected MainWindow parent;
+    protected Person sPerson;
 
-    public PersonEdit(JFrame parent, MainWindow mainWindow, Person person) {
-        super(parent, "Edytuj osobę", true);
+
+    public SEIPerson(MainWindow parent, Person selectedPerson, final int type) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(saveButton);
-        this.sP = person;
-        this.parent =  parent;
-        this.mainWindow = mainWindow;
-        this.qsField = this.mainWindow.getQuickSearchField();
+        this.parent = parent;
+        this.sPerson = selectedPerson;
+        saveButton.setVisible(false); //hide saveButton
 
-        setFieldsValues();
+        if (type == AppDict.SHOW) {
+            this.setTitle("Pokaż osobę");
+        } else if (type == AppDict.EDIT) {
+            this.setTitle("Edytuj osobę");
+        } else if (type == AppDict.ADD) {
+            this.setTitle("Dodaj osobę");
+        }
 
-        saveButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onSave();
+        if (type == AppDict.SHOW) {
+            setFieldsValues();
+            setNotEditable();
+        } else if (type == AppDict.EDIT || type == AppDict.ADD) {
+            if (type == AppDict.EDIT) {
+                setFieldsValues();
             }
-        });
+            saveButton.setVisible(true);
+            saveButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    onSave(type);
+                }
+            });
+        }
 
         closeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onClose();
+                onCancel();
             }
         });
 
-// call onClose() when cross is clicked
+// call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                onClose();
+                onCancel();
             }
         });
 
-// call onClose() on ESCAPE
+// call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onClose();
+                onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onSave() {
-        try {
-            sP.name.setValue(this.nameField.getText().equals("") ? null : this.nameField.getText());
-            sP.surname.setValue(this.surnameField.getText().equals("") ? null : this.surnameField.getText());
-            sP.com_name.setValue(this.comNameField.getText().equals("") ? null : this.comNameField.getText());
-            sP.description.setValue(this.descriptionField.getText().equals("") ? null : this.descriptionField.getText());
-            sP.save();
-            mainWindow.setStatus("Zapisano.");
-            qsField.postActionEvent();
-        } catch (ValueToLongException | SQLException | IllegalAccessException | DBModelException e) {
-            JOptionPane.showMessageDialog(this, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
-
-
-
-
-// add your code here
-//        dispose();
-    }
-
-    private void onClose() {
-// add your code here if necessary
-        dispose();
-    }
-
     private void setFieldsValues() {
         try {
-            this.nameField.setText(sP.name.getValue());
-            this.surnameField.setText(sP.surname.getValue());
-            this.comNameField.setText(sP.com_name.getValue());
-            this.descriptionField.setText(sP.description.getValue());
+            this.nameField.setText(sPerson.name.getValue());
+            this.surnameField.setText(sPerson.surname.getValue());
+            this.comNameField.setText(sPerson.com_name.getValue());
+            this.descriptionField.setText(sPerson.description.getValue());
         } catch (DBModelException e) {
             JOptionPane.showMessageDialog(this, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
-
     }
 
+    private void setNotEditable() {
+        this.nameField.setEditable(false);
+        this.surnameField.setEditable(false);
+        this.comNameField.setEditable(false);
+        this.descriptionField.setEditable(false);
+    }
+
+    private void onSave(int type) {
+        try {
+            if (nameField.getText().equals("") && surnameField.getText().equals("") &&
+                    comNameField.getText().equals("")) {
+                JOptionPane.showMessageDialog(this, "Należy podać imię, nazwisko lub nazwę firmy",
+                        "Contacts - niepełne dane", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                sPerson.name.setValue(this.nameField.getText().equals("") ? null : this.nameField.getText());
+                sPerson.surname.setValue(this.surnameField.getText().equals("") ? null : this.surnameField.getText());
+                sPerson.com_name.setValue(this.comNameField.getText().equals("") ? null : this.comNameField.getText());
+                sPerson.description.setValue(this.descriptionField.getText().equals("") ? null : this.descriptionField.getText());
+                sPerson.save();
+                parent.setStatus("Zapisano.");
+                parent.reloadRsList();
+                if (type == AppDict.ADD) {
+                    dispose();
+                }
+            }
+        } catch (ValueToLongException e) {
+            JOptionPane.showMessageDialog(this, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            JOptionPane.showMessageDialog(this, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } catch (DBModelException e) {
+            JOptionPane.showMessageDialog(this, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+
+    private void onCancel() {
+// add your code here if necessary
+        dispose();
+    }
 
     {
 // GUI initializer generated by IntelliJ IDEA GUI Designer
@@ -124,7 +155,7 @@ public class PersonEdit extends JDialog {
         contentPane.setLayout(new GridLayoutManager(2, 1, new Insets(1, 1, 1, 1), -1, -1));
         final JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
-        contentPane.add(panel1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        contentPane.add(panel1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, 1, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
         panel1.add(spacer1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final JPanel panel2 = new JPanel();
@@ -155,14 +186,18 @@ public class PersonEdit extends JDialog {
         label4.setText("Opis");
         panel4.add(label4, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         nameField = new JTextField();
+        nameField.setEditable(true);
         panel4.add(nameField, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         surnameField = new JTextField();
+        surnameField.setEditable(true);
         panel4.add(surnameField, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         comNameField = new JTextField();
+        comNameField.setEditable(true);
         panel4.add(comNameField, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JScrollPane scrollPane1 = new JScrollPane();
         panel4.add(scrollPane1, new GridConstraints(3, 1, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         descriptionField = new JTextArea();
+        descriptionField.setEditable(true);
         descriptionField.setLineWrap(true);
         descriptionField.setWrapStyleWord(false);
         scrollPane1.setViewportView(descriptionField);
