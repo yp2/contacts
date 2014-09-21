@@ -40,6 +40,14 @@ public class SEIEmail extends JDialog {
         }
 
         if (type == AppDict.SHOW) {
+            this.setTitle("Pokaż email");
+        } else if (type == AppDict.EDIT) {
+            this.setTitle("Edytuj email");
+        } else if (type == AppDict.ADD) {
+            this.setTitle("Dodaj email");
+        }
+
+        if (type == AppDict.SHOW) {
             setFieldsValues();
             setNotEditable();
         } else if (type == AppDict.EDIT || type == AppDict.ADD) {

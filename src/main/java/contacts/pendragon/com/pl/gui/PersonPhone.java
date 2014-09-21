@@ -43,6 +43,7 @@ public class PersonPhone extends JDialog {
         this.mainWindow = mainWindow;
         this.qsField = this.mainWindow.getQuickSearchField();
         this.sPerson = selectedPerson;
+        this.setTitle("Telefony");
 
         showPhoneButton.addActionListener(new ShowPhoneListener());
         editPhoneButton.addActionListener(new EditPhoneListener());

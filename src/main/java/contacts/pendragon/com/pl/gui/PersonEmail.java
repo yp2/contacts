@@ -43,6 +43,7 @@ public class PersonEmail extends JDialog {
         this.mainWindow = mainWindow;
         this.qsField = this.mainWindow.getQuickSearchField();
         this.sPerson = selectedPerson;
+        this.setTitle("Adresy email");
 
         showEmailButton.addActionListener(new ShowEmailListener());
         editEmailButton.addActionListener(new EditEmailListener());

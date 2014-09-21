@@ -135,7 +135,6 @@ public class MainWindow {
         public void actionPerformed(ActionEvent e) {
             String value = quickSearchField.getText();
 
-
             try {
                 rs = SearchPerson.quickSearch(value);
                 if (rs.size() == 0) {

@@ -39,6 +39,14 @@ public class SEIPhone extends JDialog {
         }
 
         if (type == AppDict.SHOW) {
+            this.setTitle("Pokaż numer telefonu");
+        } else if (type == AppDict.EDIT) {
+            this.setTitle("Edytuj numer telefonu");
+        } else if (type == AppDict.ADD) {
+            this.setTitle("Dodaj numer telefonu");
+        }
+
+        if (type == AppDict.SHOW) {
             setFieldsValues();
             setNotEditable();
         } else if (type == AppDict.EDIT || type == AppDict.ADD) {

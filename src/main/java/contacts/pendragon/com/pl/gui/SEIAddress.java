@@ -45,6 +45,14 @@ public class SEIAddress extends JDialog {
         }
 
         if (type == AppDict.SHOW) {
+            this.setTitle("Pokaż adres");
+        } else if (type == AppDict.EDIT) {
+            this.setTitle("Edytuj adres");
+        } else if (type == AppDict.ADD) {
+            this.setTitle("Dodaj adres");
+        }
+
+        if (type == AppDict.SHOW) {
             setFieldsValues();
             setNotEditable();
         } else if (type == AppDict.EDIT || type == AppDict.ADD) {

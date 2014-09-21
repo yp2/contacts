@@ -43,6 +43,7 @@ public class PersonAddress extends JDialog {
         this.mainWindow = mainWindow;
         this.qsField = this.mainWindow.getQuickSearchField();
         this.sPerson = selectedPerson;
+        this.setTitle("Adresy");
 
         showAddressButton.addActionListener(new ShowAddressListener());
         editAddressButton.addActionListener(new EditAddressListener());
