@@ -26,7 +26,6 @@ public class SEIAddress extends JDialog {
     protected JTextField countryField;
     protected JTextArea descriptionField;
     protected JButton saveButton;
-    protected MainWindow mainWindow;
     protected Address address;
     protected PersonAddress parent;
 
@@ -105,7 +104,6 @@ public class SEIAddress extends JDialog {
     }
 
     private void onSave(int type) {
-        System.out.println("tu");
         try {
             address.street.setValue(this.streetField.getText().equals("") ? null : this.streetField.getText());
             address.house_no.setValue(this.houseNoField.getText().equals("") ? null : this.houseNoField.getText());
@@ -213,8 +211,12 @@ public class SEIAddress extends JDialog {
         panel5.add(postCodeField, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         countryField = new JTextField();
         panel5.add(countryField, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JScrollPane scrollPane1 = new JScrollPane();
+        panel5.add(scrollPane1, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         descriptionField = new JTextArea();
-        panel5.add(descriptionField, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        descriptionField.setLineWrap(true);
+        descriptionField.setWrapStyleWord(false);
+        scrollPane1.setViewportView(descriptionField);
     }
 
     /**

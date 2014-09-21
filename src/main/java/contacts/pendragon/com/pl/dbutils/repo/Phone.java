@@ -54,8 +54,12 @@ public class Phone extends DBModel {
         this(values[2], values[3]);
         this.phone_id.setValue(Integer.parseInt(values[0]));
         this.person_id.setValue(values[1]);
+        setFields();
     }
 
+    @Override
+    public String toString() {
 
-
+        return this.number.toString();
+    }
 }

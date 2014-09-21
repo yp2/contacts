@@ -203,7 +203,15 @@ public class MainWindow {
     class PhonePersonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            int index = rsList.getSelectedIndex();
+            if (index < 0) {
+                statusLabel.setText("Wybierz osobę aby pokazać jej numer telefonu.");
+            } else {
+                Person selectedPerson = (Person) rs.toArray()[index];
+                PersonPhone personPhone = new PersonPhone(frame, MainWindow.this, selectedPerson);
+                personPhone.pack();
+                personPhone.setVisible(true);
+            }
         }
     }
 
