@@ -15,3 +15,8 @@ INSERT INTO ADDRESS (PERSON_ID, STREET, HOUSE_NO,
 FLAT_NO, CITY, POST_CODE, COUNTRY, DESCRIPTION) VALUES 
 (3, 'Abramowicka', '11', '23', 'Lublin', '20-345', 'Polska', 
 'opis to ogrodnictwo');
+
+INSERT INTO ADDRESS (PERSON_ID, STREET, HOUSE_NO, 
+FLAT_NO, CITY, POST_CODE, COUNTRY, DESCRIPTION) VALUES 
+(3, 'Związakowa', '45', '2C', 'Lublin', '20-123 ', 'Polska', 
+'opis to ogrodnictwo 2');
