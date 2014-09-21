@@ -7,4 +7,5 @@ import javax.swing.*;
  */
 public abstract class JDialogApp extends JDialog{
     public abstract void setRsList();
+    public abstract void setStatus(String message);
 }

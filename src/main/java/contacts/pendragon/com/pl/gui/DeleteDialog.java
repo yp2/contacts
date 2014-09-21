@@ -75,6 +75,7 @@ public class DeleteDialog extends JDialog {
             e.printStackTrace();
         }
         dispose();
+        parent.setStatus("Usunięto");
     }
 
     private void onCancel() {
