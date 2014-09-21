@@ -17,7 +17,7 @@ import java.awt.event.*;
 import java.sql.SQLException;
 import java.util.Set;
 
-public class PersonPhone extends JDialog {
+public class PersonPhone extends JDialogApp {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton closeButton;
@@ -27,6 +27,7 @@ public class PersonPhone extends JDialog {
     protected JButton editPhoneButton;
     protected JButton showPhoneButton;
     protected JList rsList;
+    protected JButton deletePhoneButton;
     protected JFrame parent;
     protected MainWindow mainWindow;
     protected JTextField qsField;
@@ -48,6 +49,7 @@ public class PersonPhone extends JDialog {
         showPhoneButton.addActionListener(new ShowPhoneListener());
         editPhoneButton.addActionListener(new EditPhoneListener());
         addPhoneButton.addActionListener(new AddPhoneListener());
+        deletePhoneButton.addActionListener(new DeletePhoneListener());
 
         infoLabel.setText(selectedPerson.toString());
 
@@ -116,7 +118,7 @@ public class PersonPhone extends JDialog {
         infoLabel.setText("");
         contentPane.add(infoLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final JPanel panel3 = new JPanel();
-        panel3.setLayout(new GridLayoutManager(4, 2, new Insets(0, 0, 0, 0), -1, -1));
+        panel3.setLayout(new GridLayoutManager(5, 2, new Insets(0, 0, 0, 0), -1, -1));
         contentPane.add(panel3, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         addPhoneButton = new JButton();
         addPhoneButton.setText("Dodaj numer telefonu");
@@ -128,11 +130,14 @@ public class PersonPhone extends JDialog {
         showPhoneButton.setText("Pokaż numer telefonu");
         panel3.add(showPhoneButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JScrollPane scrollPane1 = new JScrollPane();
-        panel3.add(scrollPane1, new GridConstraints(0, 1, 4, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel3.add(scrollPane1, new GridConstraints(0, 1, 5, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         rsList.setSelectionMode(0);
         scrollPane1.setViewportView(rsList);
         final Spacer spacer2 = new Spacer();
-        panel3.add(spacer2, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel3.add(spacer2, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        deletePhoneButton = new JButton();
+        deletePhoneButton.setText("Usuń numer telefonu");
+        panel3.add(deletePhoneButton, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         statusLabel = new JLabel();
         statusLabel.setText("");
         contentPane.add(statusLabel, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
@@ -193,6 +198,21 @@ public class PersonPhone extends JDialog {
             }
 
 
+        }
+    }
+
+    class DeletePhoneListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int index = rsList.getSelectedIndex();
+            if (index < 0) {
+                statusLabel.setText("Wybierz numer telefonu do usunięcia.");
+            } else {
+                Phone selectedPhone = (Phone) rs.toArray()[index];
+                DeleteDialog deleteDialog = new DeleteDialog(PersonPhone.this, selectedPhone, "telefon");
+                deleteDialog.pack();
+                deleteDialog.setVisible(true);
+            }
         }
     }
 
