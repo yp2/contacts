@@ -280,10 +280,33 @@ public class DBStmtTest extends DBTestHelper {
 //            System.out.println(m.getPkField());
         }
 
+    }
 
+    @Test
+    public void testDelete()
+            throws SQLException, IllegalAccessException,
+            ValueToLongException, DBModelException
+    {
+        this.dbSetPostgreSQL();
+        // create DB
+        SQLDict sqlDict = new SQLDictFactory().getSQLDict();
+        try (Connection conn = new DBFactory().getDBConnection()) {
+            createDB(conn, sqlDict);
+        }
 
+        // Populate DB
+        Person p1 = new Person("Jan", "Kowalski", null, "to opis do Jana Kowalskiego");
+        Person p2 = new Person("Andrzej", "Sroka", "Sroka Company", "to opis od Andrzeja Sroki");
+        p1.save();
+        p2.save();
 
+        Address a1 = new Address(p1, "Diamentowa", "10", null, "Lublin", "20-543", "Polska", "To jest opis");
+        Address a2 = new Address(p2, "Onyksowa", "3", "34", "Lublin", "20-542", "Polska", "To jest opis");
+        a1.save();
+        a2.save();
 
+        a1.delete();
+        p1.delete();
 
     }
 

@@ -160,4 +160,6 @@ public abstract class SQLDict {
     public String selectWhereIntLast =
             "AND %s=?";
 
+    public String deleteSimpelStatement =
+            "DELETE FROM %s WHERE %s;";
 }

@@ -421,4 +421,38 @@ public abstract class DBModel implements Comparable<DBModel> {
         return value;
     }
 
+    private void runDelete(Connection dbConn)
+            throws DBModelException, SQLException
+    {
+        SQLDict sqlDict = sqlDictFactory.getSQLDict();
+        String baseSqlStatement;
+        String sql;
+        String sqlWhere;
+
+        // setting where clause
+        sqlWhere = String.format(sqlDict.selectWhereIntFirst, pkFieldName.toUpperCase());
+
+        // creating sql statement
+        baseSqlStatement = sqlDict.deleteSimpelStatement;
+        sql = String.format(baseSqlStatement, model.toUpperCase(), sqlWhere);
+
+        // run delete
+        try(PreparedStatement stmt = dbConn.prepareStatement(sql)){
+            stmt.setInt(1, pkField.getValue());
+
+            System.out.println(stmt.toString());
+            stmt.executeUpdate();
+        }
+    }
+
+    public void delete()
+        throws IllegalAccessException, SQLException, DBModelException
+    {
+        try(Connection conn = dbFactory.getDBConnection()){
+            runDelete(conn);
+        }
+    }
+
+
+
 }
