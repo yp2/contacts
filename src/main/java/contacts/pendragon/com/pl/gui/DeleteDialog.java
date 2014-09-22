@@ -5,6 +5,9 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import contacts.pendragon.com.pl.dbutils.DBModel;
 import contacts.pendragon.com.pl.dbutils.repo.DBModelException;
+import contacts.pendragon.com.pl.dbutils.repo.Person;
+import contacts.pendragon.com.pl.dbutils.repo.ValueToLongException;
+import contacts.pendragon.com.pl.engine.DeletePerson;
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,9 +64,18 @@ public class DeleteDialog extends JDialog {
     private void onOK() {
 // add your code here
         try {
-            model.delete();
+
+            if (model.getClass() == Person.class) {
+                // person model we have to delete all entries from all db tables
+                System.out.println("To");
+                Person delPerson = (Person) model;
+                DeletePerson deletePerson = new DeletePerson(delPerson);
+                deletePerson.delete();
+            } else {
+                model.delete();
+            }
             parent.setRsList();
-        } catch (IllegalAccessException e) {
+        } catch (IllegalAccessException | ValueToLongException e) {
             JOptionPane.showMessageDialog(this, e.toString(), "Contacts - błąd", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         } catch (SQLException e) {

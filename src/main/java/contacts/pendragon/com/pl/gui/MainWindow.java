@@ -20,7 +20,7 @@ import java.util.Set;
 /**
  * Created by daniel on 16.09.14.
  */
-public class MainWindow {
+public class MainWindow extends JDialogApp {
     protected JButton addPersonButton;
     protected JButton settingsButton;
     protected JList rsList;
@@ -35,6 +35,7 @@ public class MainWindow {
     private JTextField quickSearchField;
     private JButton quickSearchButton;
     private JLabel statusLabel;
+    protected JButton deletePersonButton;
     private JFrame frame;
 
     public MainWindow(JFrame frame) {
@@ -47,6 +48,7 @@ public class MainWindow {
         personAddressButton.addActionListener(new AddressPersonListener());
         phonePersonButton.addActionListener(new PhonePersonListener());
         emailPersonButton.addActionListener(new EmailPersonListener());
+        deletePersonButton.addActionListener(new DeletePersonListener());
         this.frame = frame;
     }
 
@@ -60,6 +62,10 @@ public class MainWindow {
 
     public void reloadRsList() {
         this.getQuickSearchField().postActionEvent();
+    }
+
+    public void setRsList() {
+        reloadRsList();
     }
 
     public JTextField getQuickSearchField() {
@@ -99,31 +105,34 @@ public class MainWindow {
         statusLabel.setText("Contacts");
         panel3.add(statusLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel4 = new JPanel();
-        panel4.setLayout(new GridLayoutManager(8, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel4.setLayout(new GridLayoutManager(9, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel2.add(panel4, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         addPersonButton = new JButton();
         addPersonButton.setText("Dodaj osobę");
         panel4.add(addPersonButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
-        panel4.add(spacer1, new GridConstraints(7, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel4.add(spacer1, new GridConstraints(8, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         settingsButton = new JButton();
         settingsButton.setText("Opcje");
-        panel4.add(settingsButton, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel4.add(settingsButton, new GridConstraints(7, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         editPersonButton = new JButton();
         editPersonButton.setText("Edytuj osobę");
         panel4.add(editPersonButton, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         personAddressButton = new JButton();
         personAddressButton.setText("Adres osoby");
-        panel4.add(personAddressButton, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel4.add(personAddressButton, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         phonePersonButton = new JButton();
         phonePersonButton.setText("Telefon osoby");
-        panel4.add(phonePersonButton, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel4.add(phonePersonButton, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         emailPersonButton = new JButton();
         emailPersonButton.setText("Email osoby");
-        panel4.add(emailPersonButton, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel4.add(emailPersonButton, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         showPersonButton = new JButton();
         showPersonButton.setText("Pokaż osobę");
         panel4.add(showPersonButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        deletePersonButton = new JButton();
+        deletePersonButton.setText("Usuń osobę");
+        panel4.add(deletePersonButton, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JScrollPane scrollPane1 = new JScrollPane();
         panel2.add(scrollPane1, new GridConstraints(0, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         rsList.setSelectionMode(0);
@@ -260,6 +269,21 @@ public class MainWindow {
                 personEmail.setVisible(true);
             }
 
+        }
+    }
+
+    class DeletePersonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int index = rsList.getSelectedIndex();
+            if (index < 0) {
+                statusLabel.setText("Wybierz osobę do usunięcia.");
+            } else {
+                Person selectedPerson = (Person) rs.toArray()[index];
+                DeleteDialog deleteDialog = new DeleteDialog(MainWindow.this, selectedPerson, "osoba");
+                deleteDialog.pack();
+                deleteDialog.setVisible(true);
+            }
         }
     }
 
