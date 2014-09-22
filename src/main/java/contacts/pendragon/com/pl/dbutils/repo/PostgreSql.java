@@ -13,6 +13,7 @@ public class PostgreSql extends DBManager {
 
     @Override
     public Connection getDBConnection() throws SQLException {
+        this.url = this.urlpg + "//" + this.hostname + ":" + this.port + "/" + this.dbname;
         return DriverManager.getConnection(this.url, this.username, this.password);
     }
 

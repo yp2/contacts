@@ -16,7 +16,7 @@ public class DefaultSettings {
         this.defaultProp.setProperty("home", System.getProperty("user.home"));
 
         // dbutils test connection PostgreSql
-        this.defaultProp.setProperty("test.db.type", AppDict.sqllite);
+        this.defaultProp.setProperty("test.db.type", AppDict.sqlite);
         this.defaultProp.setProperty("test.jdbc.drivers", "org.postgresql.Driver:org.sqlite.JDBC");
         this.defaultProp.setProperty("test.jdbc.url", "jdbc:postgresql:testcontacts");
         this.defaultProp.setProperty("test.jdbc.username", "javalab");
@@ -37,9 +37,14 @@ public class DefaultSettings {
          */
         this.defaultProp.setProperty("jdbc.drivers", "org.postgresql.Driver:org.sqlite.JDBC");
         this.defaultProp.setProperty("db.type", AppDict.postgresql);
-        this.defaultProp.setProperty("jdbc.url", "jdbc:postgresql:contacts");
+        this.defaultProp.setProperty("jdbc.url.pg", "jdbc:postgresql:");
+        this.defaultProp.setProperty("jdbc.url.sl", "jdbc:sqlite:");
         this.defaultProp.setProperty("jdbc.username", "javalab");
         this.defaultProp.setProperty("jdbc.password", "java");
+        this.defaultProp.setProperty("jdbc.hostname", "localhost");
+        this.defaultProp.setProperty("jdbc.port", "5432");
+        this.defaultProp.setProperty("jdbc.dbname", "contacts");
+        this.defaultProp.setProperty("jdbc.slpath", "contacts.db");
     }
 
     public Properties getDefaultProp() {

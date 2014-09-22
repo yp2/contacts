@@ -13,6 +13,7 @@ public class SQLite extends DBManager {
 
     @Override
     public Connection getDBConnection() throws SQLException {
+        url = this.urlsl + this.slpath;
         return DriverManager.getConnection(this.url);
     }
 }

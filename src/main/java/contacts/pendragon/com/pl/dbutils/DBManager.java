@@ -12,14 +12,26 @@ import java.util.Properties;
 public abstract class DBManager {
 
     protected String url;
+    protected String urlpg;
+    protected String urlsl;
     protected String username;
     protected String password;
+    protected String hostname;
+    protected String port;
+    protected String slpath;
+    protected String dbname;
     private String drivers;
 
     public DBManager() {
         Properties appProp = Settings.getInstance().getAppProp();
+        Settings appSet = Settings.getInstance();
         drivers = appProp.getProperty("jdbc.drivers");
-        url = appProp.getProperty("jdbc.url");
+        urlpg = appProp.getProperty("jdbc.url.pg");
+        urlsl = appProp.getProperty("jdbc.url.sl");
+        hostname = appSet.getHostname();
+        port = appSet.getPort();
+        slpath = appSet.getSlitePath();
+        dbname = appSet.getDbName();
         username = appProp.getProperty("jdbc.username");
         password = appProp.getProperty("jdbc.password");
 

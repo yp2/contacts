@@ -49,6 +49,7 @@ public class MainWindow extends JDialogApp {
         phonePersonButton.addActionListener(new PhonePersonListener());
         emailPersonButton.addActionListener(new EmailPersonListener());
         deletePersonButton.addActionListener(new DeletePersonListener());
+        settingsButton.addActionListener(new SettingsListener());
         this.frame = frame;
     }
 
@@ -284,6 +285,16 @@ public class MainWindow extends JDialogApp {
                 deleteDialog.pack();
                 deleteDialog.setVisible(true);
             }
+        }
+    }
+
+    class SettingsListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            SettingsDialog settingsDialog = new SettingsDialog();
+//            settingsDialog.setSize(400, 200);
+            settingsDialog.pack();
+            settingsDialog.setVisible(true);
         }
     }
 

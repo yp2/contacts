@@ -61,13 +61,13 @@ public class DBTestHelper {
     }
 
     /**
-     * Method sets app properities for sqllite db; base on test default settings
+     * Method sets app properities for sqlite db; base on test default settings
      */
     public void dbSetSQLite() {
         // set appSettings base on test settings
         // jdbc.drivers is the same
         // setUp settings for SQLite
-        appSettings.setProperty("db.type", AppDict.sqllite);
+        appSettings.setProperty("db.type", AppDict.sqlite);
         appSettings.setProperty("jdbc.url", this.dbSqliteUrl);
         appSettings.setProperty("jdbc.username", "");
         appSettings.setProperty("jdbc.password", "");

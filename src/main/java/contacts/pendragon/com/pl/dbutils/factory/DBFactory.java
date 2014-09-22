@@ -32,7 +32,7 @@ public class DBFactory {
         dbType = appSettings.getDbType();
         if (dbType.equals(AppDict.postgresql)) {
             dbManager = new PostgreSql();
-        } else if (dbType.equals(AppDict.sqllite)) {
+        } else if (dbType.equals(AppDict.sqlite)) {
             dbManager = new SQLite();
         }
         return dbManager;

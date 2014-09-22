@@ -2,6 +2,7 @@ package contacts.pendragon.com.pl;
 
 
 import contacts.pendragon.com.pl.gui.MainWindow;
+import contacts.pendragon.com.pl.repo.Settings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,12 +10,13 @@ import java.awt.*;
 
 /**
  * Hello world!
- * <p/>
+ *
  * Aplikacja bazodanowa do zapisywania listy kontaktów (imię, nazwisko, lub nazwa firmy, adres, e-mail, telefony, opis)
  */
 public class App {
     public static void main(String[] args) {
 
+        Settings appSettings = Settings.getInstance();
 
         EventQueue.invokeLater(new Runnable() {
             @Override

@@ -20,13 +20,10 @@ public class SQLDictFactory {
 
     public SQLDict getSQLDict() {
         this.dbType = appSettings.getDbType();
-//        System.out.println(dbType);
         if (dbType.equals(AppDict.postgresql)) {
             sqlDict = PgSQLDict.getInstance();
-//            System.out.println(sqlDict.createTablePerson);
-        } else if (dbType.equals(AppDict.sqllite)) {
+        } else if (dbType.equals(AppDict.sqlite)) {
             sqlDict = SLiteSQLDict.getInstance();
-//            System.out.println(sqlDict.createTablePerson);
         }
         return sqlDict;
     }
