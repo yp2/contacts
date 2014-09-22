@@ -106,37 +106,6 @@ public class DBTest extends DBTestHelper {
     }
 
     @Test
-    public void testDBConnPGSql() {
-        Connection conn;
-        if (this.dbDrivers != null)
-            System.setProperty("jdbc.drivers", this.dbDrivers);
-
-        try {
-            conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-        } catch (SQLException exception) {
-            conn = null;
-        }
-        assertNotNull(conn);
-    }
-
-    @Test
-    public void testDBConnSQLite() {
-        this.dbSetPostgreSQL();
-
-        Connection conn;
-
-        if (this.dbDrivers != null)
-            System.setProperty("jdbc.drivers", this.dbDrivers);
-
-        try {
-            conn = DriverManager.getConnection(this.dbSqliteUrl);
-        } catch (SQLException ex) {
-            conn = null;
-        }
-        assertNotNull(conn);
-    }
-
-    @Test
     public void testPostgreSqlConnection() {
         this.dbSetSQLite();
 

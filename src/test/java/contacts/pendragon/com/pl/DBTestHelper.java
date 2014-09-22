@@ -54,10 +54,12 @@ public class DBTestHelper {
         // set appSettings base on test settings
         // jdbc.drivers is the same
         // setUp settings for Postgresql
-        appSettings.setProperty("db.type", AppDict.postgresql);
-        appSettings.setProperty("jdbc.url", this.dbUrl);
-        appSettings.setProperty("jdbc.username", this.dbUsername);
-        appSettings.setProperty("jdbc.password", this.dbPassword);
+        appSettings.setDbType(AppDict.postgresql);
+        appSettings.setHostname("localhost");
+        appSettings.setPort("5432");
+        appSettings.setDbName("testcontacts");
+        appSettings.setUsername("javalab");
+        appSettings.setPassword("java");
     }
 
     /**
@@ -67,20 +69,14 @@ public class DBTestHelper {
         // set appSettings base on test settings
         // jdbc.drivers is the same
         // setUp settings for SQLite
-        appSettings.setProperty("db.type", AppDict.sqlite);
-        appSettings.setProperty("jdbc.url", this.dbSqliteUrl);
-        appSettings.setProperty("jdbc.username", "");
-        appSettings.setProperty("jdbc.password", "");
+        appSettings.setDbType(AppDict.sqlite);
+        appSettings.setSlitePath("testcontacts.db");
     }
 
     @Before
     public void setUp() {
         appSettings = Settings.getInstance();
         dbDrivers = appSettings.getProperty("test.jdbc.drivers");
-        dbUrl = appSettings.getProperty("test.jdbc.url");
-        dbUsername = appSettings.getProperty("test.jdbc.username");
-        dbPassword = appSettings.getProperty("test.jdbc.password");
-        dbSqliteUrl = appSettings.getProperty("test.sqlite.jdbc.url");
     }
 
     @After
