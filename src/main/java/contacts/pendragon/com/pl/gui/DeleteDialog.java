@@ -67,7 +67,6 @@ public class DeleteDialog extends JDialog {
 
             if (model.getClass() == Person.class) {
                 // person model we have to delete all entries from all db tables
-                System.out.println("To");
                 Person delPerson = (Person) model;
                 DeletePerson deletePerson = new DeletePerson(delPerson);
                 deletePerson.delete();
