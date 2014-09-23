@@ -6,6 +6,7 @@ import com.intellij.uiDesigner.core.Spacer;
 import contacts.pendragon.com.pl.dbutils.repo.DBModelException;
 import contacts.pendragon.com.pl.dbutils.repo.Phone;
 import contacts.pendragon.com.pl.dbutils.repo.ValueToLongException;
+import contacts.pendragon.com.pl.engine.Validate;
 import contacts.pendragon.com.pl.repo.AppDict;
 
 import javax.swing.*;
@@ -42,8 +43,10 @@ public class SEIPhone extends JDialog {
             this.setTitle("Pokaż numer telefonu");
         } else if (type == AppDict.EDIT) {
             this.setTitle("Edytuj numer telefonu");
+            this.numberField.addFocusListener(new PhoneValidatorListener());
         } else if (type == AppDict.ADD) {
             this.setTitle("Dodaj numer telefonu");
+            this.numberField.addFocusListener(new PhoneValidatorListener());
         }
 
         if (type == AppDict.SHOW) {
@@ -189,4 +192,20 @@ public class SEIPhone extends JDialog {
     public JComponent $$$getRootComponent$$$() {
         return contentPane;
     }
+
+    class PhoneValidatorListener implements FocusListener {
+        @Override
+        public void focusGained(FocusEvent e) {
+
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            String number = SEIPhone.this.numberField.getText();
+            if (!Validate.phone(number)) {
+                JOptionPane.showMessageDialog(SEIPhone.this, "Niepoprawny numer telefonu", "Contacts - phone", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }
+
 }

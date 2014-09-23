@@ -212,29 +212,6 @@ public class SEIEmail extends JDialog {
         public void focusGained(FocusEvent e) {
 
         }
-        //        @Override
-//        public void insertUpdate(DocumentEvent e) {
-////            String email = SEIEmail.this.emailField.getText();
-////            if (!Validate.email(email)) {
-////                JOptionPane.showMessageDialog(SEIEmail.this, "Niepoprawny adres emial", "Contacts - email", JOptionPane.INFORMATION_MESSAGE);
-////            }
-//        }
-//
-//        @Override
-//        public void removeUpdate(DocumentEvent e) {
-////            String email = SEIEmail.this.emailField.getText();
-////            if (!Validate.email(email)) {
-////                JOptionPane.showMessageDialog(SEIEmail.this, "Niepoprawny adres emial", "Contacts - email", JOptionPane.INFORMATION_MESSAGE);
-////            }
-//        }
-//
-//        @Override
-//        public void changedUpdate(DocumentEvent e) {
-//            String email = SEIEmail.this.emailField.getText();
-//            if (!Validate.email(email)) {
-//                JOptionPane.showMessageDialog(SEIEmail.this, "Niepoprawny adres emial", "Contacts - email", JOptionPane.INFORMATION_MESSAGE);
-//            }
-//        }
     }
 
 }
