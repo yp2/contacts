@@ -24,29 +24,9 @@ public class AppTest {
     }
 
     @Test
-    public void testDefaultSettingsTestOne() {
-        assertEquals("1", defaultProp.getProperty("Test"));
-    }
-
-    @Test
-    public void testDefaultSettingsTestTwo() {
-        assertEquals("2", defaultProp.getProperty("Test2"));
-    }
-
-    @Test
-    public void testDefaultSettingsUserHome() {
-        assertEquals(System.getProperty("user.home"), defaultProp.getProperty("home"));
-    }
-
-    @Test
     public void testAppSettingsSingleton() {
         Settings newSettings = Settings.getInstance();
         assertEquals(newSettings, appSettings);
-    }
-
-    @Test
-    public void testAppPropUserHome() {
-        assertEquals(System.getProperty("user.home"), appProp.getProperty("home"));
     }
 
     @Test
@@ -54,14 +34,6 @@ public class AppTest {
         Properties prop = Settings.getInstance().getAppProp();
         assertEquals(appProp.getProperty("setting1"), prop.getProperty("setting1"));
     }
-
-    @Test
-    public void testSettingsProp(){
-        assertEquals("1", appSettings.getProperty("Test"));
-    }
-
-
-
 
 }
 
