@@ -36,7 +36,7 @@ public class SettingsDialog extends JDialog {
         $$$setupUI$$$();
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
+//        getRootPane().setDefaultButton(buttonOK);
         this.appSet = Settings.getInstance();
         dbTypeField.addActionListener(new DbTypeChanged());
         testButton.addActionListener(new TestConnectionsListener());

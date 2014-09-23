@@ -22,7 +22,7 @@ public class DefaultSettings {
         this.defaultProp.setProperty("db.type", AppDict.postgresql);
         this.defaultProp.setProperty("jdbc.url.pg", "jdbc:postgresql:");
         this.defaultProp.setProperty("jdbc.url.sl", "jdbc:sqlite:");
-        this.defaultProp.setProperty("jdbc.username", "javalab");
+        this.defaultProp.setProperty("jdbc.username", "javalaba");
         this.defaultProp.setProperty("jdbc.password", "java");
         this.defaultProp.setProperty("jdbc.hostname", "localhost");
         this.defaultProp.setProperty("jdbc.port", "5432");
