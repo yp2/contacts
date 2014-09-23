@@ -10,23 +10,6 @@ public class DefaultSettings {
 
     public DefaultSettings() {
 
-        // test properities
-        this.defaultProp.setProperty("Test", "1");
-        this.defaultProp.setProperty("Test2", "2");
-        this.defaultProp.setProperty("home", System.getProperty("user.home"));
-
-        // dbutils test connection PostgreSql
-        this.defaultProp.setProperty("test.db.type", AppDict.sqlite);
-        this.defaultProp.setProperty("test.jdbc.drivers", "org.postgresql.Driver:org.sqlite.JDBC");
-        this.defaultProp.setProperty("test.jdbc.url", "jdbc:postgresql:testcontacts");
-        this.defaultProp.setProperty("test.jdbc.username", "javalab");
-        this.defaultProp.setProperty("test.jdbc.password", "java");
-        // dbutils test connection SQLite
-        this.defaultProp.setProperty("test.sqlite.jdbc.url", "jdbc:sqlite:testcontacts.db");
-
-        // end of test properities
-
-
         /**
          * dbutils types:
          * PostgreSQL - postrgesql
