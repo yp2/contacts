@@ -210,7 +210,7 @@ public class SettingsDialog extends JDialog {
         pgUserField = new JTextField();
         panel3.add(pgUserField, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         testButton = new JButton();
-        testButton.setText("Testuj");
+        testButton.setText("Testuj i utwórz");
         panel3.add(testButton, new GridConstraints(7, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         pgDbName = new JLabel();
         pgDbName.setText("Nazwa bazy danych");
