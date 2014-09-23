@@ -18,10 +18,6 @@ import java.sql.Statement;
 public class DBTestHelper {
     protected Settings appSettings;
     protected String dbDrivers;
-    protected String dbUrl;
-    protected String dbUsername;
-    protected String dbPassword;
-    protected String dbSqliteUrl;
 
     /**
      * Method to create postgresql DB

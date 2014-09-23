@@ -26,7 +26,7 @@ public class SEIPhone extends JDialog {
     public SEIPhone(PersonPhone parent, Phone phone, final int type) {
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(saveButton);
+//        getRootPane().setDefaultButton(saveButton);
         this.parent = parent;
         this.phone = phone;
         saveButton.setVisible(false); //hide saveButton

@@ -12,12 +12,12 @@ import java.sql.SQLException;
  */
 public class TestConnection {
 
-    private Settings appSet;
+//    private Settings appSet;
     private DBFactory dbFactory;
     private JDialog parent;
 
     public TestConnection(JDialog parent){
-        appSet = Settings.getInstance();
+//        appSet = Settings.getInstance();
         dbFactory = new DBFactory();
         this.parent = parent;
     }

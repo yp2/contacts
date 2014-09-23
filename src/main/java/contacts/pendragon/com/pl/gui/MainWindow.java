@@ -160,6 +160,7 @@ public class MainWindow extends JDialogApp {
                     statusLabel.setText("Brak wyników...");
                 } else {
                     rsList.setListData(rs.toArray());
+                    statusLabel.setText("");
                 }
 
             } catch (IllegalAccessException e1) {

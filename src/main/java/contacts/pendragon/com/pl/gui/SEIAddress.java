@@ -32,7 +32,7 @@ public class SEIAddress extends JDialog {
     public SEIAddress(PersonAddress parent, Address address, final int type) {
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
+//        getRootPane().setDefaultButton(buttonOK);
         this.address = address;
         this.parent = parent;
         saveButton.setVisible(false); //hide savebutton

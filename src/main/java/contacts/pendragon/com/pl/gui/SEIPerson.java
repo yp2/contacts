@@ -28,7 +28,7 @@ public class SEIPerson extends JDialog {
     public SEIPerson(MainWindow parent, Person selectedPerson, final int type) {
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(saveButton);
+//        getRootPane().setDefaultButton(saveButton);
         this.parent = parent;
         this.sPerson = selectedPerson;
         saveButton.setVisible(false); //hide saveButton

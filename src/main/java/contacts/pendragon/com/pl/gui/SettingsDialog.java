@@ -4,6 +4,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import contacts.pendragon.com.pl.repo.AppDict;
+import contacts.pendragon.com.pl.repo.CreateDB;
 import contacts.pendragon.com.pl.repo.Settings;
 import contacts.pendragon.com.pl.repo.TestConnection;
 
@@ -248,6 +249,8 @@ public class SettingsDialog extends JDialog {
             onOK();
             TestConnection testConnection = new TestConnection(SettingsDialog.this);
             testConnection.test();
+            CreateDB createDB = new CreateDB();
+            createDB.create();
         }
     }
 

@@ -26,7 +26,7 @@ public class SEIEmail extends JDialog {
     public SEIEmail(PersonEmail parent, Email email, final int type) {
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(saveButton);
+//        getRootPane().setDefaultButton(saveButton);
         this.parent = parent;
         this.email = email;
         saveButton.setVisible(false);
