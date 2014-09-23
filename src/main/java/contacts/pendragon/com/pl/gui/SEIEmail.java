@@ -6,9 +6,12 @@ import com.intellij.uiDesigner.core.Spacer;
 import contacts.pendragon.com.pl.dbutils.repo.DBModelException;
 import contacts.pendragon.com.pl.dbutils.repo.Email;
 import contacts.pendragon.com.pl.dbutils.repo.ValueToLongException;
+import contacts.pendragon.com.pl.engine.Validate;
 import contacts.pendragon.com.pl.repo.AppDict;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
@@ -42,7 +45,9 @@ public class SEIEmail extends JDialog {
             this.setTitle("Pokaż email");
         } else if (type == AppDict.EDIT) {
             this.setTitle("Edytuj email");
+            this.emailField.addFocusListener(new ValidateEmialListener());
         } else if (type == AppDict.ADD) {
+            this.emailField.addFocusListener(new ValidateEmialListener());
             this.setTitle("Dodaj email");
         }
 
@@ -193,4 +198,43 @@ public class SEIEmail extends JDialog {
     public JComponent $$$getRootComponent$$$() {
         return contentPane;
     }
+
+    class ValidateEmialListener implements FocusListener {
+        @Override
+        public void focusLost(FocusEvent e) {
+            String email = SEIEmail.this.emailField.getText();
+            if (!Validate.email(email)) {
+                JOptionPane.showMessageDialog(SEIEmail.this, "Niepoprawny adres emial", "Contacts - email", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+
+        @Override
+        public void focusGained(FocusEvent e) {
+
+        }
+        //        @Override
+//        public void insertUpdate(DocumentEvent e) {
+////            String email = SEIEmail.this.emailField.getText();
+////            if (!Validate.email(email)) {
+////                JOptionPane.showMessageDialog(SEIEmail.this, "Niepoprawny adres emial", "Contacts - email", JOptionPane.INFORMATION_MESSAGE);
+////            }
+//        }
+//
+//        @Override
+//        public void removeUpdate(DocumentEvent e) {
+////            String email = SEIEmail.this.emailField.getText();
+////            if (!Validate.email(email)) {
+////                JOptionPane.showMessageDialog(SEIEmail.this, "Niepoprawny adres emial", "Contacts - email", JOptionPane.INFORMATION_MESSAGE);
+////            }
+//        }
+//
+//        @Override
+//        public void changedUpdate(DocumentEvent e) {
+//            String email = SEIEmail.this.emailField.getText();
+//            if (!Validate.email(email)) {
+//                JOptionPane.showMessageDialog(SEIEmail.this, "Niepoprawny adres emial", "Contacts - email", JOptionPane.INFORMATION_MESSAGE);
+//            }
+//        }
+    }
+
 }
